@@ -60,5 +60,8 @@ module.exports = {
         return await newUser.save((err) => {
             console.log('user save error:', err);
         });
+    },
+    update: async (data) => {
+        
     }
 }
