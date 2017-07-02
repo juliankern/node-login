@@ -20,3 +20,6 @@ nav a {
 
 .pull-left {
   float: left; }
+
+.form-vertical input {
+  display: block; }

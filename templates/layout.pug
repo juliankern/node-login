@@ -1,7 +1,7 @@
 doctype html
 html 
     head
-        title login-frame
+        title node-login
         link(href="css/style.css", rel="stylesheet" type="text/css")
 
     body
@@ -9,14 +9,26 @@ html
         
         nav 
             a(href="/") Home
+            a(href="/restricted") Restricted
             if !isLoggedin
                 a(href="/login") Login
                 a(href="/register") Register
             else
-                a(href="/restricted") Restricted
+                a(href="/settings") Settings
                 a(href="/logout") Logout
-                .pull-right
+                
+            .pull-right
+                if !isLoggedin
+                    span Nicht eingeloggt
+                else
                     span Hallo #{user.username}
             
+        if messages.error.length > 0
+            - hasErrors = true
+            .msg.msg-error
+                strong Error
+                ul
+                    each err in messages.error
+                        li!= err.message
 
         block content

@@ -1,0 +1,24 @@
+extends ../templates/layout.pug
+
+block content
+    h2 Settings
+
+    form(action="/register", method="post")
+        table
+            tr
+                td E-Mail
+                td
+                    input(value=user.email, type="email", name="email", placeholder="E-Mail", class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
+            tr
+                td Benutzername
+                td
+                    input(value=user.username type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
+            tr
+                td Passwort (nur eingeben wenn Änderung gewünscht)
+                td
+                    input(type="password", name="pass", placeholder="Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+            tr
+                td Passwort-Wiederholung
+                td
+                    input(type="password", name="pass2", placeholder="Passwort Wiederholung", class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+        button(type="submit") Speichern!

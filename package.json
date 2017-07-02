@@ -1,5 +1,5 @@
 {
-    "name": "login-frame",
+    "name": "node-login",
     "version": "1.0.0",
     "description": "Base framework for login pages",
     "main": "bin/server.js",

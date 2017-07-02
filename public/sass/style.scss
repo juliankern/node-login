@@ -31,3 +31,11 @@ nav {
         float: left;
     }
 }
+
+.form {
+    &-vertical {
+        input {
+            display: block;
+        }
+    }
+}
