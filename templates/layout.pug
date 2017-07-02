@@ -1,0 +1,22 @@
+doctype html
+html 
+    head
+        title login-frame
+        link(href="css/style.css", rel="stylesheet" type="text/css")
+
+    body
+        h1 login-frame
+        
+        nav 
+            a(href="/") Home
+            if !isLoggedin
+                a(href="/login") Login
+                a(href="/register") Register
+            else
+                a(href="/restricted") Restricted
+                a(href="/logout") Logout
+                .pull-right
+                    span Hallo #{user.username}
+            
+
+        block content

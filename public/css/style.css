@@ -1,0 +1,22 @@
+nav a {
+  display: inline-block;
+  margin-right: 10px; }
+
+.msg {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px; }
+  .msg.msg-error {
+    border-color: red;
+    background: rgba(255, 0, 0, 0.2); }
+
+.input-invalid {
+  border: 1px solid red;
+  background: rgba(255, 0, 0, 0.2); }
+
+.pull-right {
+  float: right; }
+
+.pull-left {
+  float: left; }
