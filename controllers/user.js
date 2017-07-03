@@ -5,7 +5,7 @@ var config = require('../config.json');
 var User = require('../models/user.js');
 
 module.exports = {
-    validate: (data) => {
+    validate: async (data) => {
         var errors = [];
         
         if (!data.username || data.username == '') {
@@ -24,19 +24,14 @@ module.exports = {
             errors.push({ fields: ['email'], message: 'Bitte geben Sie eine valide E-Mail Adresse an!' });
         }
 
-        if (data.pass !== data.pass2) {
+        if (data.pass && data.pass !== data.pass2) {
             errors.push({ fields: ['pass', 'pass2'], message: 'Das Passwort stimmt nicht mit der Wiederholung überein' });
         }
         
-        if (data.pass.length < 6) {
+        if (data.pass && data.pass.length < 6) {
             errors.push({ fields: ['pass'], message: 'Das Passwort muss mindestens sechs Zeichen haben' });
         }
-
-        return Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
-    },
-    new: async (data) => {
-        var errors = [];
-
+        
         if ((await User.find({ email: data.email })).length > 0) {
             errors.push({ fields: ['email'], message: 'Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein' }); 
         }
@@ -45,9 +40,10 @@ module.exports = {
             errors.push({ fields: ['username'], message: 'Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen' }); 
         }
 
-        if (errors.length > 0) {
-            return { errors };
-        }
+        return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
+    },
+    new: async (data) => {
+        var errors = [];
         
         var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
         
