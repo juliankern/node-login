@@ -4,21 +4,31 @@ block content
     h2 Settings
 
     form(method="post")
+        input(value=victim.id, type="hidden", name="userId")
         table
             tr
                 td E-Mail
                 td
-                    input(value=user.email, type="email", name="email", placeholder="E-Mail", class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
+                    input(value=victim.email, type="email", name="email", placeholder="E-Mail", class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
             tr
                 td Benutzername
                 td
-                    input(value=user.username type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
-            tr
-                td Passwort (nur eingeben wenn Änderung gewünscht)
-                td
-                    input(type="password", name="pass", placeholder="Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
-            tr
-                td Passwort-Wiederholung
-                td
-                    input(type="password", name="pass2", placeholder="Passwort Wiederholung", class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+                    input(value=victim.username, type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
+                        
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.password'))
+                tr
+                    td Passwort (nur eingeben wenn Änderung gewünscht)
+                    td
+                        input(type="password", name="pass", placeholder="Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+                tr
+                    td Passwort-Wiederholung
+                    td
+                        input(type="password", name="pass2", placeholder="Passwort Wiederholung", class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.role'))
+                tr
+                    td Rolle
+                    td
+                        input(value=victim._roleId, type="text", name="role", placeholder="Rolle", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
+
         button(type="submit") Speichern!

@@ -13,7 +13,7 @@ module.exports = (app) => {
     });
 
     app.post('/register', async (req, res) => {
-        var userdata = user.validate(req.body);
+        var userdata = await user.validate(req.body);
 
         if(userdata.errors) {
             userdata.errors.forEach((err) => {

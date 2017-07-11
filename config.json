@@ -1,5 +1,28 @@
 {
+    "roles": {
+        "0": {
+            "name": "Guest"
+        },
+        "1": {
+            "name": "Registered"
+        },
+        "9": {
+            "name": "Root",
+            "rights": [
+                "user.edit.password",
+                "user.edit.own.password",
+                "user.edit.own.role",
+                "admin.panel"
+            ]
+        }
+    },
     "security": {
         "saltRounds": 10
+    },
+    "schema": {
+        "toObject": {
+            "virtuals": true 
+        },
+        "timestamps": true
     }
 }

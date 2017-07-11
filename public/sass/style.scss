@@ -13,13 +13,18 @@ nav {
     
     &.msg-error {
         border-color: red;
-        background: rgba(255, 0, 0, 0.2);
+        background: rgba(red, 0.2);
+    }
+
+    &.msg-success {
+        border-color: green;
+        background: rgba(green, 0.2);
     }
 } 
 
 .input-invalid {
     border: 1px solid red;
-    background: rgba(255, 0, 0, 0.2);
+    background: rgba(red, 0.2);
 }
 
 .pull {

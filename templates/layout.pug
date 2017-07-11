@@ -15,6 +15,10 @@ html
                 a(href="/register") Register
             else
                 a(href="/settings") Settings
+                
+                if user.hasRight('admin.panel')
+                    a(href="/admin") Admin
+
                 a(href="/logout") Logout
                 
             .pull-right
@@ -28,7 +32,14 @@ html
             .msg.msg-error
                 strong Error
                 ul
-                    each err in messages.error
-                        li!= err.message
+                    each msg in messages.error
+                        li!= msg.message
+
+        if messages.success.length > 0
+            .msg.msg-success
+                strong Erfolg
+                ul
+                    each msg in messages.success
+                        li!= msg.message
 
         block content

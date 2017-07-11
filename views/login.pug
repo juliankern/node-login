@@ -3,7 +3,9 @@ extends ../templates/layout.pug
 block content
     h2 Login
 
-    form(action="/login", method="post")
+    form(method="post")
         input(type="email", name="email", placeholder="E-Mail")
         input(type="password", name="pass", placeholder="Passwort")
+        input(type="checkbox", name="remember", id="remember")
+        label(for="remember") Remember me
         button(type="submit") Login!

@@ -46,8 +46,9 @@ module.exports = {
         if (req.isAuthenticated()) {
             next();
         } else {
+            console.log('REQ', req.url);
             req.flash('error', { message: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein!' });
-            res.redirect('/login');
+            res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
         }
     }
 }

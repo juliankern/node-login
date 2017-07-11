@@ -42,6 +42,10 @@ app.use((req, res, next) => {
     res.locals.formdata = req.flash('form')[0];
     res.locals.isLoggedin = req.isAuthenticated();
     res.locals.user = req.user;
+
+    // if (res.locals.isLoggedin) {
+    //     console.log('- Current user:', req.user);
+    // }
     
     next();
 });
