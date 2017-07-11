@@ -1,0 +1,21 @@
+extends ../templates/layout.pug
+
+block content
+    h2 User List
+
+    table 
+        thead
+            tr
+                th Username
+                th E-Mail
+                th User since
+                th &nbsp;
+        tbody
+            each u in users
+                tr 
+                    td= u.username
+                    td= u.email
+                    td= u.createdAt
+                    td
+                        a(href="/user/" + u.username) Profile
+                        a(href="/settings/" + u.username) Edit

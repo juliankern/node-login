@@ -71,5 +71,11 @@ module.exports = {
         return await User.findOneAndUpdate(userId, data).exec((err) => {
             console.log('user update error:', err);
         });
+    },
+    get: async (userId) => {
+        if (!userId) {
+            return await User.find(); // show all for debug
+            // return await User.where('_roleId').ne(9); // skip root user
+        }
     }
 }
