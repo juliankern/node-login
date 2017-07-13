@@ -1,15 +1,18 @@
 {
     "roles": {
         "0": {
-            "name": "Guest"
+            "name": "Guest",
+            "rights": []
         },
         "1": {
-            "name": "Registered"
+            "name": "Registered",
+            "rights": []
         },
         "9": {
             "name": "Root",
             "rights": [
-                "user.edit.password",
+                "user.edit.all",
+                "user.edit.all.password",
                 "user.edit.own.password",
                 "user.edit.own.role",
                 "admin.panel"

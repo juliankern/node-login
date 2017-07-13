@@ -18,4 +18,5 @@ block content
                     td= u.createdAt
                     td
                         a(href="/user/" + u.username) Profile
-                        a(href="/settings/" + u.username) Edit
+                        if user.hasRight('user.edit.all')
+                            a(href="/settings/" + u.username) Edit

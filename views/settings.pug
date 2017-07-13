@@ -15,7 +15,7 @@ block content
                 td
                     input(value=victim.username, type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
                         
-            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.password'))
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password'))
                 tr
                     td Passwort (nur eingeben wenn Änderung gewünscht)
                     td
