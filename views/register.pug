@@ -1,17 +1,7 @@
 extends ../templates/layout.pug
 
 block content
-    h2 Register
-
-    if messages.error.length > 0
-        - hasErrors = true
-        .msg.msg-error
-            strong Error
-            ul
-                each err in messages.error
-                    li!= err.message
-
-    form(action="/register", method="post")
+    form(method="post")
         input(value=formdata ? formdata.email : false, type="email", name="email", placeholder="E-Mail", class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
         input(value=formdata ? formdata.username : false, type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
         input(type="password", name="pass", placeholder="Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')

@@ -1,11 +1,17 @@
+var config = require('../config.json');
+
 var express = require('express');
 var flash = require('connect-flash');
 var app = express();
+var router = express.Router();
 
+var moment = require('moment');
 var mongoose = require('mongoose');
 
+require('dotenv').load();
+
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/login-frame').then(
+mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame').then(
   () => { console.log('> Connection to DB successful'); },
   (err) => { console.error('>> Connection to DB failed!', err); process.exit(0); }
 );
@@ -42,11 +48,22 @@ app.use((req, res, next) => {
     res.locals.formdata = req.flash('form')[0];
     res.locals.isLoggedin = req.isAuthenticated();
     res.locals.user = req.user;
+    res.locals.date = {
+        fromNow: (date, skipSuffix) => { return moment(date).fromNow(skipSuffix); },
+        toNow: (date, skipPrefix) => { return moment(date).toNow(skipPrefix); }
+    }
+
+    res.locals.roles = config.roles;
+
+    // if (res.locals.isLoggedin) {
+    //     console.log('- Current user:', req.user);
+    // }
     
     next();
 });
 
-require('../routes')(app);
+require('../routes')(router);
+app.use(router);
 
 app.listen(3000, () => {
     console.log('> login-frame listening on port 3000!');

@@ -1,5 +1,6 @@
 var validator = require('../utils/validation.js');
 var mongoose = require('mongoose');
+var config = require('../config.json');
 
 var schema = new mongoose.Schema({ 
     username: {
@@ -15,8 +16,35 @@ var schema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        match: validator.emailRegex
+        match: validator.regex.email
+    },
+    confirmationCode: {
+        type: String  
+    },
+    confirmed: {
+        type: Boolean,
+        default: false
+    },
+    active: {
+        type: Boolean,
+        default: true
+    },
+    _roleId: { 
+        type: Number,
+        default: 1
     }
+}, config.schema);
+
+schema.virtual('role').get(function () {
+    return config.roles[this._roleId];
 });
+
+schema.methods.hasRight = function (right) {
+    return this.role.rights.includes(right);
+}
+
+schema.methods.isEqual = function (user) {
+    return this.id === user.id;
+}
 
 module.exports = mongoose.model('User', schema);

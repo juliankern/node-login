@@ -1,13 +1,13 @@
 {
-    "name": "login-frame",
+    "name": "node-login",
     "version": "1.0.0",
     "description": "Base framework for login pages",
     "main": "bin/server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build-sass": "node-sass public/sass/style.scss public/css/style.css",
-        "watch-sass": "nodemon -e scss --watch public/sass/* -x \"npm run build-sass\"",
-        "watch": "nodemon --ignore public/ bin/server.js & npm run watch-sass",
+        "watch-sass": "nodemon -e scss --watch public/sass/** -x \"npm run build-sass\"",
+        "watch": "nodemon -e js,json bin/server.js & npm run watch-sass",
         "start": "npm run watch"
     },
     "repository": {
@@ -28,14 +28,18 @@
         "body-parser": "^1.17.2",
         "connect-flash": "^0.1.1",
         "cookie-parser": "^1.4.3",
+        "dotenv": "^4.0.0",
         "express": "^4.15.3",
         "express-session": "^1.15.3",
         "glob": "^7.1.2",
-        "mongoose": "^4.11.0",
+        "moment": "^2.18.1",
+        "mongoose": "^4.11.1",
         "node-sass": "^4.5.3",
+        "nodemailer": "^4.0.1",
         "nodemon": "^1.11.0",
         "passport": "^0.3.2",
         "passport-local": "^1.0.0",
-        "pug": "^2.0.0-rc.2"
+        "pug": "^2.0.0-rc.2",
+        "randomstring": "^1.1.5"
     }
 }

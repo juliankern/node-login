@@ -1,0 +1,20 @@
+extends ../templates/layout.pug
+
+block content
+    table 
+        thead
+            tr
+                th Username
+                th E-Mail
+                th User since
+                th &nbsp;
+        tbody
+            each u in users
+                tr 
+                    td= u.username
+                    td= u.email
+                    td= date.fromNow(u.createdAt, true)
+                    td
+                        a(href="/user/" + u.username) Profile
+                        if user.hasRight('user.edit.all')
+                            a(href="/settings/" + u.username) Edit

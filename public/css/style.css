@@ -10,6 +10,9 @@ nav a {
   .msg.msg-error {
     border-color: red;
     background: rgba(255, 0, 0, 0.2); }
+  .msg.msg-success {
+    border-color: green;
+    background: rgba(0, 128, 0, 0.2); }
 
 .input-invalid {
   border: 1px solid red;
@@ -20,3 +23,6 @@ nav a {
 
 .pull-left {
   float: left; }
+
+.form-vertical input {
+  display: block; }

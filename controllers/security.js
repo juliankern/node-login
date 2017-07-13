@@ -14,7 +14,7 @@ module.exports = {
                 usernameField: 'email',
                 passwordField: 'pass'
             }, (email, pass, done) => {
-                User.findOne({ email: email }, async (err, user) => {
+                User.findOne({ email }, async (err, user) => {
                     if (err) { return done(err); }
                     
                     if (!user) {
@@ -25,6 +25,14 @@ module.exports = {
                         return done(null, false, { message: 'Incorrect password.' });
                     }
                     
+                    if(!user.confirmed) {
+                        return done(null, false, { message: 'Deine E-Mail Adresse wurde noch nicht bestätigt.' });
+                    } 
+                    
+                    if(!user.active) {
+                        return done(null, false, { message: 'Deine Account wurde deaktiviert.' });
+                    }
+                    
                     return done(null, user);
                 });
             }
@@ -32,8 +40,6 @@ module.exports = {
 
         passport.serializeUser(function(user, done) {
             done(null, user._id);
-            // if you use Model.id as your idAttribute maybe you'd want
-            // done(null, user.id);
         });
 
         passport.deserializeUser(function(id, done) {
@@ -46,7 +52,23 @@ module.exports = {
         if (req.isAuthenticated()) {
             next();
         } else {
-            res.redirect('/login');
+            req.flash('error', { message: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]' });
+            res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
+        }
+    },
+    hasRight: (right) => {
+        return (req, res, next) => {
+            if (req.user.hasRight(right)) {
+                next();
+            } else {
+                if (req.isAuthenticated()) {
+                    req.flash('error', { message: 'Du darfst diese Seite nicht besuchen. [Code: 3]' });
+                    res.redirect('/');
+                } else {
+                    req.flash('error', { message: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 2]' });
+                    res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
+                }
+            }
         }
     }
 }

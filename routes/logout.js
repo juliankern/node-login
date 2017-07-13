@@ -1,5 +1,5 @@
-module.exports = (app) => {
-    app.get('/logout', function(req, res){
+module.exports = (route) => {
+    route.get((req, res) => {
         req.logout();
         res.redirect('/');
     });
