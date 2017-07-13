@@ -1,8 +1,6 @@
 extends ../templates/layout.pug
 
 block content
-    h2 Register
-
     form(method="post")
         input(value=formdata ? formdata.email : false, type="email", name="email", placeholder="E-Mail", class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
         input(value=formdata ? formdata.username : false, type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')

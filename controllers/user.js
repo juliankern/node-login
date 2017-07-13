@@ -1,10 +1,50 @@
+const config = require('../config.json');
+
+const bcrypt = require('bcrypt');
+const randomstring = require('randomstring');
+const nodemailer = require('nodemailer');
+
 var validator = require('../utils/validation.js');
-var bcrypt = require('bcrypt');
-var config = require('../config.json');
 
 var User = require('../models/user.js');
 
+let transporter = nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+    port: 465,
+    secure: true, // secure:true for port 465, secure:false for port 587
+    auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+    }
+});
+
+async function getConfirmationCode() {
+    var code;
+    
+    while(true) {
+        code = randomstring.generate({ length: 32, readable: true });
+        if ((await User.find({ confirmationCode: code })).length === 0) {
+            break;
+        }
+    }
+    
+    return code;
+}
+
 module.exports = {
+    confirm: async (code) => {
+        var user = await User.findOne({ confirmationCode: code, confirmed: false });
+        
+        if (!user) {
+            return false;
+        }
+        
+        user.confirmed = true;
+        
+        return await user.save((err) => {
+           if (err) { console.log('user confirm error:', err); } 
+        });
+    },
     validate: async (data) => {
         var errors = [];
         
@@ -50,15 +90,29 @@ module.exports = {
         var errors = [];
         
         var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
+        var confirmationCode = await getConfirmationCode();
         
         var newUser = new User({
             email: data.email,
             username: data.username,
-            pass: passHash
+            pass: passHash,
+            confirmationCode
         });
           
         return await newUser.save((err) => {
             console.log('user save error:', err);
+            
+            if (!err) {
+                transporter.sendMail({
+                    from: config.mail.from, // sender address
+                    to: data.email, // list of receivers
+                    subject: 'Hallo bei node-login!', // Subject line
+                    html: 'Um deinen Account zu aktivieren, klicke <a href="http://localhost:3000/activate/' + confirmationCode + '">hier</a>!' // html body
+                }, (error, info) => {
+                    if (error) { return console.log(error); }
+                    console.log('Message %s sent: %s', info.messageId, info.response);
+                });
+            }
         });
     },
     update: async (userId, data) => {

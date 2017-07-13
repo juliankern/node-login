@@ -4,6 +4,6 @@ module.exports = (route) => {
     route.get(
         security.isLoggedin, 
     (req, res) => {
-        res.render('restricted');
+        res.render('restricted', { headline: 'Restricted' });
     });
 }

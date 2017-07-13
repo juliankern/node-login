@@ -27,6 +27,8 @@ html
                     span Nicht eingeloggt
                 else
                     span Hallo #{user.username}
+                    
+        h2= headline
             
         if messages.error.length > 0
             - hasErrors = true

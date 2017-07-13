@@ -6,7 +6,10 @@ module.exports = ['/:username', (base, username) => {
         .get(
             security.isLoggedin, 
         async (req, res) => {
-            res.render('userlist', { users: await user.get() });
+            res.render('userlist', { 
+                headline: 'Benutzer',
+                users: await user.get() 
+            });
         });
 
     username
@@ -14,6 +17,9 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin, 
         async (req, res) => {
             var victim = await user.get(req.params.username);
-            res.render('profile', { victim });
+            res.render('profile', { 
+                headline: 'Profil von ' + victim.username,
+                victim 
+            });
         });
 }];

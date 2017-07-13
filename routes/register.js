@@ -10,7 +10,7 @@ module.exports = (route) => {
                 });
             }
 
-            res.render('register');
+            res.render('register', { headline: 'Registrierung' });
         })
         .post(async (req, res) => {
             var userdata = await user.validate(req.body);
@@ -35,6 +35,8 @@ module.exports = (route) => {
                     
                     res.redirect('/register'); 
                 } else {
+                    req.flash('success', { message: 'Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!' });
+                    
                     res.redirect('/login');
                 }
             }

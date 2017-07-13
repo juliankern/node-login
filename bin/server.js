@@ -8,8 +8,10 @@ var router = express.Router();
 var moment = require('moment');
 var mongoose = require('mongoose');
 
+require('dotenv').load();
+
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/login-frame').then(
+mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame').then(
   () => { console.log('> Connection to DB successful'); },
   (err) => { console.error('>> Connection to DB failed!', err); process.exit(0); }
 );

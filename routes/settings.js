@@ -15,6 +15,7 @@ module.exports = ['/:username', (base, username) => {
             }
 
             res.render('settings', {
+                headline: 'Einstellungen',
                 victim: req.user
             });
         })
@@ -89,6 +90,7 @@ module.exports = ['/:username', (base, username) => {
             }
 
             res.render('settings', {
+                headline: 'Einstellungen für ' + victim.username,
                 victim
             });
         });

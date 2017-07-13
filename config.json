@@ -25,6 +25,9 @@
             ]
         }
     },
+    "mail": {
+        "from": "\"node-login\" <noreply@juliankern.com>"
+    },
     "security": {
         "saltRounds": 10
     },

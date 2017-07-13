@@ -14,7 +14,7 @@ module.exports = {
                 usernameField: 'email',
                 passwordField: 'pass'
             }, (email, pass, done) => {
-                User.findOne({ email: email }, async (err, user) => {
+                User.findOne({ email }, async (err, user) => {
                     if (err) { return done(err); }
                     
                     if (!user) {
@@ -25,6 +25,14 @@ module.exports = {
                         return done(null, false, { message: 'Incorrect password.' });
                     }
                     
+                    if(!user.confirmed) {
+                        return done(null, false, { message: 'Deine E-Mail Adresse wurde noch nicht bestätigt.' });
+                    } 
+                    
+                    if(!user.active) {
+                        return done(null, false, { message: 'Deine Account wurde deaktiviert.' });
+                    }
+                    
                     return done(null, user);
                 });
             }
@@ -32,8 +40,6 @@ module.exports = {
 
         passport.serializeUser(function(user, done) {
             done(null, user._id);
-            // if you use Model.id as your idAttribute maybe you'd want
-            // done(null, user.id);
         });
 
         passport.deserializeUser(function(id, done) {

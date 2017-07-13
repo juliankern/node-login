@@ -18,6 +18,17 @@ var schema = new mongoose.Schema({
         required: true,
         match: validator.regex.email
     },
+    confirmationCode: {
+        type: String  
+    },
+    confirmed: {
+        type: Boolean,
+        default: false
+    },
+    active: {
+        type: Boolean,
+        default: true
+    },
     _roleId: { 
         type: Number,
         default: 1
