@@ -46,9 +46,23 @@ module.exports = {
         if (req.isAuthenticated()) {
             next();
         } else {
-            console.log('REQ', req.url);
-            req.flash('error', { message: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein!' });
+            req.flash('error', { message: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]' });
             res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
+        }
+    },
+    hasRight: (right) => {
+        return (req, res, next) => {
+            if (req.user.hasRight(right)) {
+                next();
+            } else {
+                if (req.isAuthenticated()) {
+                    req.flash('error', { message: 'Du darfst diese Seite nicht besuchen. [Code: 3]' });
+                    res.redirect('/');
+                } else {
+                    req.flash('error', { message: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 2]' });
+                    res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
+                }
+            }
         }
     }
 }

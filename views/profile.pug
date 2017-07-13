@@ -1,0 +1,15 @@
+extends ../templates/layout.pug
+
+block content
+    h2 Profile
+
+    table
+        tr
+            td E-Mail
+            td=victim.email
+        tr
+            td Benutzername
+            td=victim.username
+        tr
+            td Rolle
+            td=victim.role.name

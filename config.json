@@ -6,13 +6,19 @@
         },
         "1": {
             "name": "Registered",
-            "rights": []
+            "rights": [
+                "user.edit.own",
+                "user.edit.own.password",
+                "user.edit.own.role"
+            ]
         },
         "9": {
+            "secret": true,
             "name": "Root",
             "rights": [
                 "user.edit.all",
                 "user.edit.all.password",
+                "user.edit.own",
                 "user.edit.own.password",
                 "user.edit.own.role",
                 "admin.panel"
@@ -24,6 +30,9 @@
     },
     "schema": {
         "toObject": {
+            "virtuals": true 
+        },
+        "toJSON": {
             "virtuals": true 
         },
         "timestamps": true

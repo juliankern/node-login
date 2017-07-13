@@ -7,8 +7,6 @@ var User = require('../models/user.js');
 module.exports = {
     validate: async (data) => {
         var errors = [];
-
-        console.log('validate user:', !!data.pass);
         
         if (data.username && data.username == '') {
             errors.push({ fields: ['username'], message: 'Bitte geben Sie einen Benutzernamen an' });
@@ -72,10 +70,12 @@ module.exports = {
             console.log('user update error:', err);
         });
     },
-    get: async (userId) => {
-        if (!userId) {
+    get: async (username) => {
+        if (!username) {
             return await User.find(); // show all for debug
             // return await User.where('_roleId').ne(9); // skip root user
+        } else {
+            return await User.findOne({ username: username });
         }
     }
 }

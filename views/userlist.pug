@@ -15,7 +15,7 @@ block content
                 tr 
                     td= u.username
                     td= u.email
-                    td= u.createdAt
+                    td= date.fromNow(u.createdAt, true)
                     td
                         a(href="/user/" + u.username) Profile
                         if user.hasRight('user.edit.all')

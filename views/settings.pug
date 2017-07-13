@@ -29,6 +29,10 @@ block content
                 tr
                     td Rolle
                     td
-                        input(value=victim._roleId, type="text", name="role", placeholder="Rolle", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
+                        select(name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
+                            each r, id in roles 
+                                if !r.secret || (victim._roleId === +id)
+                                    option(value=id, selected=(victim._roleId === +id))= r.name
+            
 
         button(type="submit") Speichern!
