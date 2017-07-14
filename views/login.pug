@@ -2,8 +2,8 @@ extends ../templates/layout.pug
 
 block content
     form(method="post")
-        input(type="email", name="email", placeholder="E-Mail")
-        input(type="password", name="pass", placeholder="Passwort")
+        input(type="email", name="email", placeholder= __('E-Mail'))
+        input(type="password", name="pass", placeholder=__('Passwort'))
         input(type="checkbox", name="remember", id="remember")
-        label(for="remember") Remember me
-        button(type="submit") Login!
+        label(for="remember")= __('Eingeloggt bleiben')
+        button(type="submit")= __('Login!')

@@ -16,6 +16,6 @@ module.exports = (router) => {
     });
 
     router.get('/', (req, res) => {
-        res.render('index', { headline: 'Home' });
+        res.render('index', { headline: res.__('Hauptseite') });
     });
 }

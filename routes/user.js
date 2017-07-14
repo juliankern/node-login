@@ -7,7 +7,7 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin, 
         async (req, res) => {
             res.render('userlist', { 
-                headline: 'Benutzer',
+                headline: res.__('Benutzer'),
                 users: await user.get() 
             });
         });
@@ -18,7 +18,7 @@ module.exports = ['/:username', (base, username) => {
         async (req, res) => {
             var victim = await user.get(req.params.username);
             res.render('profile', { 
-                headline: 'Profil von ' + victim.username,
+                headline: res.__('Profil von %s', victim.username),
                 victim 
             });
         });

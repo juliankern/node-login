@@ -3,11 +3,11 @@ extends ../templates/layout.pug
 block content
     table
         tr
-            td E-Mail
+            td= __('E-Mail')
             td=victim.email
         tr
-            td Benutzername
+            td= __('Benutzername')
             td=victim.username
         tr
-            td Rolle
+            td= __('Rolle')
             td=victim.role.name

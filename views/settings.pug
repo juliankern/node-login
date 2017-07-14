@@ -5,32 +5,32 @@ block content
         input(value=victim.id, type="hidden", name="userId")
         table
             tr
-                td E-Mail
+                td= __('E-Mail')
                 td
-                    input(value=victim.email, type="email", name="email", placeholder="E-Mail", class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
+                    input(value=victim.email, type="email", name="email", placeholder=__('E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
             tr
-                td Benutzername
+                td= __('Benutzername')
                 td
-                    input(value=victim.username, type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
+                    input(value=victim.username, type="text", name="username", placeholder=__('Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
                         
             if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password'))
                 tr
-                    td Passwort (nur eingeben wenn Änderung gewünscht)
+                    td= __('Passwort (nur eingeben wenn Änderung gewünscht)')
                     td
                         input(type="password", name="pass", placeholder="Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
                 tr
-                    td Passwort-Wiederholung
+                    td= __('Passwort Wiederholung')
                     td
-                        input(type="password", name="pass2", placeholder="Passwort Wiederholung", class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+                        input(type="password", name="pass2", placeholder=__('Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
 
             if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.role'))
                 tr
-                    td Rolle
+                    td= __('Rolle')
                     td
                         select(name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
                             each r, id in roles 
                                 if !r.secret || (victim._roleId === +id)
-                                    option(value=id, selected=(victim._roleId === +id))= r.name
+                                    option(value=id, selected=(victim._roleId === +id))= __(r.name)
             
 
-        button(type="submit") Speichern!
+        button(type="submit")= __('Speichern!')

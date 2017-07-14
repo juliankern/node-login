@@ -2,8 +2,8 @@ extends ../templates/layout.pug
 
 block content
     form(method="post")
-        input(value=formdata ? formdata.email : false, type="email", name="email", placeholder="E-Mail", class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
-        input(value=formdata ? formdata.username : false, type="text", name="username", placeholder="Benutzername", class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
-        input(type="password", name="pass", placeholder="Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
-        input(type="password", name="pass2", placeholder="Passwort Wiederholung", class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
-        button(type="submit") Registrieren!
+        input(value=formdata ? formdata.email : false, type="email", name="email", placeholder=__('E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
+        input(value=formdata ? formdata.username : false, type="text", name="username", placeholder=__('Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
+        input(type="password", name="pass", placeholder=__('Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+        input(type="password", name="pass2", placeholder=__('Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+        button(type="submit")= __('Registrieren!')

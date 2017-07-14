@@ -15,7 +15,7 @@ module.exports = ['/:username', (base, username) => {
             }
 
             res.render('settings', {
-                headline: 'Einstellungen',
+                headline: res.__('Einstellungen'),
                 victim: req.user
             });
         })
@@ -62,7 +62,7 @@ module.exports = ['/:username', (base, username) => {
                     
                     req.flash('form', req.body);
                 } else {
-                    req.flash('success', { message: 'Daten erfolgreich gespeichert!' });
+                    req.flash('success', { message: res.__('Daten erfolgreich gespeichert!') });
                 }
 
                 res.redirect('/settings');
@@ -90,7 +90,7 @@ module.exports = ['/:username', (base, username) => {
             }
 
             res.render('settings', {
-                headline: 'Einstellungen für ' + victim.username,
+                headline: res.__('Einstellungen für %s', victim.username),
                 victim
             });
         });

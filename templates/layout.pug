@@ -8,39 +8,39 @@ html
         h1 login-frame
         
         nav 
-            a(href="/") Home
+            a(href="/")= __('Hauptseite')
             a(href="/restricted") Restricted
             if !isLoggedin
-                a(href="/login") Login
-                a(href="/register") Register
+                a(href="/login")= __('Login')
+                a(href="/register")= __('Registrierung')
             else
-                a(href="/user") Users
-                a(href="/settings") Settings
+                a(href="/user")= __('Benutzer')
+                a(href="/settings")= __('Einstellungen')
                 
                 if user.hasRight('admin.panel')
-                    a(href="/admin") Admin
+                    a(href="/admin")= __('Administration')
 
-                a(href="/logout") Logout
+                a(href="/logout")= __('Logout')
                 
             .pull-right
                 if !isLoggedin
-                    span Nicht eingeloggt
+                    span= __('Nicht eingeloggt')
                 else
-                    span Hallo #{user.username}
+                    span= __('Hallo %s!', user.username)
                     
         h2= headline
             
         if messages.error.length > 0
             - hasErrors = true
             .msg.msg-error
-                strong Error
+                strong= __('Error')
                 ul
                     each msg in messages.error
                         li!= msg.message
 
         if messages.success.length > 0
             .msg.msg-success
-                strong Erfolg
+                strong= __('Erfolg')
                 ul
                     each msg in messages.success
                         li!= msg.message

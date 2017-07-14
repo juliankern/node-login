@@ -7,6 +7,7 @@ var router = express.Router();
 
 var moment = require('moment');
 var mongoose = require('mongoose');
+var i18n = require("i18n");
 
 require('dotenv').load();
 
@@ -15,6 +16,7 @@ mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame').then(
   () => { console.log('> Connection to DB successful'); },
   (err) => { console.error('>> Connection to DB failed!', err); process.exit(0); }
 );
+
 
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
@@ -37,6 +39,17 @@ app.use(require('body-parser').urlencoded({ extended: false }));
 require('../controllers/security').init(app);
 
 app.use(flash());
+
+i18n.configure({
+    locales:['de', 'en'],
+    defaultLocale: 'de',
+    directory: '../locales',
+    cookie: 'node-login-lang',
+    syncFiles: true,
+    autoReload: true
+});
+
+app.use(i18n.init);
 
 app.use((req, res, next) => {
     res.locals.messages = {

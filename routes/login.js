@@ -3,7 +3,7 @@ var passport = require('passport');
 module.exports = (route) => {
     route
         .get((req, res) => {
-            res.render('login', { headline: 'Login' });
+            res.render('login', { headline: res.__('Login') });
         })
         .post((req, res, next) => { 
             passport.authenticate('local', (err, user, info) => {

@@ -4,9 +4,9 @@ block content
     table 
         thead
             tr
-                th Username
-                th E-Mail
-                th User since
+                th= __('Benutzername')
+                th= __('E-Mail')
+                th= __('Beigetreten')
                 th &nbsp;
         tbody
             each u in users
@@ -15,6 +15,6 @@ block content
                     td= u.email
                     td= date.fromNow(u.createdAt, true)
                     td
-                        a(href="/user/" + u.username) Profile
+                        a(href="/user/" + u.username)= __('Profil')
                         if user.hasRight('user.edit.all')
-                            a(href="/settings/" + u.username) Edit
+                            a(href="/settings/" + u.username)= __('Bearbeiten')
