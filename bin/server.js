@@ -43,7 +43,7 @@ app.use(flash());
 i18n.configure({
     locales:['de', 'en'],
     defaultLocale: 'de',
-    directory: '../locales',
+    directory: './locales',
     cookie: 'node-login-lang',
     syncFiles: true,
     autoReload: true

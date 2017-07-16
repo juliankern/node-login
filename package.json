@@ -7,7 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build-sass": "node-sass public/sass/style.scss public/css/style.css",
         "watch-sass": "nodemon -e scss --watch public/sass/** -x \"npm run build-sass\"",
-        "watch": "nodemon -e js,json bin/server.js & npm run watch-sass",
+        "watch": "nodemon --ignore 'locales/*.json' -e js,json bin/server.js & npm run watch-sass",
         "start": "npm run watch"
     },
     "repository": {

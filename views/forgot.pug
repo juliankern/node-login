@@ -1,0 +1,12 @@
+extends ../templates/layout.pug
+
+block content
+    if !step2
+        form(method="post")
+            input(type="text", name="userdata", placeholder=__('Benutzername oder E-Mail Adresse'))
+            button(type="submit")= __('Passwort zurücksetzen!')
+    else 
+        form(method="post")
+            input(type="password", name="pass", placeholder=__('Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+            input(type="password", name="pass2", placeholder=__('Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+            button(type="submit")= __('Passwort zurücksetzen!')

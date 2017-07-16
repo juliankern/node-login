@@ -1,6 +1,6 @@
 var passport = require('passport');
 var bcrypt = require('bcrypt');
-var i18n = require("i18n");
+var i18n = require('i18n');
 
 var config = require('../config.json');
 var LocalStrategy = require('passport-local').Strategy;
@@ -55,7 +55,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             next();
         } else {
-            req.flash('error', { message: i18n.__('Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]') });
+            req.flash('error', { message: res.__('Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]') });
             res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
         }
     },
@@ -65,10 +65,10 @@ module.exports = {
                 next();
             } else {
                 if (req.isAuthenticated()) {
-                    req.flash('error', { message: i18n.__('Du darfst diese Seite nicht besuchen. [Code: 3]') });
+                    req.flash('error', { message: res.__('Du darfst diese Seite nicht besuchen. [Code: 3]') });
                     res.redirect('/');
                 } else {
-                    req.flash('error', { message: i18n.__('Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 2]') });
+                    req.flash('error', { message: res.__('Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 2]') });
                     res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
                 }
             }

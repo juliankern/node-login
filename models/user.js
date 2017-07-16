@@ -18,9 +18,6 @@ var schema = new mongoose.Schema({
         required: true,
         match: validator.regex.email
     },
-    confirmationCode: {
-        type: String  
-    },
     confirmed: {
         type: Boolean,
         default: false
@@ -28,6 +25,12 @@ var schema = new mongoose.Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    confirmationCode: {
+        type: String  
+    },
+    passwordRequestCode: {
+        type: String  
     },
     _roleId: { 
         type: Number,

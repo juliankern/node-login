@@ -1,9 +1,15 @@
 extends ../templates/layout.pug
 
 block content
-    form(method="post")
-        input(type="email", name="email", placeholder= __('E-Mail'))
-        input(type="password", name="pass", placeholder=__('Passwort'))
-        input(type="checkbox", name="remember", id="remember")
-        label(for="remember")= __('Eingeloggt bleiben')
-        button(type="submit")= __('Login!')
+    form(method="post", id="login")
+        .form-field
+            input(type="email", name="email", placeholder= __('E-Mail')+'*', required, autocomplete="off")
+        .form-field
+            input(type="password", name="pass", placeholder=__('Passwort')+'*', required, autocomplete="off")
+        .form-field
+            input(type="checkbox", name="remember", id="remember")
+            label(for="remember")= __('Eingeloggt bleiben')
+        .form-field
+            a(href="/forgot")= __('Passwort vergessen?')
+        .form-field
+            button(type="submit")= __('Login!')

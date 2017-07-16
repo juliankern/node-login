@@ -9,18 +9,18 @@ html
         
         nav 
             a(href="/")= __('Hauptseite')
-            a(href="/restricted") Restricted
+            a(href=__('/restricted')) Restricted
             if !isLoggedin
-                a(href="/login")= __('Login')
-                a(href="/register")= __('Registrierung')
+                a(href=__('/login'))= __('Login')
+                a(href=__('/register'))= __('Registrierung')
             else
-                a(href="/user")= __('Benutzer')
-                a(href="/settings")= __('Einstellungen')
+                a(href=__('/user'))= __('Benutzer')
+                a(href=__('/settings'))= __('Einstellungen')
                 
                 if user.hasRight('admin.panel')
-                    a(href="/admin")= __('Administration')
+                    a(href=__('/admin'))= __('Administration')
 
-                a(href="/logout")= __('Logout')
+                a(href=__('/logout'))= __('Logout')
                 
             .pull-right
                 if !isLoggedin

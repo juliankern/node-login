@@ -3,7 +3,7 @@ const config = require('../config.json');
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 const nodemailer = require('nodemailer');
-const i18n = require("i18n");
+const i18n = require('i18n');
 
 var validator = require('../utils/validation.js');
 
@@ -19,12 +19,14 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-async function getConfirmationCode() {
+async function getCode(fieldname) {
     var code;
+    var find = {};
     
     while(true) {
         code = randomstring.generate({ length: 32, readable: true });
-        if ((await User.find({ confirmationCode: code })).length === 0) {
+        find[fieldname] = code;
+        if ((await User.find(find)).length === 0) {
             break;
         }
     }
@@ -33,6 +35,31 @@ async function getConfirmationCode() {
 }
 
 module.exports = {
+    find: async (conditions) => {
+        return await User.findOne().or(conditions);
+    },
+    passwordRequest: async (victim) => {
+        var passwordRequestCode = await getCode('passwordRequestCode');
+        victim.passwordRequestCode = passwordRequestCode;
+        
+        return await victim.save((err) => {
+           if (err) { console.log('user passwordRequest error:', err); } 
+           else {
+                transporter.sendMail({
+                    from: config.mail.from, // sender address
+                    to: victim.email, // list of receivers
+                    subject: 'Sie möchten ihr Passwort zurücksetzen?', // Subject line
+                    html: `Hallo ${victim.username}!<br /><br />
+                    Um deinen Passwort zurück zu setzen, klicke bitte <a href="${config.url}/forgot/${passwordRequestCode}">hier</a>!<br />
+                    Falls dieser Link nicht funkioniert, kopiere ihn bitte in deinen Browser: ${config.url}/forgot/${passwordRequestCode}<br /><br />
+                    ` // html body
+                }, (error, info) => {
+                    if (error) { return console.log(error); }
+                    console.log('Message %s sent: %s', info.messageId, info.response);
+                });
+            }
+        });
+    },
     confirm: async (code) => {
         var user = await User.findOne({ confirmationCode: code, confirmed: false });
         
@@ -41,6 +68,7 @@ module.exports = {
         }
         
         user.confirmed = true;
+        user.confirmationCode = undefined;
         
         return await user.save((err) => {
            if (err) { console.log('user confirm error:', err); } 
@@ -88,10 +116,8 @@ module.exports = {
         return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
     },
     new: async (data) => {
-        var errors = [];
-        
         var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
-        var confirmationCode = await getConfirmationCode();
+        var confirmationCode = await getCode('confirmationCode');
         
         var newUser = new User({
             email: data.email,
@@ -109,9 +135,9 @@ module.exports = {
                     to: data.email, // list of receivers
                     subject: 'Hallo bei node-login!', // Subject line
                     html: `Hallo ${data.username}!<br /><br />
-                    Um deinen Account zu aktivieren, klicke bitte <a href="${config.url}/activate/' + confirmationCode + '">hier</a>!<br />
-                    Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne Anführungszeichen) auf der folgenden Seite ein: "&{confirmationCode}"<br>
-                    ${config.url}<br /><br />
+                    Um deinen Account zu aktivieren, klicke bitte <a href="${config.url}/activate/${confirmationCode}">hier</a>!<br />
+                    Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne Anführungszeichen) auf der folgenden Seite ein: "${confirmationCode}"<br>
+                    ${config.url}/activate<br /><br />
                     Danke für deine Registrierung!` // html body
                 }, (error, info) => {
                     if (error) { return console.log(error); }
