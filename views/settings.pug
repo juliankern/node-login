@@ -13,9 +13,9 @@ block content
                 td
                     input(value=victim.username, type="text", name="username", placeholder=__('Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
                         
-            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password'))
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
                 tr
-                    td= __('Passwort (nur eingeben wenn Änderung gewünscht)')
+                    td= newUser ? __('Passwort') : __('Passwort (nur eingeben wenn Änderung gewünscht)')
                     td
                         input(type="password", name="pass", placeholder="Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
                 tr
@@ -23,14 +23,18 @@ block content
                     td
                         input(type="password", name="pass2", placeholder=__('Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
 
-            if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.role'))
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.role')) || newUser && user.hasRight('user.create.role')
                 tr
                     td= __('Rolle')
                     td
                         select(name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
                             each r, id in roles 
-                                if !r.secret || (victim._roleId === +id)
+                                if !r.secret || (r.secret && user._roleId === +id)
                                     option(value=id, selected=(victim._roleId === +id))= __(r.name)
+
+        if newUser
+            input(type="checkbox", name="sendmail", id="sendmail")
+            label(for="sendmail")= __('Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken')
             
 
         button(type="submit")= __('Speichern!')

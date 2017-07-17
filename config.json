@@ -17,6 +17,8 @@
             "secret": true,
             "name": "Root",
             "rights": [
+                "user.create",
+                "user.create.role",
                 "user.edit.all",
                 "user.edit.all.password",
                 "user.edit.own",

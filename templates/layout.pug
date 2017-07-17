@@ -36,13 +36,19 @@ html
                 strong= __('Error')
                 ul
                     each msg in messages.error
-                        li!= msg.message
+                        if msg.message 
+                            li!= msg.message
+                        if msg.messageTranslate
+                            li!= __(msg.messageTranslate)
 
         if messages.success.length > 0
             .msg.msg-success
                 strong= __('Erfolg')
                 ul
                     each msg in messages.success
-                        li!= msg.message
+                        if msg.message 
+                            li!= msg.message
+                        if msg.messageTranslate
+                            li!= __(msg.messageTranslate)
 
         block content

@@ -76,6 +76,7 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin,
             security.hasRight('user.edit.all'), 
         async (req, res) => {
+            // TODO - not done or tested yet
             var victim = await user.get(req.params.username);
 
             if (await req.user.isEqual(victim)) {

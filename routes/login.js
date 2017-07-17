@@ -25,7 +25,7 @@ module.exports = (route) => {
             }
             
             if (req.query.redirect) {
-                res.redirect(req.query.redirect);
+                res.redirect(decodeURIComponent(req.query.redirect));
             } else {
                 res.redirect('/');
             }

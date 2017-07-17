@@ -10,7 +10,7 @@ module.exports = (router) => {
         routes.push(router.route(i18n.__l(routeName)));
         
         options.forEach((o) => {
-            routes.push(router.route(routeName + o));
+            routes.push(router.route(i18n.__l(routeName + o)));
         });
 
         module(...routes);

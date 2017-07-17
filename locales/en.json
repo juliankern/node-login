@@ -52,5 +52,18 @@
 	"Das Passwort muss mindestens sechs Zeichen haben": "Das Passwort muss mindestens sechs Zeichen haben",
 	"Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!": "Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!",
 	"Dein Passwort wurde erfolgreich geändert.": "Dein Passwort wurde erfolgreich geändert.",
-	"Daten erfolgreich gespeichert!": "Daten erfolgreich gespeichert!"
+	"Daten erfolgreich gespeichert!": "Daten erfolgreich gespeichert!",
+	"Deine E-Mail Adresse wurde noch nicht bestätigt.": "Deine E-Mail Adresse wurde noch nicht bestätigt.",
+	"Hallo bei node-login!": "Hallo bei node-login!",
+	"Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen": "Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen",
+	"Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein": "Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein",
+	"Hallo %s!<br /><br />\n            Um deinen Account zu aktivieren, klicke bitte <a href=\"%s/activate/%s\">hier</a>!<br />\n            Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne Anführungszeichen) auf der folgenden Seite ein: \"%3$s\"<br>\n            %2$s/activate<br /><br />\n            Danke für deine Registrierung!": "Hallo %s!<br /><br />\n            Um deinen Account zu aktivieren, klicke bitte <a href=\"%s/activate/%s\">hier</a>!<br />\n            Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne Anführungszeichen) auf der folgenden Seite ein: \"%3$s\"<br>\n            %2$s/activate<br /><br />\n            Danke für deine Registrierung!",
+	"/activate/:code": "/activate/:code",
+	"/forgot/:code": "/forgot/:code",
+	"/settings/:username": "/settings/:username",
+	"/user/:username": "/user/:username",
+	"/user/new": "/user/new",
+	"Neuen Benutzer anlegen": "Neuen Benutzer anlegen",
+	"Du darfst diese Seite nicht besuchen. [Code: 3]": "Du darfst diese Seite nicht besuchen. [Code: 3]",
+	"Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken": "Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken"
 }

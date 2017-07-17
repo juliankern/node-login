@@ -1,4 +1,5 @@
 var user = require('../controllers/user.js');
+var mail = require('../controllers/mail.js');
 
 module.exports = (route) => {
     route
@@ -35,7 +36,9 @@ module.exports = (route) => {
                     
                     res.redirect('/register'); 
                 } else {
-                    req.flash('success', { message: res.__('Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!') });
+                    if ((await mail.newUser(res, newUser))) {
+                        req.flash('success', { message: res.__('Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!') });
+                    }
                     
                     res.redirect('/login');
                 }

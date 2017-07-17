@@ -21,19 +21,19 @@ module.exports = {
                     if (err) { return done(err); }
                     
                     if (!user) {
-                        return done(null, false, { message: i18n.__('Falscher Benutzername.') });
+                        return done(null, false, { messageTranslate: 'Falscher Benutzername.' });
                     }
                     
                     if (!(await bcrypt.compare(pass, user.pass))) {
-                        return done(null, false, { message: i18n.__('Falsches Passwort.') });
+                        return done(null, false, { messageTranslate: 'Falsches Passwort.' });
                     }
                     
                     if(!user.confirmed) {
-                        return done(null, false, { message: i18n.__('Deine E-Mail Adresse wurde noch nicht bestätigt.') });
+                        return done(null, false, { messageTranslate: 'Deine E-Mail Adresse wurde noch nicht bestätigt.' });
                     } 
                     
                     if(!user.active) {
-                        return done(null, false, { message: i18n.__('Deine Account wurde deaktiviert.') });
+                        return done(null, false, { messageTranslate: 'Deine Account wurde deaktiviert.' });
                     }
                     
                     return done(null, user);
@@ -55,8 +55,16 @@ module.exports = {
         if (req.isAuthenticated()) {
             next();
         } else {
-            req.flash('error', { message: res.__('Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]') });
+            req.flash('error', { messageTranslate: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]' });
             res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
+        }
+    },
+    isNotLoggedin: (req, res, next) => {
+        if (!req.isAuthenticated()) {
+            next();
+        } else {
+            req.flash('error', { messageTranslate: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst aus! [Code: 4]' });
+            res.redirect('/');
         }
     },
     hasRight: (right) => {
@@ -65,10 +73,10 @@ module.exports = {
                 next();
             } else {
                 if (req.isAuthenticated()) {
-                    req.flash('error', { message: res.__('Du darfst diese Seite nicht besuchen. [Code: 3]') });
+                    req.flash('error', { messageTranslate: 'Du darfst diese Seite nicht besuchen. [Code: 3]' });
                     res.redirect('/');
                 } else {
-                    req.flash('error', { message: res.__('Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 2]') });
+                    req.flash('error', { messageTranslate: 'Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 2]' });
                     res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
                 }
             }

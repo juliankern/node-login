@@ -1,4 +1,5 @@
 var user = require('../controllers/user.js');
+var mail = require('../controllers/mail.js');
 var security = require('../controllers/security');
 
 module.exports = ['/:code', (base, code) => {
@@ -22,8 +23,10 @@ module.exports = ['/:code', (base, code) => {
             }
             
             if ((await user.passwordRequest(victim))) {
-                req.flash('success', { message: res.__('Du erhältst nun eine E-Mail, mit der du dein Passwort ändern kannst.') });
-                return res.redirect('/login');
+                if ((await mail.passwordRequest(res, victim))) {
+                    req.flash('success', { message: res.__('Du erhältst nun eine E-Mail, mit der du dein Passwort ändern kannst.') });
+                    return res.redirect('/login');
+                }
             }
             
             console.log('user found!', victim, req.body);
