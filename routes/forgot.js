@@ -12,25 +12,25 @@ module.exports = ['/:code', (base, code) => {
         .post(async (req, res) => {
             if (!req.body.userdata) {
                 req.flash('error', { message: res.__('route.forgot.error.empty:Bitte gebe deinen Benutzernamen oder E-Mail Adresse an!') });
-                return res.redirect('/forgot');
+                return res.redirect('/' + res.__('path.forgot.base:forgot'));
             }
             
             var victim = await user.find([{ username: req.body.userdata }, { email: req.body.userdata }]);
             
             if (!victim) {
                 req.flash('error', { message: res.__('route.forgot.error.notfound:Es konnte kein Benutzer mit diesen Daten gefunden werden.') + ' ' + res.__('global.check.input:Bitte überprüfe deine Eingaben.') });
-                return res.redirect('/forgot');
+                return res.redirect('/' + res.__('path.forgot.base:forgot'));
             }
             
             if ((await user.passwordRequest(victim))) {
                 if ((await mail.passwordRequest(res, victim))) {
                     req.flash('success', { message: res.__('route.forgot.success:Du erhältst nun eine E-Mail, mit der du dein Passwort ändern kannst.') });
-                    return res.redirect('/login');
+                    return res.redirect('/' + res.__('path.login.base:login'));
                 }
             }
             
             console.log('user found!', victim, req.body);
-            return res.redirect('/forgot');
+            return res.redirect('/' + res.__('path.forgot.base:forgot'));
         });
 
     code
@@ -56,18 +56,18 @@ module.exports = ['/:code', (base, code) => {
                     req.flash('error', err);
                 });
                 
-                return res.redirect('/forgot/' + req.params.code);
+                return res.redirect('/' + res.__('path.forgot.base:forgot') + '/' + req.params.code);
             } else {
                 var victim = await user.find({ passwordRequestCode: req.params.code });
                 userdata.passwordRequestCode = undefined;
                 
                 if ((await user.update(victim.id, userdata))) {
                     req.flash('success', { message: res.__('route.forgot.success:Dein Passwort wurde erfolgreich geändert.') });
-                    return res.redirect('/login');
+                    return res.redirect('/' + res.__('path.login.base:login'));
                 }
                 
                 req.flash('error', { message: res.__('route.forgot.error:Es ist ein Fehler aufgetreten!') });
-                return res.redirect('/forgot/' + req.params.code);
+                return res.redirect('/' + res.__('path.forgot.base:forgot') + '/' + req.params.code);
             }
         });
 }]

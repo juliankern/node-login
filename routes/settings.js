@@ -51,7 +51,7 @@ module.exports = ['/:username', (base, username) => {
 
                 req.flash('form', req.body);
 
-                res.redirect('/settings');
+                res.redirect('/' + res.__('path.settings.base:settings'));
             } else {
                 var updatedUser = await user.update(req.user.id, userdata);
                 
@@ -65,7 +65,7 @@ module.exports = ['/:username', (base, username) => {
                     req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
                 }
 
-                res.redirect('/settings');
+                res.redirect('/' + res.__('path.settings.base:settings'));
             }
 
             console.log('save settings', req.user, userdata);
@@ -80,7 +80,7 @@ module.exports = ['/:username', (base, username) => {
             var victim = await user.get(req.params.username);
 
             if (await req.user.isEqual(victim)) {
-                res.redirect('/settings');
+                return res.redirect('/' + res.__('path.settings.base:settings'));
             }
 
             if (res.locals.messages.error && res.locals.messages.error.length > 0) {

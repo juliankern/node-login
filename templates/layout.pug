@@ -9,18 +9,18 @@ html
         
         nav 
             a(href="/")= __('route.index.headline:Hauptseite')
-            a(href=__('/restricted')) Restricted
+            a(href="/restricted") Restricted
             if !isLoggedin
-                a(href=__('/login'))= __('route.login.headline:Login')
-                a(href=__('/register'))= __('route.register.headline:Registrierung')
+                a(href="/"+__('path.login.base:login'))= __('route.login.headline:Login')
+                a(href='/' + __('path.register.base:register'))= __('route.register.headline:Registrierung')
             else
-                a(href=__('/user'))= __('route.user.headline:Benutzer')
-                a(href=__('/settings'))= __('route.settings.headline:Einstellungen')
+                a(href='/' + __('path.user.base:user'))= __('route.user.headline:Benutzer')
+                a(href='/' + __('path.settings.base:settings'))= __('route.settings.headline:Einstellungen')
                 
                 if user.hasRight('admin.panel')
-                    a(href=__('/admin'))= __('route.admin.headline:Administration')
+                    a(href='/' + __('path.admin.base:admin'))= __('route.admin.headline:Administration')
 
-                a(href=__('/logout'))= __('route.logout.headline:Logout')
+                a(href='/' + __('path.logout.base:logout'))= __('route.logout.headline:Logout')
                 
             .pull-right
                 if !isLoggedin

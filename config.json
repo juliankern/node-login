@@ -6,11 +6,11 @@
     },
     "roles": {
         "0": {
-            "name": "Guest",
+            "name": "guest",
             "rights": []
         },
         "1": {
-            "name": "Registered",
+            "name": "registered",
             "rights": [
                 "user.edit.own",
                 "user.edit.own.password",
@@ -19,7 +19,7 @@
         },
         "9": {
             "secret": true,
-            "name": "Root",
+            "name": "root",
             "rights": [
                 "user.create",
                 "user.create.role",

@@ -1,0 +1,116 @@
+{
+	"path": {
+		"activate": {
+			"base": "activate",
+			"code": "activate/:code"
+		},
+		"forgot": {
+			"base": "forgot",
+			"code": "forgot/:code"
+		},
+		"login": {
+			"base": "login"
+		},
+		"logout": {
+			"base": "logout"
+		},
+		"register": {
+			"base": "register"
+		},
+		"restricted": {
+			"base": "restricted"
+		},
+		"settings": {
+			"base": "settings",
+			"username": "settings/:username"
+		},
+		"user": {
+			"base": "user",
+			"new": "user/new",
+			"username": "user/:username"
+		},
+		"admin": {
+			"base": "admin"
+		}
+	},
+	"route": {
+		"index": {
+			"headline": "Hauptseite"
+		},
+		"login": {
+			"headline": "Login"
+		},
+		"register": {
+			"headline": "Registrierung"
+		},
+		"user": {
+			"headline": "Benutzer",
+			"list": {
+				"headline": "Benutzer"
+			},
+			"profile": {
+				"headline": "Profil von %s"
+			},
+			"new": {
+				"headline": "Neuen Benutzer anlegen"
+			}
+		},
+		"settings": {
+			"headline": "Einstellungen",
+			"user": {
+				"headline": "Einstellungen für %s"
+			}
+		},
+		"admin": {
+			"headline": "Administration"
+		},
+		"logout": {
+			"headline": "Logout"
+		}
+	},
+	"global": {
+		"notloggedin": "Nicht eingeloggt",
+		"email": "E-Mail",
+		"pass": "Passwort",
+		"hellouser": "Hallo %s!",
+		"username": "Benutzername",
+		"joined": "Beigetreten",
+		"profile": "Profil",
+		"edit": "Bearbeiten",
+		"role": "Rolle",
+		"pass2": "Passwort Wiederholung",
+		"save": "Speichern!",
+		"error": "Error"
+	},
+	"view": {
+		"login": {
+			"remember": "Eingeloggt bleiben",
+			"forgot": "Passwort vergessen?",
+			"submit": "Login!"
+		},
+		"userlist": {
+			"create": "Neuen Benutzer anlegen"
+		},
+		"settings": {
+			"password": {
+				"change": "Passwort (nur eingeben wenn Änderung gewünscht)"
+			},
+			"sendmail": "Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken"
+		},
+		"register": {
+			"submit": "Registrieren!"
+		}
+	},
+	"roles": {
+		"guest": "guest",
+		"registered": "registered",
+		"root": "root"
+	},
+	"security": {
+		"error": {
+			"loggedin": "Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]",
+			"username": "Falscher Benutzername.",
+			"password": "Falsches Passwort."
+		}
+	}
+}

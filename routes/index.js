@@ -6,11 +6,12 @@ module.exports = (router) => {
     // loads all subroutes in this directory
     require('../utils/loader.js').load(__dirname, (options, module, filename) => {
         routes = [];
-        routeName = '/' + filename.replace(/\.js/, '');
-        routes.push(router.route(i18n.__l(routeName)));
+        routeName = filename.replace(/\.js/, '');
+        routes.push(router.route(i18n.__l('path.' + routeName + '.base:' + routeName).map((r) => { return '/' + r; })));
+        // console.log('routelist', i18n.__l('path.' + routeName + '.base:' + routeName).map((r) => { return '/' + r; }));
         
         options.forEach((o) => {
-            routes.push(router.route(i18n.__l(routeName + o)));
+            routes.push(router.route(i18n.__l('path.' + routeName + '.' + o.replace(/\/(:*)/g, '') + ':' + routeName + o).map((r) => { return '/' + r; })));
         });
 
         module(...routes);

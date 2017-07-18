@@ -23,7 +23,7 @@ module.exports = (route) => {
 
                 req.flash('form', req.body);
 
-                res.redirect('/register');
+                res.redirect('/' + res.__('path.register.base:register'));
             } else {
                 var newUser = await user.new(userdata);
                 
@@ -34,13 +34,13 @@ module.exports = (route) => {
                     
                     req.flash('form', req.body);
                     
-                    res.redirect('/register'); 
+                    res.redirect('/' + res.__('path.register.base:register')); 
                 } else {
                     if ((await mail.newUser(res, newUser))) {
                         req.flash('success', { message: res.__('route.register.success:Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!') });
                     }
                     
-                    res.redirect('/login');
+                    res.redirect('/' + res.__('path.login.base:login'));
                 }
             }
         });

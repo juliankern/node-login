@@ -2,7 +2,7 @@ extends ../templates/layout.pug
 
 block content
     if user.hasRight('user.create')
-        a(href=__('/user/new'))= __('view.userlist.create:Neuen Benutzer anlegen')
+        a(href="/" + __('path.user.new:user/new'))= __('view.userlist.create:Neuen Benutzer anlegen')
     table 
         thead
             tr
@@ -17,6 +17,6 @@ block content
                     td= u.email
                     td= date.fromNow(u.createdAt, true)
                     td
-                        a(href=__('/user') + '/' + u.username)= __('global.profile:Profil')
+                        a(href="/" + __('path.user.base') + '/' + u.username)= __('global.profile:Profil')
                         if user.hasRight('user.edit.all')
-                            a(href=__('/settings') + '/' + u.username)= __('global.edit:Bearbeiten')
+                            a(href="/" + __('path.settings.base') + '/' + u.username)= __('global.edit:Bearbeiten')

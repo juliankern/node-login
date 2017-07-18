@@ -9,7 +9,7 @@ module.exports = (route) => {
             passport.authenticate('local', (err, user, info) => {
                 if (err) { return next(err); }
                 if (info) { req.flash('error', info); }
-                if (!user) { return res.redirect('/login'); }
+                if (!user) { return res.redirect('/' + res.__('path.login.base:login')); }
                 
                 req.logIn(user, function(err) {
                     if (err) { return next(err); }

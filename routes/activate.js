@@ -10,9 +10,9 @@ module.exports = ['/:code', (base, code) => {
             if (!req.body.code) {
                 req.flash('error', { message: res.__('route.activate.error:Du musst deinen Aktivierungscode eingeben!') });
 
-                res.redirect('/activate');
+                res.redirect('/' + res.__('path.activate.base:activate'));
             } else {
-                res.redirect('/activate/' + req.body.code);
+                res.redirect('/' + res.__('path.activate.base:activate') + '/' + req.body.code);
             }
         });
 
@@ -20,10 +20,10 @@ module.exports = ['/:code', (base, code) => {
         .get(async (req, res) => {
             if (!(await user.confirm(req.params.code))) {
                 req.flash('error', { message: res.__('route.activate.code.error:Dein Account konnte nicht bestätigt werden! Stelle bitte sicher, dass du den Code korrekt eingegeben hast') });
-                res.redirect('/activate');
+                res.redirect('/' + res.__('path.activate.base:activate'));
             } else {
                 req.flash('success', { message: res.__('route.activate.code.success:Dein Account wurde erfolgreich bestätigt. Du kannst dich jetzt einloggen.') })
-                res.redirect('/login');
+                res.redirect('/' + res.__('path.login.base:login'));
             }
             
         });

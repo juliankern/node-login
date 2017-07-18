@@ -17,7 +17,7 @@ block content
                 tr
                     td= newUser ? __('global.pass:Passwort') : __('view.settings.password.change:Passwort (nur eingeben wenn Änderung gewünscht)')
                     td
-                        input(type="password", name="pass", placeholder="global.pass:Passwort", class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+                        input(type="password", name="pass", placeholder=__('global.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
                 tr
                     td= __('global.pass2:Passwort Wiederholung')
                     td
@@ -30,7 +30,7 @@ block content
                         select(name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
                             each r, id in roles 
                                 if !r.secret || (r.secret && user._roleId === +id)
-                                    option(value=id, selected=(victim._roleId === +id))= __(r.name)
+                                    option(value=id, selected=(victim._roleId === +id))= __('roles.' + r.name + ':' + r.name)
 
         if newUser
             input(type="checkbox", name="sendmail", id="sendmail")
