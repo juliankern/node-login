@@ -1,5 +1,9 @@
 {
     "url": "http://localhost:3000",
+    "locale": {
+        "list": ["de", "en"],
+        "default": "de"
+    },
     "roles": {
         "0": {
             "name": "Guest",

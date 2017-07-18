@@ -41,11 +41,12 @@ require('../controllers/security').init(app);
 app.use(flash());
 
 i18n.configure({
-    locales:['de', 'en'],
-    defaultLocale: 'de',
+    locales: config.locale.list,
+    defaultLocale: config.locale.default,
     directory: './locales',
     cookie: 'node-login-lang',
     syncFiles: true,
+    objectNotation: true,
     autoReload: true
 });
 
