@@ -15,7 +15,7 @@ module.exports = ['/:username', (base, username) => {
             }
 
             res.render('settings', {
-                headline: res.__('Einstellungen'),
+                headline: res.__('route.settings.headline:Einstellungen'),
                 victim: req.user
             });
         })
@@ -62,7 +62,7 @@ module.exports = ['/:username', (base, username) => {
                     
                     req.flash('form', req.body);
                 } else {
-                    req.flash('success', { message: res.__('Daten erfolgreich gespeichert!') });
+                    req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
                 }
 
                 res.redirect('/settings');
@@ -76,6 +76,7 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin,
             security.hasRight('user.edit.all'), 
         async (req, res) => {
+            // TODO - not done or tested yet
             var victim = await user.get(req.params.username);
 
             if (await req.user.isEqual(victim)) {
@@ -90,7 +91,7 @@ module.exports = ['/:username', (base, username) => {
             }
 
             res.render('settings', {
-                headline: res.__('Einstellungen für %s', victim.username),
+                headline: res.__('route.settings.user.headline:Einstellungen für %s', victim.username),
                 victim
             });
         });

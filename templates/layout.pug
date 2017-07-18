@@ -8,41 +8,47 @@ html
         h1 login-frame
         
         nav 
-            a(href="/")= __('Hauptseite')
+            a(href="/")= __('route.index.headline:Hauptseite')
             a(href=__('/restricted')) Restricted
             if !isLoggedin
-                a(href=__('/login'))= __('Login')
-                a(href=__('/register'))= __('Registrierung')
+                a(href=__('/login'))= __('route.login.headline:Login')
+                a(href=__('/register'))= __('route.register.headline:Registrierung')
             else
-                a(href=__('/user'))= __('Benutzer')
-                a(href=__('/settings'))= __('Einstellungen')
+                a(href=__('/user'))= __('route.user.headline:Benutzer')
+                a(href=__('/settings'))= __('route.settings.headline:Einstellungen')
                 
                 if user.hasRight('admin.panel')
-                    a(href=__('/admin'))= __('Administration')
+                    a(href=__('/admin'))= __('route.admin.headline:Administration')
 
-                a(href=__('/logout'))= __('Logout')
+                a(href=__('/logout'))= __('route.logout.headline:Logout')
                 
             .pull-right
                 if !isLoggedin
-                    span= __('Nicht eingeloggt')
+                    span= __('global.notloggedin:Nicht eingeloggt')
                 else
-                    span= __('Hallo %s!', user.username)
+                    span= __('global.hellouser:Hallo %s!', user.username)
                     
         h2= headline
             
         if messages.error.length > 0
             - hasErrors = true
             .msg.msg-error
-                strong= __('Error')
+                strong= __('global.error:Error')
                 ul
                     each msg in messages.error
-                        li!= msg.message
+                        if msg.message 
+                            li!= msg.message
+                        if msg.messageTranslate
+                            li!= __(msg.messageTranslate)
 
         if messages.success.length > 0
             .msg.msg-success
-                strong= __('Erfolg')
+                strong= __('global.success:Erfolg')
                 ul
                     each msg in messages.success
-                        li!= msg.message
+                        if msg.message 
+                            li!= msg.message
+                        if msg.messageTranslate
+                            li!= __(msg.messageTranslate)
 
         block content

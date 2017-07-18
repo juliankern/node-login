@@ -2,22 +2,11 @@ const config = require('../config.json');
 
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
-const nodemailer = require('nodemailer');
-const i18n = require('i18n');
 
 var validator = require('../utils/validation.js');
+var security = require('../controllers/security');
 
 var User = require('../models/user.js');
-
-let transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: 465,
-    secure: true, // secure:true for port 465, secure:false for port 587
-    auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
-    }
-});
 
 async function getCode(fieldname) {
     var code;
@@ -44,20 +33,6 @@ module.exports = {
         
         return await victim.save((err) => {
            if (err) { console.log('user passwordRequest error:', err); } 
-           else {
-                transporter.sendMail({
-                    from: config.mail.from, // sender address
-                    to: victim.email, // list of receivers
-                    subject: 'Sie möchten ihr Passwort zurücksetzen?', // Subject line
-                    html: `Hallo ${victim.username}!<br /><br />
-                    Um deinen Passwort zurück zu setzen, klicke bitte <a href="${config.url}/forgot/${passwordRequestCode}">hier</a>!<br />
-                    Falls dieser Link nicht funkioniert, kopiere ihn bitte in deinen Browser: ${config.url}/forgot/${passwordRequestCode}<br /><br />
-                    ` // html body
-                }, (error, info) => {
-                    if (error) { return console.log(error); }
-                    console.log('Message %s sent: %s', info.messageId, info.response);
-                });
-            }
         });
     },
     confirm: async (code) => {
@@ -78,40 +53,42 @@ module.exports = {
         var errors = [];
         
         if (data.username && data.username == '') {
-            errors.push({ fields: ['username'], message: i18n.__('Bitte geben Sie einen Benutzernamen an') });
+            errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.empty:Bitte geben Sie einen Benutzernamen an' });
         }
         
         if (data.username && data.username.length < 5) {
-            errors.push({ fields: ['pass'], message: i18n.__('Der Benutzername muss mindestens fünf Zeichen haben') });
+            errors.push({ fields: ['pass'], messageTranslate: 'user.validate.username.length:Der Benutzername muss mindestens fünf Zeichen haben' });
         }
 
         if (data.username && (await User.find({ username: data.username })).length > 0) {
-            errors.push({ fields: ['username'], message: i18n.__('Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen') }); 
+            errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.used:Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen' }); 
         }
 
         if (data.email && data.email == '') {
-            errors.push({ fields: ['email'], message: i18n.__('Bitte geben Sie einen E-Mail Adresse an') });
+            errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.empty:Bitte geben Sie einen E-Mail Adresse an' });
         }
 
         if (data.email && !validator.email(data.email)) {
-            errors.push({ fields: ['email'], message: i18n.__('Bitte geben Sie eine valide E-Mail Adresse an!') });
+            errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.valid:Bitte geben Sie eine valide E-Mail Adresse an!' });
         }
 
         if (data.email && (await User.find({ email: data.email })).length > 0) {
-            errors.push({ fields: ['email'], message: i18n.__('Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein') }); 
+            errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.used:Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein' }); 
         }
         
         if (data.pass && data.pass !== data.pass2) {
-            errors.push({ fields: ['pass', 'pass2'], message: i18n.__('Das Passwort stimmt nicht mit der Wiederholung überein') });
+            errors.push({ fields: ['pass', 'pass2'], messageTranslate: 'user.validate.password.repeat:Das Passwort stimmt nicht mit der Wiederholung überein' });
         }
         
         if (data.pass && data.pass.length < 6) {
-            errors.push({ fields: ['pass'], message: i18n.__('Das Passwort muss mindestens sechs Zeichen haben') });
+            errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.length:Das Passwort muss mindestens sechs Zeichen haben' });
         }
 
         if (data.pass && !validator.password(data.pass)) {
-            errors.push({ fields: ['pass'], message: i18n.__('Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!') });
+            errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.valid:Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!' });
         }
+
+        // TODO check for rights here, and prevnt change of role
 
         return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
     },
@@ -128,22 +105,6 @@ module.exports = {
           
         return await newUser.save((err) => {
             console.log('user save error:', err);
-            
-            if (!err) {
-                transporter.sendMail({
-                    from: config.mail.from, // sender address
-                    to: data.email, // list of receivers
-                    subject: 'Hallo bei node-login!', // Subject line
-                    html: `Hallo ${data.username}!<br /><br />
-                    Um deinen Account zu aktivieren, klicke bitte <a href="${config.url}/activate/${confirmationCode}">hier</a>!<br />
-                    Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne Anführungszeichen) auf der folgenden Seite ein: "${confirmationCode}"<br>
-                    ${config.url}/activate<br /><br />
-                    Danke für deine Registrierung!` // html body
-                }, (error, info) => {
-                    if (error) { return console.log(error); }
-                    console.log('Message %s sent: %s', info.messageId, info.response);
-                });
-            }
         });
     },
     update: async (userId, data) => {

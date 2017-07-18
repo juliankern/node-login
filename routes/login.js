@@ -3,7 +3,7 @@ var passport = require('passport');
 module.exports = (route) => {
     route
         .get((req, res) => {
-            res.render('login', { headline: res.__('Login') });
+            res.render('login', { headline: res.__('route.login.headline:Login') });
         })
         .post((req, res, next) => { 
             passport.authenticate('local', (err, user, info) => {
@@ -25,7 +25,7 @@ module.exports = (route) => {
             }
             
             if (req.query.redirect) {
-                res.redirect(req.query.redirect);
+                res.redirect(decodeURIComponent(req.query.redirect));
             } else {
                 res.redirect('/');
             }

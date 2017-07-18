@@ -3,10 +3,10 @@ extends ../templates/layout.pug
 block content
     if !step2
         form(method="post")
-            input(type="text", name="userdata", placeholder=__('Benutzername oder E-Mail Adresse'))
-            button(type="submit")= __('Passwort zurücksetzen!')
+            input(type="text", name="userdata", placeholder=__('view.fotgot.userdata:Benutzername oder E-Mail Adresse'))
+            button(type="submit")= __('view.forgot.reset:Passwort zurücksetzen!')
     else 
         form(method="post")
-            input(type="password", name="pass", placeholder=__('Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
-            input(type="password", name="pass2", placeholder=__('Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
-            button(type="submit")= __('Passwort zurücksetzen!')
+            input(type="password", name="pass", placeholder=__('global.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+            input(type="password", name="pass2", placeholder=__('global.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+            button(type="submit")= __('view.forgot.reset:Passwort zurücksetzen!')

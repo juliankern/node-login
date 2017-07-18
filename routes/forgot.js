@@ -1,29 +1,32 @@
 var user = require('../controllers/user.js');
+var mail = require('../controllers/mail.js');
 var security = require('../controllers/security');
 
 module.exports = ['/:code', (base, code) => {
     base
         .get((req, res) => {
             res.render('forgot', {
-                headline: res.__('Passwort vergessen')
+                headline: res.__('route.forgot.headline:Passwort vergessen')
             });
         })
         .post(async (req, res) => {
             if (!req.body.userdata) {
-                req.flash('error', { message: res.__('Bitte gebe deinen Benutzernamen oder E-Mail Adresse an!') });
+                req.flash('error', { message: res.__('route.forgot.error.empty:Bitte gebe deinen Benutzernamen oder E-Mail Adresse an!') });
                 return res.redirect('/forgot');
             }
             
             var victim = await user.find([{ username: req.body.userdata }, { email: req.body.userdata }]);
             
             if (!victim) {
-                req.flash('error', { message: res.__('Es konnte kein Benutzer mit diesen Daten gefunden werden.') + ' ' + res.__('Bitte überprüfe deine Eingaben.') });
+                req.flash('error', { message: res.__('route.forgot.error.notfound:Es konnte kein Benutzer mit diesen Daten gefunden werden.') + ' ' + res.__('global.check.input:Bitte überprüfe deine Eingaben.') });
                 return res.redirect('/forgot');
             }
             
             if ((await user.passwordRequest(victim))) {
-                req.flash('success', { message: res.__('Du erhältst nun eine E-Mail, mit der du dein Passwort ändern kannst.') });
-                return res.redirect('/login');
+                if ((await mail.passwordRequest(res, victim))) {
+                    req.flash('success', { message: res.__('route.forgot.success:Du erhältst nun eine E-Mail, mit der du dein Passwort ändern kannst.') });
+                    return res.redirect('/login');
+                }
             }
             
             console.log('user found!', victim, req.body);
@@ -40,7 +43,7 @@ module.exports = ['/:code', (base, code) => {
             }
             
             res.render('forgot', {
-                headline: res.__('Passwort vergessen'),
+                headline: res.__('route.forgot.headline:Passwort vergessen'),
                 step2: true
             });
         })
@@ -59,11 +62,11 @@ module.exports = ['/:code', (base, code) => {
                 userdata.passwordRequestCode = undefined;
                 
                 if ((await user.update(victim.id, userdata))) {
-                    req.flash('success', { message: res.__('Dein Passwort wurde erfolgreich geändert.') });
+                    req.flash('success', { message: res.__('route.forgot.success:Dein Passwort wurde erfolgreich geändert.') });
                     return res.redirect('/login');
                 }
                 
-                req.flash('error', { message: res.__('Es ist ein Fehler aufgetreten!') });
+                req.flash('error', { message: res.__('route.forgot.error:Es ist ein Fehler aufgetreten!') });
                 return res.redirect('/forgot/' + req.params.code);
             }
         });

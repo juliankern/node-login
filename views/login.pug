@@ -3,13 +3,13 @@ extends ../templates/layout.pug
 block content
     form(method="post", id="login")
         .form-field
-            input(type="email", name="email", placeholder= __('E-Mail')+'*', required, autocomplete="off")
+            input(type="email", name="email", placeholder= __('global.email:E-Mail')+'*', required, autocomplete="off")
         .form-field
-            input(type="password", name="pass", placeholder=__('Passwort')+'*', required, autocomplete="off")
+            input(type="password", name="pass", placeholder=__('global.pass:Passwort')+'*', required, autocomplete="off")
         .form-field
             input(type="checkbox", name="remember", id="remember")
-            label(for="remember")= __('Eingeloggt bleiben')
+            label(for="remember")= __('view.login.remember:Eingeloggt bleiben')
         .form-field
-            a(href="/forgot")= __('Passwort vergessen?')
+            a(href="/forgot")= __('view.login.forgot:Passwort vergessen?')
         .form-field
-            button(type="submit")= __('Login!')
+            button(type="submit")= __('view.login.submit:Login!')

@@ -21,19 +21,19 @@ module.exports = {
                     if (err) { return done(err); }
                     
                     if (!user) {
-                        return done(null, false, { message: i18n.__('security.error.username:Falscher Benutzername.') });
+                        return done(null, false, { messageTranslate: 'security.error.username:Falscher Benutzername.' });
                     }
                     
                     if (!(await bcrypt.compare(pass, user.pass))) {
-                        return done(null, false, { message: i18n.__('security.error.password:Falsches Passwort.') });
+                        return done(null, false, { messageTranslate: 'security.error.password:Falsches Passwort.' });
                     }
                     
                     if(!user.confirmed) {
-                        return done(null, false, { message: i18n.__('security.error.confirmed:Deine E-Mail Adresse wurde noch nicht bestätigt.') });
+                        return done(null, false, { messageTranslate: 'security.error.confirmed:Deine E-Mail Adresse wurde noch nicht bestätigt.' });
                     } 
                     
                     if(!user.active) {
-                        return done(null, false, { message: i18n.__('security.error.active:Deine Account wurde deaktiviert.') });
+                        return done(null, false, { messageTranslate: 'security.error.active:Deine Account wurde deaktiviert.' });
                     }
                     
                     return done(null, user);
@@ -57,6 +57,14 @@ module.exports = {
         } else {
             req.flash('error', { message: res.__('security.error.loggedin:Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]') });
             res.redirect('/login?redirect=' + encodeURIComponent(req.url).replace(/http(s*):\/\//g, ''));
+        }
+    },
+    isNotLoggedin: (req, res, next) => {
+        if (!req.isAuthenticated()) {
+            next();
+        } else {
+            req.flash('error', { message: res.__('security.error.notloggedin:Du darfst diese Seite nicht besuchen, bitte logge dich zuerst aus! [Code: 4]') });
+            res.redirect('/');
         }
     },
     hasRight: (right) => {
