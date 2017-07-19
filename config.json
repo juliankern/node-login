@@ -26,6 +26,7 @@
                 "user.create.role",
                 "user.edit.all",
                 "user.edit.all.password",
+                "user.edit.all.role",
                 "user.edit.own",
                 "user.edit.own.password",
                 "user.edit.own.role",

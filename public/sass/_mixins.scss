@@ -1,0 +1,12 @@
+@mixin global-focus {
+    outline: 0;
+    box-shadow: 0 0 5px rgba(50, 50, 255, 0.5);
+}
+
+@mixin contrastText($color) {
+    @if (lightness($color) > 70) {
+        color: #000; // Lighter backgorund, return dark color
+    } @else {
+        color: #fff; // Darker background, return light color
+    }
+}

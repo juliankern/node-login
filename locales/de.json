@@ -59,7 +59,8 @@
 			"headline": "Einstellungen",
 			"user": {
 				"headline": "Einstellungen für %s"
-			}
+			},
+			"success": "Daten erfolgreich gespeichert!"
 		},
 		"admin": {
 			"headline": "Administration"
@@ -80,7 +81,8 @@
 		"role": "Rolle",
 		"pass2": "Passwort Wiederholung",
 		"save": "Speichern!",
-		"error": "Error"
+		"error": "Error",
+		"success": "Erfolg"
 	},
 	"view": {
 		"login": {
@@ -102,23 +104,26 @@
 		}
 	},
 	"roles": {
-		"guest": "guest",
-		"registered": "registered",
-		"root": "root"
+		"guest": "Gast",
+		"registered": "Registriert",
+		"root": "Root"
 	},
 	"security": {
 		"error": {
 			"loggedin": "Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]",
 			"username": "Falscher Benutzername.",
-			"password": "Falsches Passwort."
+			"password": "Falsches Passwort.",
+			"right": "Du darfst diese Seite nicht besuchen. [Code: 3]"
 		}
 	},
 	"locales": {
 		"de": {
-			"name": "de"
+			"name": "Deutsch"
 		},
 		"en": {
-			"name": "en"
+			"name": "English"
 		}
-	}
+	},
+	"Hallo bei node-login!": "Hallo bei node-login!",
+	"Hallo %s!<br /><br />\n            Um deinen Account zu aktivieren, klicke bitte <a href=\"%s/activate/%s\">hier</a>!<br />\n            Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne Anführungszeichen) auf der folgenden Seite ein": " \"%3$s\"<br>\n            %2$s/activate<br /><br />\n            Danke für deine Registrierung!"
 }

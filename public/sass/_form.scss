@@ -1,0 +1,36 @@
+.form {
+    &--field {
+        padding: .5rem 0;
+
+        label {
+            display: block;
+
+            &::after {
+                content: ":";
+            }
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="search"],
+        input[type="date"], 
+        input[type="number"], {
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            padding: 5px;
+
+            &:focus {
+                @include global-focus;
+            }
+        }
+
+        input + label {
+            display: inline-block;
+
+            &::after {
+                content: none
+            }
+        }
+    }
+}

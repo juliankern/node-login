@@ -10,4 +10,7 @@ block content
             td=victim.username
         tr
             td= __('global.role:Rolle')
-            td=victim.role.name
+            td= __('roles.' + victim.role.name)
+
+    if user.hasRight('user.edit.all')
+        a(href="/" + __('path.settings.base') + '/' + victim.username)= __('global.edit:Bearbeiten')

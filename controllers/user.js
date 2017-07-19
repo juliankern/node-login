@@ -112,7 +112,7 @@ module.exports = {
             data.pass = await bcrypt.hash(data.pass, config.security.saltRounds);
         }
 
-        return await User.findOneAndUpdate(userId, data).exec((err) => {
+        return await User.findByIdAndUpdate(userId, data).exec((err, data) => {
             console.log('user update error:', err);
         });
     },

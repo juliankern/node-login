@@ -21,7 +21,7 @@ block content
                 label(for="pass2")= __('global.pass2:Passwort Wiederholung')
                 input(type="password", id="pass2", name="pass2", placeholder=__('global.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
 
-        if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.role')) || newUser && user.hasRight('user.create.role')
+        if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.role')) || newUser && user.hasRight('user.create.role')
             .form--field
                 label(for="role")= __('global.role:Rolle')
                 select(id="role", name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')

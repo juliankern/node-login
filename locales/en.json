@@ -41,25 +41,26 @@
 			"headline": "Login"
 		},
 		"register": {
-			"headline": "Registrierung"
+			"headline": "Registration"
 		},
 		"user": {
-			"headline": "Benutzer",
+			"headline": "User",
 			"list": {
-				"headline": "Benutzer"
+				"headline": "Userlist"
 			},
 			"profile": {
-				"headline": "Profil von %s"
+				"headline": "Profile of %s"
 			},
 			"new": {
-				"headline": "Neuen Benutzer anlegen"
+				"headline": "Create new user"
 			}
 		},
 		"settings": {
-			"headline": "Einstellungen",
+			"headline": "Settings",
 			"user": {
-				"headline": "Einstellungen für %s"
-			}
+				"headline": "Settings for %s"
+			},
+			"success": "Daten erfolgreich gespeichert!"
 		},
 		"admin": {
 			"headline": "Administration"
@@ -69,56 +70,60 @@
 		}
 	},
 	"global": {
-		"notloggedin": "Nicht eingeloggt",
+		"notloggedin": "Not logged in",
 		"email": "E-Mail",
-		"pass": "Passwort",
-		"hellouser": "Hallo %s!",
-		"username": "Benutzername",
-		"joined": "Beigetreten",
-		"profile": "Profil",
-		"edit": "Bearbeiten",
-		"role": "Rolle",
-		"pass2": "Passwort Wiederholung",
-		"save": "Speichern!",
-		"error": "Error"
+		"pass": "Password",
+		"hellouser": "Hello %s!",
+		"username": "Username",
+		"joined": "joined",
+		"profile": "Profile",
+		"edit": "Edit",
+		"role": "Role",
+		"pass2": "Passwort repeat",
+		"save": "Save!",
+		"error": "Error",
+		"success": "Erfolg"
 	},
 	"view": {
 		"login": {
-			"remember": "Eingeloggt bleiben",
-			"forgot": "Passwort vergessen?",
+			"remember": "Remember me",
+			"forgot": "Forgot Password?",
 			"submit": "Login!"
 		},
 		"userlist": {
-			"create": "Neuen Benutzer anlegen"
+			"create": "Create new user"
 		},
 		"settings": {
 			"password": {
-				"change": "Passwort (nur eingeben wenn Änderung gewünscht)"
+				"change": "Passwort (only fill to change)"
 			},
-			"sendmail": "Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken"
+			"sendmail": "Send an e-mail to verify it"
 		},
 		"register": {
-			"submit": "Registrieren!"
+			"submit": "Register!"
 		}
 	},
 	"roles": {
-		"guest": "guest",
-		"registered": "registered",
-		"root": "root"
+		"guest": "Guest",
+		"registered": "Registered",
+		"root": "Root"
 	},
 	"security": {
 		"error": {
-			"loggedin": "Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]",
-			"username": "Falscher Benutzername.",
-			"password": "Falsches Passwort."
+			"loggedin": "You need to be logged in first [Code: 1]",
+			"username": "Wrong username.",
+			"password": "Wrong password.",
+			"right": "Du darfst diese Seite nicht besuchen. [Code: 3]"
 		}
 	},
 	"locales": {
 		"de": {
-			"name": "de"
+			"name": "Deutsch"
 		},
 		"en": {
-			"name": "en"
+			"name": "English"
 		}
-	}
+	},
+	"Hallo bei node-login!": "Hallo bei node-login!",
+	"Hallo %s!<br /><br />\n            Um deinen Account zu aktivieren, klicke bitte <a href=\"%s/activate/%s\">hier</a>!<br />\n            Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne Anführungszeichen) auf der folgenden Seite ein": " \"%3$s\"<br>\n            %2$s/activate<br /><br />\n            Danke für deine Registrierung!"
 }

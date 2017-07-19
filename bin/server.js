@@ -60,6 +60,8 @@ app.use((req, res, next) => {
         error: req.flash('error')
     };
 
+    console.log('Request:', req.path);
+
     res.locals.formdata = req.flash('form')[0];
     res.locals.isLoggedin = req.isAuthenticated();
     res.locals.user = req.user;

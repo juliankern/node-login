@@ -1,0 +1,43 @@
+.btn {
+    $color: map-get($colors, default);
+
+    padding: .5rem 1rem;
+    border: 1px solid $color;
+    border-radius: 2px;
+    background: lighten($color, 10%);
+    cursor: pointer;
+
+    @include contrastText(lighten($color, 10%));
+
+    &:focus {
+        @include global-focus;
+    }
+
+    &:active {
+        $color: darken($color, 5%);
+
+        border-color: $color;
+        background: lighten($color, 10%);
+
+        @include contrastText(lighten($color, 10%));
+    }
+
+    &__primary {
+        @extend .btn;
+        $color: map-get($colors, primary);
+
+        border-color: $color;
+        background: lighten($color, 10%);
+
+        @include contrastText(lighten($color, 10%));
+
+        &:active {
+            $color: darken($color, 5%);
+
+            border-color: $color;
+            background: lighten($color, 10%);
+
+            @include contrastText(lighten($color, 10%));
+        }
+    }
+}
