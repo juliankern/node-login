@@ -2,7 +2,8 @@
     "url": "http://localhost:3000",
     "locale": {
         "list": ["de", "en"],
-        "default": "de"
+        "default": "de",
+        "cookiename": "node-login-lang"
     },
     "roles": {
         "0": {

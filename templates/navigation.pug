@@ -1,0 +1,37 @@
+nav 
+    ul.nav
+        li.nav--item
+            a(href="/")= __('route.index.headline:Hauptseite')
+        li.nav--item
+            a(href="/restricted") Restricted
+        if !isLoggedin
+            li.nav--item
+                a(href="/"+__('path.login.base:login'))= __('route.login.headline:Login')
+            li.nav--item
+                a(href='/' + __('path.register.base:register'))= __('route.register.headline:Registrierung')
+        else
+            li.nav--item
+                a(href='/' + __('path.user.base:user'))= __('route.user.headline:Benutzer')
+            li.nav--item
+                a(href='/' + __('path.settings.base:settings'))= __('route.settings.headline:Einstellungen')
+            
+            if user.hasRight('admin.panel')
+                li.nav--item
+                    a(href='/' + __('path.admin.base:admin'))= __('route.admin.headline:Administration')
+
+            li.nav--item
+                a(href='/' + __('path.logout.base:logout'))= __('route.logout.headline:Logout')
+            
+        .pull-right
+            each key in locales
+                li.nav--item
+                    if getLocale() === key
+                        != __('locales.' + key + '.name:' + key)
+                    else
+                        a(href="?lang=" + key)= __('locales.' + key + '.name:' + key)
+            
+            li.nav--item
+                if !isLoggedin
+                    != __('global.notloggedin:Nicht eingeloggt')
+                else
+                    != __('global.hellouser:Hallo %s!', user.username)

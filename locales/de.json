@@ -112,5 +112,13 @@
 			"username": "Falscher Benutzername.",
 			"password": "Falsches Passwort."
 		}
+	},
+	"locales": {
+		"de": {
+			"name": "de"
+		},
+		"en": {
+			"name": "en"
+		}
 	}
 }

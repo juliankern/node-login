@@ -40,17 +40,18 @@ require('../controllers/security').init(app);
 
 app.use(flash());
 
+app.use(i18n.init);
 i18n.configure({
     locales: config.locale.list,
     defaultLocale: config.locale.default,
     directory: './locales',
-    cookie: 'node-login-lang',
+    cookie: config.locale.cookiename,
     syncFiles: true,
     objectNotation: true,
-    autoReload: true
+    autoReload: true,
+    queryParameter: 'lang'
 });
 
-app.use(i18n.init);
 
 app.use((req, res, next) => {
     res.locals.messages = {
@@ -68,6 +69,12 @@ app.use((req, res, next) => {
     }
 
     res.locals.roles = config.roles;
+    res.locals.locales = config.locale.list;
+
+    if (req.query.lang) {
+        res.cookie(config.locale.cookiename, req.query.lang);
+        i18n.setLocale(req.query.lang);
+    }
 
     // if (res.locals.isLoggedin) {
     //     console.log('- Current user:', req.user);

@@ -1,9 +1,3 @@
-nav {
-    a {
-        display: inline-block;
-        margin-right: 10px;
-    }
-}
 
 .msg {
     border: 1px solid black;
@@ -41,6 +35,27 @@ nav {
     &-vertical {
         input {
             display: block;
+        }
+    }
+}
+
+nav {
+    overflow: hidden;
+}
+
+.nav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    &--item {
+        border-left: 1px solid #333;
+        float: left;
+        padding: 0 5px;
+
+        &:first-child {
+            border: 0;
+            padding-left: 0;
         }
     }
 }

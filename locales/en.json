@@ -35,7 +35,7 @@
 	},
 	"route": {
 		"index": {
-			"headline": "Hauptseite"
+			"headline": "Home"
 		},
 		"login": {
 			"headline": "Login"
@@ -111,6 +111,14 @@
 			"loggedin": "Du darfst diese Seite nicht besuchen, bitte logge dich zuerst ein! [Code: 1]",
 			"username": "Falscher Benutzername.",
 			"password": "Falsches Passwort."
+		}
+	},
+	"locales": {
+		"de": {
+			"name": "de"
+		},
+		"en": {
+			"name": "en"
 		}
 	}
 }

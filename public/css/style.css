@@ -1,7 +1,3 @@
-nav a {
-  display: inline-block;
-  margin-right: 10px; }
-
 .msg {
   border: 1px solid black;
   border-radius: 5px;
@@ -26,3 +22,18 @@ nav a {
 
 .form-vertical input {
   display: block; }
+
+nav {
+  overflow: hidden; }
+
+.nav {
+  list-style-type: none;
+  padding: 0;
+  margin: 0; }
+  .nav--item {
+    border-left: 1px solid #333;
+    float: left;
+    padding: 0 5px; }
+    .nav--item:first-child {
+      border: 0;
+      padding-left: 0; }
