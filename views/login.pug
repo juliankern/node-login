@@ -1,15 +1,17 @@
 extends ../templates/layout.pug
 
 block content
-    form(method="post", id="login")
-        .form-field
-            input(type="email", name="email", placeholder= __('global.email:E-Mail')+'*', required, autocomplete="off")
-        .form-field
-            input(type="password", name="pass", placeholder=__('global.pass:Passwort')+'*', required, autocomplete="off")
-        .form-field
+    form(method="post", id="login").form
+        .form--field
+            label(for="email")= __('global.email:E-Mail')+'*'
+            input(type="email", id="email", name="email", placeholder= __('global.email:E-Mail'), required, autocomplete="off")
+        .form--field
+            label(for="pass")= __('global.pass:Passwort')+'*'
+            input(type="password", od="pass", name="pass", placeholder=__('global.pass:Passwort'), required, autocomplete="off")
+        .form--field
             input(type="checkbox", name="remember", id="remember")
             label(for="remember")= __('view.login.remember:Eingeloggt bleiben')
-        .form-field
+        .form--field
             a(href="/forgot")= __('view.login.forgot:Passwort vergessen?')
-        .form-field
-            button(type="submit")= __('view.login.submit:Login!')
+        .form--field
+            button(type="submit").btn__primary= __('view.login.submit:Login!')

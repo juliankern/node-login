@@ -1,9 +1,17 @@
 extends ../templates/layout.pug
 
 block content
-    form(method="post")
-        input(value=formdata ? formdata.email : false, type="email", name="email", placeholder=__('global.email:E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
-        input(value=formdata ? formdata.username : false, type="text", name="username", placeholder=__('global.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
-        input(type="password", name="pass", placeholder=__('global.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
-        input(type="password", name="pass2", placeholder=__('global.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
-        button(type="submit")= __('view.register.submit:Registrieren!')
+    form(method="post").form
+        .form--field
+            label(for="email")= __('global.email:E-Mail')
+            input(value=formdata ? formdata.email : false, type="email", id="email", name="email", placeholder=__('global.email:E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
+        .form--field
+            label(for="username")= __('global.username:Benutzername')
+            input(value=formdata ? formdata.username : false, type="text", id="username", name="username", placeholder=__('global.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
+        .form--field
+            label(for="email")= __('global.pass:Passwort')
+            input(type="password", id="pass", name="pass", placeholder=__('global.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+        .form--field
+            label(for="email")= __('global.pass2:Passwort Wiederholung')
+            input(type="password", id="pass2", name="pass2", placeholder=__('global.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+        button(type="submit").btn__primary= __('view.register.submit:Registrieren!')

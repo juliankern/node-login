@@ -1,40 +1,38 @@
 extends ../templates/layout.pug
 
 block content
-    form(method="post")
+    form(method="post").form
         input(value=victim.id, type="hidden", name="userId")
-        table
-            tr
-                td= __('global.email:E-Mail')
-                td
-                    input(value=victim.email, type="email", name="email", placeholder=__('global.email:E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
-            tr
-                td= __('global.username:Benutzername')
-                td
-                    input(value=victim.username, type="text", name="username", placeholder=__('global.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
-                        
-            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
-                tr
-                    td= newUser ? __('global.pass:Passwort') : __('view.settings.password.change:Passwort (nur eingeben wenn Änderung gewünscht)')
-                    td
-                        input(type="password", name="pass", placeholder=__('global.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
-                tr
-                    td= __('global.pass2:Passwort Wiederholung')
-                    td
-                        input(type="password", name="pass2", placeholder=__('global.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+        
+        .form--field
+            label(for="email")= __('global.email:E-Mail')
+            input(value=victim.email, type="email", id="email", name="email", placeholder=__('global.email:E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
 
-            if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.role')) || newUser && user.hasRight('user.create.role')
-                tr
-                    td= __('global.role:Rolle')
-                    td
-                        select(name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
-                            each r, id in roles 
-                                if !r.secret || (r.secret && user._roleId === +id)
-                                    option(value=id, selected=(victim._roleId === +id))= __('roles.' + r.name + ':' + r.name)
+        .form--field
+            label(for="username")= __('global.username:Benutzername')
+            input(value=victim.username, type="text", id="username", name="username", placeholder=__('global.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
+        
+        if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
+            .form--field
+                label(for="email")= newUser ? __('global.pass:Passwort') : __('view.settings.password.change:Passwort (nur eingeben wenn Änderung gewünscht)')
+                input(type="password", id="pass", name="pass", placeholder=__('global.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+
+            .form--field
+                label(for="pass2")= __('global.pass2:Passwort Wiederholung')
+                input(type="password", id="pass2", name="pass2", placeholder=__('global.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+
+        if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.role')) || newUser && user.hasRight('user.create.role')
+            .form--field
+                label(for="role")= __('global.role:Rolle')
+                select(id="role", name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
+                    each r, id in roles 
+                        if !r.secret || (r.secret && user._roleId === +id)
+                            option(value=id, selected=(victim._roleId === +id))= __('roles.' + r.name + ':' + r.name)
 
         if newUser
-            input(type="checkbox", name="sendmail", id="sendmail")
-            label(for="sendmail")= __('view.settings.sendmail:Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken')
+            .form--field
+                input(type="checkbox", name="sendmail", id="sendmail")
+                label(for="sendmail")= __('view.settings.sendmail:Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken')
             
 
-        button(type="submit")= __('global.save:Speichern!')
+        button(type="submit").btn__primary= __('global.save:Speichern!')

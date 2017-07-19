@@ -1,3 +1,15 @@
+html,
+body {
+  font-size: 1rem;
+  color: #333; }
+
+a {
+  color: #3060ff;
+  text-decoration: none; }
+  a:hover {
+    color: #174cff;
+    text-decoration: underline; }
+
 .msg {
   border: 1px solid black;
   border-radius: 5px;
@@ -20,8 +32,56 @@
 .pull-left {
   float: left; }
 
-.form-vertical input {
-  display: block; }
+.form--field {
+  padding: .5rem 0; }
+  .form--field label {
+    display: block; }
+    .form--field label::after {
+      content: ":"; }
+  .form--field input[type="text"],
+  .form--field input[type="password"],
+  .form--field input[type="email"],
+  .form--field input[type="search"],
+  .form--field input[type="date"],
+  .form--field input[type="number"] {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 5px; }
+    .form--field input[type="text"]:focus,
+    .form--field input[type="password"]:focus,
+    .form--field input[type="email"]:focus,
+    .form--field input[type="search"]:focus,
+    .form--field input[type="date"]:focus,
+    .form--field input[type="number"]:focus {
+      outline: 0;
+      box-shadow: 0 0 5px rgba(50, 50, 255, 0.5); }
+  .form--field input + label {
+    display: inline-block; }
+    .form--field input + label::after {
+      content: none; }
+
+.btn, .btn__primary {
+  padding: .5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background: #e6e6e6;
+  cursor: pointer;
+  color: #000; }
+  .btn:focus, .btn__primary:focus {
+    outline: 0;
+    box-shadow: 0 0 5px rgba(50, 50, 255, 0.5); }
+  .btn:active, .btn__primary:active {
+    border-color: #bfbfbf;
+    background: #d9d9d9;
+    color: #000; }
+  .btn__primary {
+    border-color: #3060ff;
+    background: #6387ff;
+    color: #fff; }
+    .btn__primary:active {
+      border-color: #174cff;
+      background: #4a74ff;
+      color: #fff; }
 
 nav {
   overflow: hidden; }
