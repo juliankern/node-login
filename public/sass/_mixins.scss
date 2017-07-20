@@ -10,3 +10,19 @@
         color: #fff; // Darker background, return light color
     }
 }
+
+@mixin hover {
+    &:hover { @content }
+}
+
+@mixin hover-focus {
+    @if $enable-hover-media-query {
+        &:focus { @content }
+        @include hover { @content }
+    } @else {
+        &:focus,
+        &:hover {
+            @content
+        }
+    }
+}

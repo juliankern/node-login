@@ -17,7 +17,7 @@ module.exports = {
                 }
 
                 if (typeof args === 'function') {
-                    args(module, moduleFunc, path.basename(file));
+                    args(module, moduleFunc, file);
                 } else {
                     module(args);
                 }

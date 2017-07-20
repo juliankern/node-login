@@ -1,11 +1,11 @@
-var user = require('../controllers/user.js');
-var mail = require('../controllers/mail.js');
-var security = require('../controllers/security');
+var user = require('../../controllers/user.js');
+var mail = require('../../controllers/mail.js');
+var security = require('../../controllers/security');
 
 module.exports = ['/:code', (base, code) => {
     base
         .get((req, res) => {
-            res.render('forgot', {
+            res.render('forgot/template', {
                 headline: res.__('route.forgot.headline:Passwort vergessen')
             });
         })
@@ -42,7 +42,7 @@ module.exports = ['/:code', (base, code) => {
                 });
             }
             
-            res.render('forgot', {
+            res.render('forgot/template', {
                 headline: res.__('route.forgot.headline:Passwort vergessen'),
                 step2: true
             });

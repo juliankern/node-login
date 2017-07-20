@@ -6,7 +6,7 @@ module.exports = (router) => {
     // loads all subroutes in this directory
     require('../utils/loader.js').load(__dirname, (options, module, filename) => {
         routes = [];
-        routeName = filename.replace(/\.js/, '');
+        routeName = filename.split('/').splice(-2, 1);
         routes.push(router.route(i18n.__l('path.' + routeName + '.base:' + routeName).map((r) => { return '/' + r; })));
         // console.log('routelist', i18n.__l('path.' + routeName + '.base:' + routeName).map((r) => { return '/' + r; }));
         
@@ -18,6 +18,6 @@ module.exports = (router) => {
     });
 
     router.get('/', (req, res) => {
-        res.render('index', { headline: res.__('route.index.headline:Hauptseite') });
+        res.render('index/template', { headline: res.__('route.index.headline:Hauptseite') });
     });
 }

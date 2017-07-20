@@ -1,5 +1,5 @@
-var user = require('../controllers/user.js');
-var mail = require('../controllers/mail.js');
+var user = require('../../controllers/user.js');
+var mail = require('../../controllers/mail.js');
 
 module.exports = (route) => {
     route
@@ -11,7 +11,7 @@ module.exports = (route) => {
                 });
             }
 
-            res.render('register', { headline: res.__('route.register.headline:Registrierung') });
+            res.render('register/template', { headline: res.__('route.register.headline:Registrierung') });
         })
         .post(async (req, res) => {
             var userdata = await user.validate(req.body);

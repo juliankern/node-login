@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build-sass": "node-sass public/sass/style.scss public/css/style.css",
-        "watch-sass": "nodemon -e scss --watch public/sass/* -x \"npm run build-sass\"",
+        "watch-sass": "nodemon -e scss --watch public/sass/* --watch views/**/* --ignore public/sass/views.scss -x \"node bin/concatScss.js && npm run build-sass\"",
         "watch": "nodemon --ignore 'locales/*.json' -e js,json bin/server.js & npm run watch-sass",
         "start": "npm run watch"
     },
@@ -26,6 +26,7 @@
     "dependencies": {
         "bcrypt": "^1.0.2",
         "body-parser": "^1.17.2",
+        "concat": "^1.0.3",
         "connect-flash": "^0.1.1",
         "cookie-parser": "^1.4.3",
         "dotenv": "^4.0.0",

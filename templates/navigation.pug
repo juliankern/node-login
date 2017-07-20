@@ -2,8 +2,7 @@ nav
     ul.nav
         li.nav--item
             a(href="/")= __('route.index.headline:Hauptseite')
-        li.nav--item
-            a(href="/restricted") Restricted
+                
         if !isLoggedin
             li.nav--item
                 a(href="/"+__('path.login.base:login'))= __('route.login.headline:Login')

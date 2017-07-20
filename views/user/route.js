@@ -1,12 +1,12 @@
-var user = require('../controllers/user.js');
-var security = require('../controllers/security');
+var user = require('../../controllers/user.js');
+var security = require('../../controllers/security');
 
 module.exports = ['/new', '/:username', (base, newUser, username) => {
     base
         .get(
             security.isLoggedin, 
         async (req, res) => {
-            res.render('userlist', { 
+            res.render('userlist/template', { 
                 headline: res.__('route.user.list.headline:Benutzer'),
                 users: await user.get() 
             });
@@ -17,7 +17,7 @@ module.exports = ['/new', '/:username', (base, newUser, username) => {
             security.isLoggedin, 
             security.hasRight('user.create'), 
         async (req, res) => {
-            res.render('settings', { 
+            res.render('settings/template', { 
                 headline: res.__('route.user.new.headline:Neuen Benutzer anlegen'),
                 victim: {},
                 newUser: true
@@ -30,7 +30,7 @@ module.exports = ['/new', '/:username', (base, newUser, username) => {
         async (req, res) => {
             var victim = await user.get(req.params.username);
 
-            res.render('profile', { 
+            res.render('profile/template', { 
                 headline: res.__('route.user.profile.headline:Profil von %s', victim.username),
                 victim 
             });

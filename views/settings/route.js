@@ -1,5 +1,5 @@
-var user = require('../controllers/user.js');
-var security = require('../controllers/security');
+var user = require('../../controllers/user.js');
+var security = require('../../controllers/security');
 
 module.exports = ['/:username', (base, username) => {
     base
@@ -14,7 +14,7 @@ module.exports = ['/:username', (base, username) => {
                 });
             }
 
-            res.render('settings', {
+            res.render('settings/template', {
                 headline: res.__('route.settings.headline:Einstellungen'),
                 victim: req.user
             });
@@ -90,7 +90,7 @@ module.exports = ['/:username', (base, username) => {
                 });
             }
 
-            res.render('settings', {
+            res.render('settings/template', {
                 headline: res.__('route.settings.user.headline:Einstellungen für %s', victim.username),
                 victim
             });

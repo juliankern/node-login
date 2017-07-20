@@ -85,7 +85,7 @@ app.use((req, res, next) => {
     next();
 });
 
-require('../routes')(router);
+require('../views')(router);
 app.use(router);
 
 app.listen(3000, () => {

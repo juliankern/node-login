@@ -1,10 +1,10 @@
-var user = require('../controllers/user.js');
-var security = require('../controllers/security');
+var user = require('../../controllers/user.js');
+var security = require('../../controllers/security');
 
 module.exports = ['/:code', (base, code) => {
     base
         .get((req, res) => {
-            res.render('activate', { headline: res.__('route.activate.headline:Aktivierung') });
+            res.render('activate/template', { headline: res.__('route.activate.headline:Aktivierung') });
         })
         .post((req, res) => {
             if (!req.body.code) {

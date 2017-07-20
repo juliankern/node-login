@@ -1,25 +1,7 @@
 @import "settings";
 @import "mixins";
 
-html {
-
-}
-
-html, 
-body {
-    font-size: 1rem;
-    color: #333;
-}
-
-a {
-    color: map-get($colors, primary);
-    text-decoration: none;
-
-    &:hover {
-        color: darken(map-get($colors, primary), 5%);
-        text-decoration: underline;
-    }
-}
+@import "reboot";
 
 .msg {
     border: 1px solid black;
@@ -56,3 +38,5 @@ a {
 @import "form";
 @import "button";
 @import "nav";
+
+@import "views";
