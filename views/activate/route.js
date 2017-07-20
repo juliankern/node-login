@@ -1,5 +1,5 @@
-var user = require('../../controllers/user.js');
-var security = require('../../controllers/security');
+var user = global.req('controllers/user');
+var security = global.req('controllers/security');
 
 module.exports = ['/:code', (base, code) => {
     base

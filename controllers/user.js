@@ -1,12 +1,12 @@
-const config = require('../config.json');
+const config = global.req('config.json');
 
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 
-var validator = require('../utils/validation.js');
-var security = require('../controllers/security');
+var validator = global.req('utils/validation');
+var security = global.req('controllers/security');
 
-var User = require('../models/user.js');
+var User = global.req('models/user.js');
 
 async function getCode(fieldname) {
     var code;

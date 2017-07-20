@@ -1,5 +1,5 @@
-var user = require('../../controllers/user.js');
-var mail = require('../../controllers/mail.js');
+var user = global.req('controllers/user.js');
+var mail = global.req('controllers/mail.js');
 
 module.exports = (route) => {
     route

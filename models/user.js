@@ -1,6 +1,6 @@
-var validator = require('../utils/validation.js');
+var validator = global.req('utils/validation');
 var mongoose = require('mongoose');
-var config = require('../config.json');
+var config = global.req('config.json');
 
 var schema = new mongoose.Schema({ 
     username: {

@@ -1,5 +1,7 @@
 var config = require('../config.json');
+var chalk = require('chalk');
 
+var path = require('path');
 var express = require('express');
 var flash = require('connect-flash');
 var app = express();
@@ -7,14 +9,34 @@ var router = express.Router();
 
 var moment = require('moment');
 var mongoose = require('mongoose');
-var i18n = require("i18n");
+var i18n = require('i18n');
+
+global.log = (arg1, ...args) => {
+    console.log(chalk.bold.white(arg1), ...args);
+}
+
+global.success = (arg1, ...args) => {
+    console.log(chalk.bold.green('> ' + arg1), ...args);
+}
+
+global.err = (arg1, ...args) => {
+    console.log(chalk.bold.red('>> ' + arg1), ...args);
+}
+
+global.req = (modulepath) => {
+    return require(path.resolve('./', modulepath));   
+}
+
+log('');
+log('');
+log('Application starting...');
 
 require('dotenv').load();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame').then(
-  () => { console.log('> Connection to DB successful'); },
-  (err) => { console.error('>> Connection to DB failed!', err); process.exit(0); }
+mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame', { useMongoClient: true }).then(
+  () => { success('Connection to DB successful'); },
+  (err) => { err('Connection to DB failed!', err); process.exit(0); }
 );
 
 
@@ -36,7 +58,7 @@ app.use(require('cookie-parser')());
 app.use(express.static('public'));
 app.use(require('body-parser').urlencoded({ extended: false }));
 
-require('../controllers/security').init(app);
+req('controllers/security').init(app);
 
 app.use(flash());
 
@@ -70,6 +92,9 @@ app.use((req, res, next) => {
         toNow: (date, skipPrefix) => { return moment(date).toNow(skipPrefix); }
     }
 
+    res.locals.paths = {};
+    res.locals.paths.template = '../../templates';
+
     res.locals.roles = config.roles;
     res.locals.locales = config.locale.list;
 
@@ -85,9 +110,9 @@ app.use((req, res, next) => {
     next();
 });
 
-require('../views')(router);
+req('views')(router);
 app.use(router);
 
 app.listen(3000, () => {
-    console.log('> login-frame listening on port 3000!');
+    success('App listening on port 3000');
 });

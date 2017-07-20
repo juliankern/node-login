@@ -16,6 +16,8 @@ module.exports = (router) => {
 
         module(...routes);
     });
+    
+    global.success('All routes loaded');
 
     router.get('/', (req, res) => {
         res.render('index/template', { headline: res.__('route.index.headline:Hauptseite') });
