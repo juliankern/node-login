@@ -13,6 +13,13 @@ module.exports = {
         app.use(passport.initialize());
         app.use(passport.session());
 
+        app.use(require('express-session')({
+            secret: 'keyboard cat',
+            cookie: app.get('env') === 'production' ? { secure: true } : {},
+            saveUninitialized: false,
+            resave: true
+        }));
+
         passport.use(new LocalStrategy({
                 usernameField: 'email',
                 passwordField: 'pass'

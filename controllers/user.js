@@ -8,6 +8,15 @@ var security = global.req('controllers/security');
 
 var User = global.req('models/user.js');
 
+/**
+ * generate a code, and check if its used already
+ *
+ * @author Julian Kern <julian.kern@dmc.de>
+ *
+ * @param  {string} fieldname Field, where the code will be used
+ *
+ * @return {string}           Code which isn't in use yet
+ */
 async function getCode(fieldname) {
     var code;
     var find = {};
@@ -24,9 +33,27 @@ async function getCode(fieldname) {
 }
 
 module.exports = {
+    /**
+     * find specific user
+     *
+     * @author Julian Kern <julian.kern@dmc.de>
+     *
+     * @param  {object} conditions Array of objects for OR handling or object for AND
+     *
+     * @return {Promise}           Promise returning the found User
+     */
     find: async (conditions) => {
         return await User.findOne().or(conditions);
     },
+    /**
+     * Sets the passwordPrequestCode on the victom
+     *
+     * @author Julian Kern <julian.kern@dmc.de>
+     *
+     * @param  {object} victim Victom to start the request
+     *
+     * @return {Promise}       Promise returning the user
+     */
     passwordRequest: async (victim) => {
         var passwordRequestCode = await getCode('passwordRequestCode');
         victim.passwordRequestCode = passwordRequestCode;
@@ -35,6 +62,15 @@ module.exports = {
            if (err) { console.log('user passwordRequest error:', err); } 
         });
     },
+    /**
+     * Sets a user as confirmed
+     *
+     * @author Julian Kern <julian.kern@dmc.de>
+     *
+     * @param  {string} code The confirmation code
+     *
+     * @return {Promise}     Promise returning the just confirmed user
+     */
     confirm: async (code) => {
         var user = await User.findOne({ confirmationCode: code, confirmed: false });
         
@@ -49,6 +85,17 @@ module.exports = {
            if (err) { console.log('user confirm error:', err); } 
         });
     },
+    /**
+     * Validate userdata
+     *
+     * @author Julian Kern <julian.kern@dmc.de>
+     *
+     * @param  {object} data    Form data
+     * @param  {object} options Options for the check. Currently possible:
+     *                          - check: {Array}    containing the field names which should definitely be checked, even if not set
+     *
+     * @return {object}         Object containung the original data and errors if occured
+     */
     validate: async (data, options) => {
         var errors = [];
         
@@ -92,6 +139,15 @@ module.exports = {
 
         return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
     },
+    /**
+     * Creates new user
+     *
+     * @author Julian Kern <julian.kern@dmc.de>
+     *
+     * @param  {object} data Userdata for the new user
+     *
+     * @return {Promise}     Promise returning the created user
+     */
     new: async (data) => {
         var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
         var confirmationCode = await getCode('confirmationCode');
@@ -107,6 +163,16 @@ module.exports = {
             console.log('user save error:', err);
         });
     },
+    /**
+     * Update specific user with data
+     *
+     * @author Julian Kern <julian.kern@dmc.de>
+     *
+     * @param  {string} userId User ID of the to-be-updated user
+     * @param  {object} data   Userdata to be updated
+     *
+     * @return {Promise}       Promise returning the updated user
+     */
     update: async (userId, data) => {
         if (data.pass) {
             data.pass = await bcrypt.hash(data.pass, config.security.saltRounds);
@@ -116,6 +182,15 @@ module.exports = {
             console.log('user update error:', err);
         });
     },
+    /**
+     * Get a specific user or a userlist
+     *
+     * @author Julian Kern <julian.kern@dmc.de>
+     *
+     * @param  {string} username Optional. ID of the user to be returned
+     *
+     * @return {Promise}         Promise returning the user or an array of users
+     */
     get: async (username) => {
         if (!username) {
             return await User.find(); // show all for debug

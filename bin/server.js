@@ -10,17 +10,22 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var i18n = require('i18n');
 
+// add global functions
 Object.assign(global, {
     req: (modulepath) => {
+        // custom require to handle relative paths from project root
         return require(path.resolve('./', modulepath));   
     },
     success: (arg1, ...args) => {
+        // custom success logger with fancy arrows and green color
         console.log(chalk.bold.green('> ' + arg1), ...args);
     },
     log: (arg1, ...args) => {
-        console.log(chalk.bold.white(arg1), ...args);
+        // custom info logger with color
+        console.log(chalk.bold.cyan(arg1), ...args);
     },
     err: (arg1, ...args) => {
+        // custom error logger with red color
         console.log(chalk.bold.red('>> ' + arg1), ...args);
     }
 });
@@ -37,7 +42,6 @@ mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame', { use
   (err) => { err('Connection to DB failed!', err); process.exit(0); }
 );
 
-
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
 }
@@ -45,17 +49,11 @@ if (app.get('env') === 'production') {
 app.set('view engine', 'pug');
 app.set('views', './views');
 
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    cookie: app.get('env') === 'production' ? { secure: true } : {},
-    saveUninitialized: false,
-    resave: true
-}))
-
 app.use(require('cookie-parser')());
 app.use(express.static('public'));
 app.use(require('body-parser').urlencoded({ extended: false }));
 
+// init security features here
 req('controllers/security').init(app);
 
 app.use(require('connect-flash')());
@@ -72,8 +70,10 @@ i18n.configure({
     queryParameter: 'lang'
 });
 
-
 app.use((req, res, next) => {
+    // handle some app specific data
+    
+    // add error/siccess/info messages to templates 
     res.locals.messages = {
         success: req.flash('success'),
         info: req.flash('info'),
@@ -82,39 +82,41 @@ app.use((req, res, next) => {
 
     console.log('Request:', req.path);
 
-    res.locals.formdata = req.flash('form')[0];
+    // add login check to templates
     res.locals.isLoggedin = req.isAuthenticated();
+    // add userdata to templates
     res.locals.user = req.user;
+    // add date handling functions to userdata
     res.locals.date = {
         fromNow: (date, skipSuffix) => { return moment(date).fromNow(skipSuffix); },
         toNow: (date, skipPrefix) => { return moment(date).toNow(skipPrefix); }
     }
 
-    res.locals.paths = {};
-    res.locals.paths.template = '../../templates';
-
+    // add role data to templates
     res.locals.roles = config.roles;
+    // add locale list to templates
     res.locals.locales = config.locale.list;
 
+    // write locale to cookie if changed by user
     if (req.query.lang) {
         res.cookie(config.locale.cookiename, req.query.lang);
         i18n.setLocale(req.query.lang);
     }
 
+    // add formdata to templates 
+    res.locals.formdata = req.flash('form')[0];
+    // add error fields to templates
     if (res.locals.messages.error && res.locals.messages.error.length > 0) {
         res.locals.fields = [];
         res.locals.messages.error.forEach((err) => {
             res.locals.fields = res.locals.fields.concat(err.fields);
         });
     }
-
-    // if (res.locals.isLoggedin) {
-    //     console.log('- Current user:', req.user);
-    // }
     
     next();
 });
 
+// load all routes here
 req('views')(router);
 app.use(router);
 
