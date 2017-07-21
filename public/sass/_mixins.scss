@@ -1,6 +1,11 @@
 @mixin global-focus {
-    outline: 0;
-    box-shadow: 0 0 5px rgba(50, 50, 255, 0.5);
+    transition: box-shadow .5s;
+    box-shadow: 0 0 0 transparent;
+
+    &:focus {
+        outline: 0;
+        box-shadow: 0 0 5px color(primary);
+    }
 }
 
 @mixin contrastText($color) {
@@ -11,18 +16,13 @@
     }
 }
 
-@mixin hover {
-    &:hover { @content }
+@mixin hover-focus {
+    &:focus,
+    &:hover {
+        @content;
+    }
 }
 
-@mixin hover-focus {
-    @if $enable-hover-media-query {
-        &:focus { @content }
-        @include hover { @content }
-    } @else {
-        &:focus,
-        &:hover {
-            @content
-        }
-    }
+@mixin hover {
+    &:hover { @content; }
 }

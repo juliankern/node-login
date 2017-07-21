@@ -128,5 +128,21 @@
 		"en": {
 			"name": "English"
 		}
+	},
+	"user": {
+		"validate": {
+			"username": {
+				"length": "Der Benutzername muss mindestens fünf Zeichen haben",
+				"empty": "Bitte geben Sie einen Benutzernamen an"
+			},
+			"email": {
+				"valid": "Bitte geben Sie eine valide E-Mail Adresse an!",
+				"empty": "Bitte geben Sie einen E-Mail Adresse an"
+			},
+			"password": {
+				"length": "Das Passwort muss mindestens sechs Zeichen haben",
+				"valid": "Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!"
+			}
+		}
 	}
 }

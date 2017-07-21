@@ -7,13 +7,6 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin, 
             security.hasRight('user.edit.own'), 
         (req, res) => {
-            if (res.locals.messages.error && res.locals.messages.error.length > 0) {
-                res.locals.fields = [];
-                res.locals.messages.error.forEach((err) => {
-                    res.locals.fields = res.locals.fields.concat(err.fields);
-                });
-            }
-
             res.render('settings/template', {
                 headline: res.__('route.settings.headline:Einstellungen'),
                 victim: req.user
@@ -76,18 +69,10 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin,
             security.hasRight('user.edit.all'), 
         async (req, res) => {
-            // TODO - not done or tested yet
             var victim = await user.get(req.params.username);
 
             if (await req.user.isEqual(victim)) {
                 return res.redirect('/' + res.__('path.settings.base:settings'));
-            }
-
-            if (res.locals.messages.error && res.locals.messages.error.length > 0) {
-                res.locals.fields = [];
-                res.locals.messages.error.forEach((err) => {
-                    res.locals.fields = res.locals.fields.concat(err.fields);
-                });
             }
 
             res.render('settings/template', {

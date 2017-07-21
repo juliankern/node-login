@@ -34,22 +34,17 @@ module.exports = ['/:code', (base, code) => {
         });
 
     code
-        .get(async (req, res) => {
-            if (res.locals.messages.error && res.locals.messages.error.length > 0) {
-                res.locals.fields = [];
-                res.locals.messages.error.forEach((err) => {
-                    res.locals.fields = res.locals.fields.concat(err.fields);
-                });
-            }
-            
+        .get(async (req, res) => {            
             res.render('forgot/template', {
                 headline: res.__('route.forgot.headline:Passwort vergessen'),
                 step2: true
             });
         })
         .post(async (req, res) => {
-            req.body.pass = req.body.pass || ' '; // ensure ists filled and gets checked
-            var userdata = await user.validate(req.body);
+            // definitely check pass here, as it needs to be filled
+            var userdata = await user.validate(req.body, {
+                check: 'pass'
+            });
             
             if(userdata.errors) {
                 userdata.errors.forEach((err) => {

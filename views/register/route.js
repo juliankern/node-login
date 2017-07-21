@@ -4,17 +4,17 @@ var mail = global.req('controllers/mail.js');
 module.exports = (route) => {
     route
         .get((req, res) => {
-            if (res.locals.messages.error && res.locals.messages.error.length > 0) {
-                res.locals.fields = [];
-                res.locals.messages.error.forEach((err) => {
-                    res.locals.fields = res.locals.fields.concat(err.fields);
-                });
-            }
-
             res.render('register/template', { headline: res.__('route.register.headline:Registrierung') });
         })
         .post(async (req, res) => {
-            var userdata = await user.validate(req.body);
+            // definitely check all fields, as they need to be filled
+            var userdata = await user.validate(req.body, {
+                check: [
+                    'username',
+                    'email',
+                    'pass'
+                ]
+            });
 
             if(userdata.errors) {
                 userdata.errors.forEach((err) => {

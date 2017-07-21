@@ -49,42 +49,42 @@ module.exports = {
            if (err) { console.log('user confirm error:', err); } 
         });
     },
-    validate: async (data) => {
+    validate: async (data, options) => {
         var errors = [];
         
-        if (data.username && data.username == '') {
+        if ((data.username || options.check.includes('username')) && data.username == '') {
             errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.empty:Bitte geben Sie einen Benutzernamen an' });
         }
         
-        if (data.username && data.username.length < 5) {
+        if ((data.username || options.check.includes('username')) && data.username.length < 5) {
             errors.push({ fields: ['pass'], messageTranslate: 'user.validate.username.length:Der Benutzername muss mindestens fünf Zeichen haben' });
         }
 
-        if (data.username && (await User.find({ username: data.username })).length > 0) {
+        if ((data.username || options.check.includes('username')) && (await User.find({ username: data.username })).length > 0) {
             errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.used:Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen' }); 
         }
 
-        if (data.email && data.email == '') {
+        if ((data.email || options.check.includes('email')) && data.email == '') {
             errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.empty:Bitte geben Sie einen E-Mail Adresse an' });
         }
 
-        if (data.email && !validator.email(data.email)) {
+        if ((data.email || options.check.includes('email')) && !validator.email(data.email)) {
             errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.valid:Bitte geben Sie eine valide E-Mail Adresse an!' });
         }
 
-        if (data.email && (await User.find({ email: data.email })).length > 0) {
+        if ((data.email || options.check.includes('email')) && (await User.find({ email: data.email })).length > 0) {
             errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.used:Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein' }); 
         }
         
-        if (data.pass && data.pass !== data.pass2) {
+        if ((data.pass || options.check.includes('pass')) && data.pass !== data.pass2) {
             errors.push({ fields: ['pass', 'pass2'], messageTranslate: 'user.validate.password.repeat:Das Passwort stimmt nicht mit der Wiederholung überein' });
         }
         
-        if (data.pass && data.pass.length < 6) {
+        if ((data.pass || options.check.includes('pass')) && data.pass.length < 6) {
             errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.length:Das Passwort muss mindestens sechs Zeichen haben' });
         }
 
-        if (data.pass && !validator.password(data.pass)) {
+        if ((data.pass || options.check.includes('pass')) && !validator.password(data.pass)) {
             errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.valid:Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!' });
         }
 

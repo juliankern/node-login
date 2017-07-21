@@ -3,7 +3,6 @@ var chalk = require('chalk');
 
 var path = require('path');
 var express = require('express');
-var flash = require('connect-flash');
 var app = express();
 var router = express.Router();
 
@@ -11,21 +10,20 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var i18n = require('i18n');
 
-global.log = (arg1, ...args) => {
-    console.log(chalk.bold.white(arg1), ...args);
-}
-
-global.success = (arg1, ...args) => {
-    console.log(chalk.bold.green('> ' + arg1), ...args);
-}
-
-global.err = (arg1, ...args) => {
-    console.log(chalk.bold.red('>> ' + arg1), ...args);
-}
-
-global.req = (modulepath) => {
-    return require(path.resolve('./', modulepath));   
-}
+Object.assign(global, {
+    req: (modulepath) => {
+        return require(path.resolve('./', modulepath));   
+    },
+    success: (arg1, ...args) => {
+        console.log(chalk.bold.green('> ' + arg1), ...args);
+    },
+    log: (arg1, ...args) => {
+        console.log(chalk.bold.white(arg1), ...args);
+    },
+    err: (arg1, ...args) => {
+        console.log(chalk.bold.red('>> ' + arg1), ...args);
+    }
+});
 
 log('');
 log('');
@@ -60,7 +58,7 @@ app.use(require('body-parser').urlencoded({ extended: false }));
 
 req('controllers/security').init(app);
 
-app.use(flash());
+app.use(require('connect-flash')());
 
 app.use(i18n.init);
 i18n.configure({
@@ -101,6 +99,13 @@ app.use((req, res, next) => {
     if (req.query.lang) {
         res.cookie(config.locale.cookiename, req.query.lang);
         i18n.setLocale(req.query.lang);
+    }
+
+    if (res.locals.messages.error && res.locals.messages.error.length > 0) {
+        res.locals.fields = [];
+        res.locals.messages.error.forEach((err) => {
+            res.locals.fields = res.locals.fields.concat(err.fields);
+        });
     }
 
     // if (res.locals.isLoggedin) {

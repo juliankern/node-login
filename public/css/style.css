@@ -299,18 +299,23 @@ template {
   .form--field input[type="email"],
   .form--field input[type="search"],
   .form--field input[type="date"],
-  .form--field input[type="number"] {
+  .form--field input[type="number"],
+  .form--field select {
     border: 1px solid #ccc;
     border-radius: 2px;
-    padding: 5px; }
+    padding: 5px;
+    width: 250px;
+    transition: box-shadow .5s;
+    box-shadow: 0 0 0 transparent; }
     .form--field input[type="text"]:focus,
     .form--field input[type="password"]:focus,
     .form--field input[type="email"]:focus,
     .form--field input[type="search"]:focus,
     .form--field input[type="date"]:focus,
-    .form--field input[type="number"]:focus {
+    .form--field input[type="number"]:focus,
+    .form--field select:focus {
       outline: 0;
-      box-shadow: 0 0 5px rgba(50, 50, 255, 0.5); }
+      box-shadow: 0 0 5px #3060ff; }
   .form--field input + label {
     display: inline-block; }
     .form--field input + label::after {
@@ -324,8 +329,11 @@ template {
   cursor: pointer;
   color: #000; }
   .btn:focus, .btn__primary:focus {
-    outline: 0;
-    box-shadow: 0 0 5px rgba(50, 50, 255, 0.5); }
+    transition: box-shadow .5s;
+    box-shadow: 0 0 0 transparent; }
+    .btn:focus:focus, .btn__primary:focus:focus {
+      outline: 0;
+      box-shadow: 0 0 5px #3060ff; }
   .btn:active, .btn__primary:active {
     border-color: #bfbfbf;
     background: #d9d9d9;

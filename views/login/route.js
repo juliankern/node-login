@@ -13,21 +13,21 @@ module.exports = (route) => {
                 
                 req.logIn(user, function(err) {
                     if (err) { return next(err); }
-                    return res.redirect('/');
+
+                    if (req.body.remember) {
+                        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+                    } else {
+                        req.session.cookie.expires = false; // Cookie expires at end of session
+                    }
+                    
+                    global.log('redirect set?', req.query.redirect, decodeURIComponent(req.query.redirect));
+
+                    if (req.query.redirect) {
+                        res.redirect(decodeURIComponent(req.query.redirect).replace(/http(s*):\/\//g, ''));
+                    } else {
+                        res.redirect('/');
+                    }
                 });
             })(req, res, next)
-        }, 
-        (req, res) => {
-            if (req.body.remember) {
-                req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
-            } else {
-                req.session.cookie.expires = false; // Cookie expires at end of session
-            }
-            
-            if (req.query.redirect) {
-                res.redirect(decodeURIComponent(req.query.redirect));
-            } else {
-                res.redirect('/');
-            }
         });
-}
+};
