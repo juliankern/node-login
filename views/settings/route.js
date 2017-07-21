@@ -35,7 +35,6 @@ module.exports = ['/:username', (base, username) => {
             delete req.body.role;
 
             var userdata = await user.validate(req.body); 
-            console.log('user save', userdata);
 
             if(userdata.errors) {
                 userdata.errors.forEach((err) => {
@@ -59,9 +58,7 @@ module.exports = ['/:username', (base, username) => {
                 }
 
                 res.redirect('/' + res.__('path.settings.base:settings'));
-            }
-
-            console.log('save settings', req.user, userdata);
+            };
         });
 
     username
@@ -105,7 +102,6 @@ module.exports = ['/:username', (base, username) => {
             delete req.body.role;
 
             var userdata = await user.validate(req.body); 
-            console.log('user save', userdata);
 
             if(userdata.errors) {
                 userdata.errors.forEach((err) => {
@@ -130,7 +126,5 @@ module.exports = ['/:username', (base, username) => {
 
                 res.redirect('/' + res.__('path.settings.base:settings') + '/' + victim.username);
             }
-
-            console.log('save settings', victim, userdata);
         });
 }]

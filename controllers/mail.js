@@ -24,7 +24,7 @@ Falls dieser Link nicht funkioniert, gebe bitte diesen Aktivierungscode (ohne An
 %2$s/activate<br /><br />
 Danke für deine Registrierung!`, data.username, config.url, data.confirmationCode) // html body
         }).catch((error) => {
-            if (error) { return console.log(error); }
+            if (error) { return global.error('New user mail failed_ ', error); }
         });
     },
     passwordRequest: (res, data) => {
@@ -36,7 +36,7 @@ Danke für deine Registrierung!`, data.username, config.url, data.confirmationCo
 Um deinen Passwort zurück zu setzen, klicke bitte <a href="%s/forgot/%s">hier</a>!<br />
 Falls dieser Link nicht funkioniert, kopiere ihn bitte in deinen Browser: %2$s/forgot/%3$s<br /><br />`, data.username, config.url, data.passwordRequestCode) // html body
         }).catch((error) => {
-            if (error) { return console.log(error); }
+            if (error) { return global.error('Password request mail failed_ ', error); }
         });
     }
 }

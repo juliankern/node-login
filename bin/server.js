@@ -7,8 +7,9 @@ var app = express();
 var router = express.Router();
 
 var moment = require('moment');
-var mongoose = require('mongoose');
 var i18n = require('i18n');
+var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 // add global functions
 Object.assign(global, {
@@ -24,7 +25,7 @@ Object.assign(global, {
         // custom info logger with color
         console.log(chalk.bold.cyan(arg1), ...args);
     },
-    err: (arg1, ...args) => {
+    error: (arg1, ...args) => {
         // custom error logger with red color
         console.log(chalk.bold.red('>> ' + arg1), ...args);
     }
@@ -36,10 +37,9 @@ log('Application starting...');
 
 require('dotenv').load();
 
-mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame', { useMongoClient: true }).then(
-  () => { success('Connection to DB successful'); },
-  (err) => { err('Connection to DB failed!', err); process.exit(0); }
+    () => { success('Connection to DB successful'); },
+    (err) => { error('Connection to DB failed!', err); process.exit(0); }
 );
 
 if (app.get('env') === 'production') {
@@ -80,7 +80,7 @@ app.use((req, res, next) => {
         error: req.flash('error')
     };
 
-    console.log('Request:', req.path);
+    global.log('Request:', req.path);
 
     // add login check to templates
     res.locals.isLoggedin = req.isAuthenticated();

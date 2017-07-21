@@ -59,7 +59,7 @@ module.exports = {
         victim.passwordRequestCode = passwordRequestCode;
         
         return await victim.save((err) => {
-           if (err) { console.log('user passwordRequest error:', err); } 
+           if (err) { global.error('User passwordRequest error:', err); } 
         });
     },
     /**
@@ -82,7 +82,7 @@ module.exports = {
         user.confirmationCode = undefined;
         
         return await user.save((err) => {
-           if (err) { console.log('user confirm error:', err); } 
+           if (err) { global.error('User confirm error:', err); } 
         });
     },
     /**
@@ -160,7 +160,7 @@ module.exports = {
         });
           
         return await newUser.save((err) => {
-            console.log('user save error:', err);
+            global.error('New user save error:', err);
         });
     },
     /**
@@ -179,7 +179,7 @@ module.exports = {
         }
 
         return await User.findByIdAndUpdate(userId, data).exec((err, data) => {
-            console.log('user update error:', err);
+            global.error('User update error:', err);
         });
     },
     /**

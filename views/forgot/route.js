@@ -28,8 +28,7 @@ module.exports = ['/:code', (base, code) => {
                     return res.redirect('/' + res.__('path.login.base:login'));
                 }
             }
-            
-            console.log('user found!', victim, req.body);
+
             return res.redirect('/' + res.__('path.forgot.base:forgot'));
         });
 

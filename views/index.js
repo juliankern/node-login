@@ -10,7 +10,6 @@ module.exports = (router) => {
         routeName = filename.split('/').splice(-2, 1); 
         // add routes to router and routing array
         routes.push(router.route(i18n.__l('path.' + routeName + '.base:' + routeName).map((r) => { return '/' + r; })));
-        // console.log('routelist', i18n.__l('path.' + routeName + '.base:' + routeName).map((r) => { return '/' + r; }));
         
         // check if route has options, and add them as well
         options.forEach((o) => {
