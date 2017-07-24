@@ -31,6 +31,9 @@ var schema = new mongoose.Schema({
     confirmationCode: {
         type: String  
     },
+    image: {
+        type: String  
+    },
     passwordRequestCode: {
         type: String  
     },

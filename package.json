@@ -32,6 +32,7 @@
         "cookie-parser": "^1.4.3",
         "dotenv": "^4.0.0",
         "express": "^4.15.3",
+        "express-fileupload": "^0.1.4",
         "express-session": "^1.15.3",
         "glob": "^7.1.2",
         "i18n": "^0.8.3",

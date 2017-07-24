@@ -1,7 +1,7 @@
 extends ../../templates/layout
 
 block content
-    form(method="post").form
+    form(method="post", encType="multipart/form-data").form
         input(value=victim.id, type="hidden", name="userId")
         
         .form--field
@@ -19,6 +19,10 @@ block content
         .form--field
             label(for="username")= __('global.username:Benutzername')
             input(value=victim.username, type="text", id="username", name="username", placeholder=__('global.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
+
+        .form--field
+            label(for="image")= __('global.image:Bild')
+            input(type="file", id="image", name="image", placeholder=__('global.image:Bild'), class=hasErrors && fields.includes('image') ? 'input-invalid' : '')
         
         if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
             .form--field
@@ -39,17 +43,19 @@ block content
 
         if (user.isEqual(victim) && user.hasRight('user.edit.own.confirmed')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.confirmed'))
             .form--field
-                input(type="radio", name="confirmed", id="confirmed", value="true", checked=!!victim.confirmed)
-                label(for="confirmed").btn= __('global.confirmed:Bestätigt')
-                input(type="radio", name="confirmed", id="unconfirmed", value="false", checked=!victim.confirmed)
-                label(for="unconfirmed").btn= __('global.notconfirmed:Unbestätigt')
+                .btn--group
+                    input(type="radio", name="confirmed", id="confirmed", value="true", checked=!!victim.confirmed)
+                    label(for="confirmed").btn= __('global.confirmed:Bestätigt')
+                    input(type="radio", name="confirmed", id="unconfirmed", value="false", checked=!victim.confirmed)
+                    label(for="unconfirmed").btn= __('global.notconfirmed:Unbestätigt')
 
         if (user.isEqual(victim) && user.hasRight('user.edit.own.active')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.active'))
             .form--field
-                input(type="radio", name="active", id="active", value="true", checked=!!victim.active)
-                label(for="active").btn= __('global.active:Aktiv')
-                input(type="radio", name="active", id="inactive", value="false", checked=!victim.active)
-                label(for="inactive").btn= __('global.inactive:Inaktiv')
+                .btn--group
+                    input(type="radio", name="active", id="active", value="true", checked=!!victim.active)
+                    label(for="active").btn= __('global.active:Aktiv')
+                    input(type="radio", name="active", id="inactive", value="false", checked=!victim.active)
+                    label(for="inactive").btn= __('global.inactive:Inaktiv')
 
         if newUser
             .form--field

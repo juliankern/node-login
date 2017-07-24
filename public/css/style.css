@@ -298,16 +298,6 @@ main {
     display: block; }
     .form--field label::after {
       content: ":"; }
-    .form--field label.btn, .form--field label.btn__primary {
-      border-radius: 0;
-      border-right-width: 0; }
-      .form--field label.btn:nth-of-type(1), .form--field label.btn__primary:nth-of-type(1) {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px; }
-      .form--field label.btn:nth-last-of-type(1), .form--field label.btn__primary:nth-last-of-type(1) {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-right-width: 1px; }
   .form--field input[type="text"],
   .form--field input[type="password"],
   .form--field input[type="email"],
@@ -334,10 +324,6 @@ main {
     display: inline-block; }
     .form--field input + label::after {
       content: none; }
-  .form--field input[type="checkbox"],
-  .form--field input[type="radio"] {
-    visibility: hidden;
-    position: absolute; }
 
 .btn, .btn__primary {
   padding: .5rem 1rem;
@@ -352,12 +338,22 @@ main {
     .btn:focus:focus, .btn__primary:focus:focus {
       outline: 0;
       box-shadow: 0 0 5px #3060ff; }
-  .btn:active, .form--field input[type="checkbox"]:checked + label.btn, .form--field input[type="checkbox"]:checked + label.btn__primary,
-  .form--field input[type="radio"]:checked + label.btn,
-  .form--field input[type="radio"]:checked + label.btn__primary, .btn__primary:active {
+  .btn:active, .btn__primary:active, .btn--group input[type="checkbox"]:checked + label.btn, .btn--group input[type="checkbox"]:checked + label.btn__primary,
+  .btn--group input[type="radio"]:checked + label.btn,
+  .btn--group input[type="radio"]:checked + label.btn__primary {
     border-color: #bfbfbf;
     background: #d9d9d9;
     color: #000; }
+  .btn--group .btn, .btn--group .btn__primary {
+    border-radius: 0;
+    border-right-width: 0; }
+    .btn--group .btn:nth-of-type(1), .btn--group .btn__primary:nth-of-type(1) {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px; }
+    .btn--group .btn:nth-last-of-type(1), .btn--group .btn__primary:nth-last-of-type(1) {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+      border-right-width: 1px; }
   .btn__primary {
     border-color: #3060ff;
     background: #6387ff;
@@ -366,6 +362,10 @@ main {
       border-color: #174cff;
       background: #4a74ff;
       color: #fff; }
+  .btn--group input[type="checkbox"],
+  .btn--group input[type="radio"] {
+    visibility: hidden;
+    position: absolute; }
 
 nav {
   overflow: hidden; }

@@ -65,7 +65,8 @@
 			"user": {
 				"headline": "Einstellungen für %s"
 			},
-			"success": "Daten erfolgreich gespeichert!"
+			"success": "Daten erfolgreich gespeichert!",
+			"imageerror": "Fehler beim Bildupload!"
 		},
 		"admin": {
 			"headline": "Administration"
@@ -93,7 +94,9 @@
 		"active": "Aktiv",
 		"inactive": "Inaktiv",
 		"firstName": "Vorname",
-		"lastName": "Nachname"
+		"lastName": "Nachname",
+		"userimage": "Bild",
+		"image": "Bild"
 	},
 	"view": {
 		"login": {

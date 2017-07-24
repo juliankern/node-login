@@ -16,6 +16,8 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin, 
             security.hasRight('user.edit.own'), 
         async (req, res) => {
+            global.log('req.files', req.files);
+
             req.body = removeUnchangedParams(req.body, req.user, req.user);
 
             var updatedUser = await user.update(req.user.id, req.body);
@@ -23,7 +25,17 @@ module.exports = ['/:username', (base, username) => {
             if(updatedUser.errors && updatedUser.errors.length > 0) {
                 req.arrayFlash(updatedUser.errors, 'error');
             } else {
-                req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
+                var upload;
+
+                if (req.files) {
+                    upload = await user.image(req.user.id, req.files.image);
+                } 
+                    
+                if ((req.files && upload) || !req.files) {
+                    req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
+                } else {
+                    req.flash('error', { message: res.__('route.settings.imageerror:Fehler beim Bildupload!') });
+                }
             }
 
             res.redirect('/' + res.__('path.settings.base:settings'));

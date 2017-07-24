@@ -1,7 +1,8 @@
 {
     "app": {
         "name": "node-login",
-        "url": "http://localhost:3000"
+        "url": "http://localhost:3000",
+        "uploads": "/uploads/"
     },
     "locale": {
         "list": ["de", "en"],

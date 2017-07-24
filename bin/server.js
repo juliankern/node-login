@@ -13,6 +13,7 @@ mongoose.Promise = global.Promise;
 
 // add global functions
 Object.assign(global, {
+    approot: path.resolve('./'),
     req: (modulepath) => {
         // custom require to handle relative paths from project root
         return require(path.resolve('./', modulepath));   
@@ -52,6 +53,7 @@ app.set('views', './views');
 app.use(require('cookie-parser')());
 app.use(express.static('public'));
 app.use(require('body-parser').urlencoded({ extended: false }));
+app.use(require('express-fileupload')());
 
 // init security features here
 req('controllers/security').init(app);

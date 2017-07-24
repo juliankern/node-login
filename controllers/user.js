@@ -1,6 +1,8 @@
 const config = global.req('config.json');
 
 const bcrypt = require('bcrypt');
+const fs = require('fs');
+const path = require('path');
 const randomstring = require('randomstring');
 
 var validator = global.req('utils/validation');
@@ -32,6 +34,35 @@ async function getCode(fieldname) {
     return code;
 }
 
+/**
+ * generate a filename, and check if its used already
+ *
+ * @author Julian Kern <julian.kern@dmc.de>
+ *
+ * @param  {string} folder Folder to check against
+ *
+ * @param  {string} ext    Extension to check
+ *
+ * @return {string}        Filename which isn't in use yet
+ */
+function getFileName(folder, ext) {
+    var code;
+    var err;
+    var find = {};
+
+    while(true) {
+        code = randomstring.generate({ length: 48, readable: true });
+
+        try {
+            fs.accessSync(path.resolve(folder + code + '.' + ext));
+        } catch (e) {
+            break;
+        }
+    }
+
+    return code;
+}
+
 module.exports = {
     find,
     passwordRequest,
@@ -39,7 +70,8 @@ module.exports = {
     validate,
     new: create,
     update,
-    get
+    get,
+    image
 };
 
 /**
@@ -151,6 +183,20 @@ async function validate(data, options) {
     // TODO check for rights here, and prevnt change of role
 
     return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
+}
+
+async function image(userId, image) {
+    return new Promise((resolve, reject) => {
+        var ext = image.name.split('.').pop();
+        var file = getFileName(global.approot + config.app.uploads, ext);
+        var filepath = path.resolve(global.approot + config.app.uploads + file + '.' + ext);
+        global.log('saving image to:', filepath);
+        image.mv(filepath, (err) => {
+            if (err) return reject(err);
+
+            resolve(file + '.' + ext);
+        })
+    });
 }
 
 /**
