@@ -19,8 +19,6 @@ module.exports = (route) => {
                     } else {
                         req.session.cookie.expires = false; // Cookie expires at end of session
                     }
-                    
-                    global.log('redirect set?', req.query.redirect, decodeURIComponent(req.query.redirect));
 
                     if (req.query.redirect) {
                         res.redirect(decodeURIComponent(req.query.redirect).replace(/http(s*):\/\//g, ''));

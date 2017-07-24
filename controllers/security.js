@@ -10,15 +10,15 @@ var User = global.req('models/user.js');
   
 module.exports = {
     init: (app) => {
-        app.use(passport.initialize());
-        app.use(passport.session());
-
         app.use(require('express-session')({
             secret: 'keyboard cat',
             cookie: app.get('env') === 'production' ? { secure: true } : {},
             saveUninitialized: false,
             resave: true
         }));
+        
+        app.use(passport.initialize());
+        app.use(passport.session());
 
         passport.use(new LocalStrategy({
                 usernameField: 'email',
