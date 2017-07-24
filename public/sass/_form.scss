@@ -8,6 +8,22 @@
             &::after {
                 content: ":";
             }
+
+            &.btn {
+                border-radius: 0;
+                border-right-width: 0;
+
+                &:nth-of-type(1) {
+                    border-top-left-radius: 3px;
+                    border-bottom-left-radius: 3px;
+                }
+
+                &:nth-last-of-type(1) {
+                    border-top-right-radius: 3px;
+                    border-bottom-right-radius: 3px;
+                    border-right-width: 1px;
+                }
+            }
         }
 
         input[type="text"],
@@ -33,8 +49,18 @@
             }
         }
 
-        select {
+        input[type="checkbox"],
+        input[type="radio"] {
+            visibility: hidden;
+            position: absolute;
 
+            + label {
+                
+            }
+
+            &:checked + label.btn {
+                @extend .btn:active
+            }
         }
     }
 }

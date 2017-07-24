@@ -46,9 +46,7 @@ module.exports = ['/:code', (base, code) => {
             });
             
             if(userdata.errors) {
-                userdata.errors.forEach((err) => {
-                    req.flash('error', err);
-                });
+                req.arrayFlash(userdata.errors, 'error');
                 
                 return res.redirect('/' + res.__('path.forgot.base:forgot') + '/' + req.params.code);
             } else {

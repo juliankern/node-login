@@ -1,9 +1,12 @@
 {
-    "url": "http://localhost:3000",
+    "app": {
+        "name": "node-login",
+        "url": "http://localhost:3000"
+    },
     "locale": {
         "list": ["de", "en"],
         "default": "de",
-        "cookiename": "node-login-lang"
+        "cookiename": "languagesetting"
     },
     "roles": {
         "0": {
@@ -27,9 +30,13 @@
                 "user.edit.all",
                 "user.edit.all.password",
                 "user.edit.all.role",
+                "user.edit.all.active",
+                "user.edit.all.confirmed",
                 "user.edit.own",
                 "user.edit.own.password",
                 "user.edit.own.role",
+                "user.edit.own.active",
+                "user.edit.own.confirmed",
                 "admin.panel"
             ]
         }

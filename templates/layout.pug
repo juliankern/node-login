@@ -1,35 +1,17 @@
 doctype html
 html 
     head
-        title node-login
+        title= headline + ' - ' + app.name
         link(href="/css/style.css", rel="stylesheet" type="text/css")
 
     body
-        h1 login-frame
-        
-        include navigation.pug
-                    
-        h2= headline
+        main
+            h1= app.name
             
-        if messages.error.length > 0
-            - hasErrors = true
-            .msg.msg-error
-                strong= __('global.error:Error')
-                ul
-                    each msg in messages.error
-                        if msg.message 
-                            li!= msg.message
-                        if msg.messageTranslate
-                            li!= __(msg.messageTranslate)
+            include navigation
+                        
+            h2= headline
 
-        if messages.success.length > 0
-            .msg.msg-success
-                strong= __('global.success:Erfolg')
-                ul
-                    each msg in messages.success
-                        if msg.message 
-                            li!= msg.message
-                        if msg.messageTranslate
-                            li!= __(msg.messageTranslate)
+            include messages
 
-        block content
+            block content

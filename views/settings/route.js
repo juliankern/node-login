@@ -16,49 +16,17 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin, 
             security.hasRight('user.edit.own'), 
         async (req, res) => {
-            if (req.body.pass === '') {
-                delete req.body.pass;
-                delete req.body.pass2;
-            }
+            req.body = removeUnchangedParams(req.body, req.user, req.user);
 
-            if (req.user.email === req.body.email) {
-                delete req.body.email;
-            }
-
-            if (req.user.username === req.body.username) {
-                delete req.body.username;
-            }
-
-            if (req.user._roleId !== +req.body.role && req.user.hasRight('user.edit.own.role')) {
-                req.body._roleId = req.body.role;
-            }
-            delete req.body.role;
-
-            var userdata = await user.validate(req.body); 
-
-            if(userdata.errors) {
-                userdata.errors.forEach((err) => {
-                    req.flash('error', err);
-                });
-
-                req.flash('form', req.body);
-
-                res.redirect('/' + res.__('path.settings.base:settings'));
+            var updatedUser = await user.update(req.user.id, req.body);
+            
+            if(updatedUser.errors && updatedUser.errors.length > 0) {
+                req.arrayFlash(updatedUser.errors, 'error');
             } else {
-                var updatedUser = await user.update(req.user.id, userdata);
-                
-                if(updatedUser.errors && updatedUser.errors.length > 0) {
-                    updatedUser.errors.forEach((err) => {
-                        req.flash('error', err);
-                    });
-                    
-                    req.flash('form', req.body);
-                } else {
-                    req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
-                }
+                req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
+            }
 
-                res.redirect('/' + res.__('path.settings.base:settings'));
-            };
+            res.redirect('/' + res.__('path.settings.base:settings'));
         });
 
     username
@@ -83,48 +51,43 @@ module.exports = ['/:username', (base, username) => {
         async (req, res) => {
             var victim = await user.get(req.params.username);
 
-            if (req.body.pass === '') {
-                delete req.body.pass;
-                delete req.body.pass2;
-            }
+            req.body = removeUnchangedParams(req.body, req.user, victim);
+            console.log('req.params', req.body);
 
-            if (victim.email === req.body.email) {
-                delete req.body.email;
-            }
-
-            if (victim.username === req.body.username) {
-                delete req.body.username;
-            }
-
-            if (victim._roleId !== +req.body.role && req.user.hasRight('user.edit.all.role')) {
-                req.body._roleId = req.body.role;
-            }
-            delete req.body.role;
-
-            var userdata = await user.validate(req.body); 
-
-            if(userdata.errors) {
-                userdata.errors.forEach((err) => {
-                    req.flash('error', err);
-                });
-
-                req.flash('form', req.body);
-
-                res.redirect('/' + res.__('path.settings.base:settings') + '' + victim.username);
+            var updatedUser = await user.update(victim.id, req.body);
+            
+            if(updatedUser.errors && updatedUser.errors.length > 0) {
+                req.arrayFlash(updatedUser.errors, 'error');
             } else {
-                var updatedUser = await user.update(victim.id, userdata);
-                
-                if(updatedUser.errors && updatedUser.errors.length > 0) {
-                    updatedUser.errors.forEach((err) => {
-                        req.flash('error', err);
-                    });
-                    
-                    req.flash('form', req.body);
-                } else {
-                    req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
-                }
-
-                res.redirect('/' + res.__('path.settings.base:settings') + '/' + victim.username);
+                req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
             }
+
+            res.redirect('/' + res.__('path.settings.base:settings') + '/' + updatedUser.username);
         });
-}]
+}];
+
+function removeUnchangedParams(data, user, victim) {
+    if (data.pass === '') {
+        delete data.pass;
+        delete data.pass2;
+    }
+
+    if (data.confirmed === '') {
+        delete data.confirmed;
+    }
+
+    if (victim.email === data.email) {
+        delete data.email;
+    }
+
+    if (victim.username === data.username) {
+        delete data.username;
+    }
+
+    if (victim._roleId !== +data.role && user.hasRight('user.edit.all.role')) {
+        data._roleId = data.role;
+    }
+    delete data.role;
+
+    return data;
+}

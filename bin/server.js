@@ -72,13 +72,16 @@ i18n.configure({
 
 app.use((req, res, next) => {
     // handle some app specific data
-    
+
     // add error/siccess/info messages to templates 
-    res.locals.messages = {
-        success: req.flash('success'),
-        info: req.flash('info'),
-        error: req.flash('error')
-    };
+    Object.assign(res.locals, {
+        messages: {
+            success: req.flash('success'),
+            info: req.flash('info'),
+            error: req.flash('error')
+        },
+        formdata: req.flash('form')[0]
+    });
 
     global.log('Request:', req.path);
 
@@ -92,6 +95,19 @@ app.use((req, res, next) => {
         toNow: (date, skipPrefix) => { return moment(date).toNow(skipPrefix); }
     }
 
+    // transform error array to flashes
+    req.arrayFlash = (array, type) => {
+        array.forEach((err) => {
+            req.flash(type, err);
+        });
+    };
+
+    if (Object.keys(req.body).length > 0) {
+        req.flash('form', req.body);
+    }
+
+    // add app data to templates
+    res.locals.app = config.app;
     // add role data to templates
     res.locals.roles = config.roles;
     // add locale list to templates
@@ -103,8 +119,6 @@ app.use((req, res, next) => {
         i18n.setLocale(req.query.lang);
     }
 
-    // add formdata to templates 
-    res.locals.formdata = req.flash('form')[0];
     // add error fields to templates
     if (res.locals.messages.error && res.locals.messages.error.length > 0) {
         res.locals.fields = [];
@@ -112,7 +126,7 @@ app.use((req, res, next) => {
             res.locals.fields = res.locals.fields.concat(err.fields);
         });
     }
-    
+
     next();
 });
 

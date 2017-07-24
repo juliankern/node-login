@@ -3,6 +3,11 @@
 
 @import "reboot";
 
+main {
+    width: 90vw;
+    margin: 0 auto;
+}
+
 .msg {
     border: 1px solid black;
     border-radius: 5px;

@@ -87,7 +87,13 @@
 		"pass2": "Passwort repeat",
 		"save": "Save!",
 		"error": "Error",
-		"success": "Erfolg"
+		"success": "Erfolg",
+		"confirmed": "Bestätigt",
+		"notconfirmed": "Unbestätigt",
+		"active": "Aktiv",
+		"inactive": "Inaktiv",
+		"firstName": "Vorname",
+		"lastName": "Nachname"
 	},
 	"view": {
 		"login": {

@@ -7,41 +7,18 @@ module.exports = (route) => {
             res.render('register/template', { headline: res.__('route.register.headline:Registrierung') });
         })
         .post(async (req, res) => {
-            // definitely check all fields, as they need to be filled
-            var userdata = await user.validate(req.body, {
-                check: [
-                    'username',
-                    'email',
-                    'pass'
-                ]
-            });
-
-            if(userdata.errors) {
-                userdata.errors.forEach((err) => {
-                    req.flash('error', err);
-                });
-
-                req.flash('form', req.body);
-
-                res.redirect('/' + res.__('path.register.base:register'));
-            } else {
-                var newUser = await user.new(userdata);
+            var newUser = await user.new(req.body);
+            
+            if(newUser.errors && newUser.errors.length > 0) {
+                req.arrayFlash(newUser.errors, 'error');
                 
-                if(newUser.errors && newUser.errors.length > 0) {
-                    newUser.errors.forEach((err) => {
-                        req.flash('error', err);
-                    });
-                    
-                    req.flash('form', req.body);
-                    
-                    res.redirect('/' + res.__('path.register.base:register')); 
-                } else {
-                    if ((await mail.newUser(res, newUser))) {
-                        req.flash('success', { message: res.__('route.register.success:Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!') });
-                    }
-                    
-                    res.redirect('/' + res.__('path.login.base:login'));
+                res.redirect('/' + res.__('path.register.base:register')); 
+            } else {
+                if ((await mail.newUser(res, newUser))) {
+                    req.flash('success', { message: res.__('route.register.success:Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!') });
                 }
+                
+                res.redirect('/' + res.__('path.login.base:login'));
             }
         });
 }

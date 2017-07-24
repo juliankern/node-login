@@ -8,6 +8,8 @@ var schema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    firstName: { type: String },
+    lastName: { type: String },
     pass: {
         type: String,
         required: true,
@@ -40,6 +42,10 @@ var schema = new mongoose.Schema({
 
 schema.virtual('role').get(function () {
     return config.roles[this._roleId];
+});
+
+schema.virtual('fullName').get(function () {
+    return this.firstName + ' ' + this.lastName;
 });
 
 schema.methods.hasRight = function (right) {

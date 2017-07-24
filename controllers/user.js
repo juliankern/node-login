@@ -109,8 +109,8 @@ async function confirm(code) {
  * @return {object}         Object containung the original data and errors if occured
  */
 async function validate(data, options) {
-    console.log('this', this);
     var errors = [];
+    options = options || { check: '' };
     
     if ((data.username || options.check.includes('username')) && data.username == '') {
         errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.empty:Bitte geben Sie einen Benutzernamen an' });
@@ -163,6 +163,19 @@ async function validate(data, options) {
  * @return {Promise}     Promise returning the created user
  */
 async function create(data) {
+    // definitely check all fields, as they need to be filled
+    var userdata = await validate(data, {
+        check: [
+            'username',
+            'email',
+            'pass'
+        ]
+    });
+
+    if(userdata.errors) {
+        return userdata;
+    }
+
     var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
     var confirmationCode = await getCode('confirmationCode');
     
@@ -174,7 +187,7 @@ async function create(data) {
     });
       
     return await newUser.save((err) => {
-        global.error('New user save error:', err);
+        if (err) global.error('New user save error:', err);
     });
 }
 
@@ -189,12 +202,19 @@ async function create(data) {
  * @return {Promise}       Promise returning the updated user
  */
 async function update(userId, data) {
+    // definitely check all fields, as they need to be filled
+    var userdata = await validate(data);
+
+    if(userdata.errors) {
+        return userdata;
+    }
+
     if (data.pass) {
         data.pass = await bcrypt.hash(data.pass, config.security.saltRounds);
     }
 
-    return await User.findByIdAndUpdate(userId, data).exec((err, data) => {
-        global.error('User update error:', err);
+    return await User.findByIdAndUpdate(userId, data, { new: true }).exec((err, data) => {
+        if (err) global.error('User update error:', err);
     });
 }
 

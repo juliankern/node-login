@@ -9,6 +9,14 @@ block content
             input(value=victim.email, type="email", id="email", name="email", placeholder=__('global.email:E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
 
         .form--field
+            label(for="firstName")= __('global.firstName:Vorname')
+            input(value=victim.firstName, type="text", id="firstName", name="firstName", placeholder=__('global.firstName:Vorname'), class=hasErrors && fields.includes('firstName') ? 'input-invalid' : '')
+
+        .form--field
+            label(for="lastName")= __('global.lastName:Nachname')
+            input(value=victim.lastName, type="text", id="lastName", name="lastName", placeholder=__('global.lastName:Nachname'), class=hasErrors && fields.includes('lastName') ? 'input-invalid' : '')
+
+        .form--field
             label(for="username")= __('global.username:Benutzername')
             input(value=victim.username, type="text", id="username", name="username", placeholder=__('global.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
         
@@ -28,6 +36,20 @@ block content
                     each r, id in roles 
                         if !r.secret || (r.secret && user._roleId === +id)
                             option(value=id, selected=(victim._roleId === +id))= __('roles.' + r.name + ':' + r.name)
+
+        if (user.isEqual(victim) && user.hasRight('user.edit.own.confirmed')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.confirmed'))
+            .form--field
+                input(type="radio", name="confirmed", id="confirmed", value="true", checked=!!victim.confirmed)
+                label(for="confirmed").btn= __('global.confirmed:Bestätigt')
+                input(type="radio", name="confirmed", id="unconfirmed", value="false", checked=!victim.confirmed)
+                label(for="unconfirmed").btn= __('global.notconfirmed:Unbestätigt')
+
+        if (user.isEqual(victim) && user.hasRight('user.edit.own.active')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.active'))
+            .form--field
+                input(type="radio", name="active", id="active", value="true", checked=!!victim.active)
+                label(for="active").btn= __('global.active:Aktiv')
+                input(type="radio", name="active", id="inactive", value="false", checked=!victim.active)
+                label(for="inactive").btn= __('global.inactive:Inaktiv')
 
         if newUser
             .form--field
