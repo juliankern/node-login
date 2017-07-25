@@ -1,12 +1,12 @@
 {
 	"path": {
 		"activate": {
-			"base": "activate",
-			"code": "activate/:code"
+			"base": "aktivieren",
+			"code": "aktivieren/:code"
 		},
 		"forgot": {
-			"base": "forgot",
-			"code": "forgot/:code"
+			"base": "passwortvergessen",
+			"code": "passwortvergessen/:code"
 		},
 		"login": {
 			"base": "login"
@@ -15,19 +15,19 @@
 			"base": "logout"
 		},
 		"register": {
-			"base": "register"
+			"base": "registrieren"
 		},
 		"restricted": {
 			"base": "restricted"
 		},
 		"settings": {
-			"base": "settings",
-			"username": "settings/:username"
+			"base": "einstellungen",
+			"username": "einstellungen/:username"
 		},
 		"user": {
-			"base": "user",
-			"new": "user/new",
-			"username": "user/:username"
+			"base": "benutzer",
+			"new": "benutzer/new",
+			"username": "benutzer/:username"
 		},
 		"admin": {
 			"base": "admin"

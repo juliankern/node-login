@@ -14,4 +14,5 @@ block content
         .form--field
             label(for="email")= __('user.pass2:Passwort Wiederholung')
             input(type="password", id="pass2", name="pass2", placeholder=__('user.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+        
         button(type="submit").btn__primary= __('view.register.submit:Registrieren!')
