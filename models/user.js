@@ -1,5 +1,7 @@
-var validator = global.req('utils/validation');
 var mongoose = require('mongoose');
+var gravatar = require('gravatar');
+
+var validator = global.req('utils/validation');
 var config = global.req('config.json');
 
 var schema = new mongoose.Schema({ 
@@ -31,7 +33,7 @@ var schema = new mongoose.Schema({
     confirmationCode: {
         type: String  
     },
-    image: {
+    imageFilename: {
         type: String  
     },
     passwordRequestCode: {
@@ -50,6 +52,14 @@ schema.virtual('role').get(function () {
 schema.virtual('fullName').get(function () {
     return this.firstName + ' ' + this.lastName;
 });
+
+schema.virtual('image')
+    .get(function() {
+        return (this.imageFilename && this.imageFilename !== '') ? '/uploads/' + this.imageFilename : gravatar.url(this.email, { d: 'mm', s: 400 });
+    })
+    .set(function(v) {
+        this.imageFilename = v;
+    });
 
 schema.methods.hasRight = function (right) {
     return this.role.rights.includes(right);

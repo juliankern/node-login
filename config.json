@@ -19,7 +19,7 @@
             "rights": [
                 "user.edit.own",
                 "user.edit.own.password",
-                "user.edit.own.role"
+                "user.edit.own.image"
             ]
         },
         "9": {
@@ -31,11 +31,13 @@
                 "user.edit.all",
                 "user.edit.all.password",
                 "user.edit.all.role",
+                "user.edit.all.image",
                 "user.edit.all.active",
                 "user.edit.all.confirmed",
                 "user.edit.own",
                 "user.edit.own.password",
                 "user.edit.own.role",
+                "user.edit.own.image",
                 "user.edit.own.active",
                 "user.edit.own.confirmed",
                 "admin.panel"

@@ -3,11 +3,11 @@ extends ../../templates/layout
 block content
     form(method="post", id="login").form
         .form--field
-            label(for="email")= __('global.email:E-Mail')+'*'
-            input(type="email", id="email", name="email", placeholder= __('global.email:E-Mail'), required, autocomplete="off")
+            label(for="email")= __('user.email:E-Mail')+'*'
+            input(type="email", id="email", name="email", placeholder= __('user.email:E-Mail'), required, autocomplete="off")
         .form--field
-            label(for="pass")= __('global.pass:Passwort')+'*'
-            input(type="password", od="pass", name="pass", placeholder=__('global.pass:Passwort'), required, autocomplete="off")
+            label(for="pass")= __('user.pass:Passwort')+'*'
+            input(type="password", od="pass", name="pass", placeholder=__('user.pass:Passwort'), required, autocomplete="off")
         .form--field
             input(type="checkbox", name="remember", id="remember")
             label(for="remember")= __('view.login.remember:Eingeloggt bleiben')

@@ -1,6 +1,7 @@
 .form {
     &--field {
         padding: .5rem 0;
+        width: 250px;
 
         label {
             display: block;
@@ -32,5 +33,9 @@
                 content: none
             }
         }
+    }
+
+    &--image {
+        max-width: 100%;
     }
 }

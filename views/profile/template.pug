@@ -3,13 +3,16 @@ extends ../../templates/layout
 block content
     table
         tr
-            td= __('global.email:E-Mail')
+            td(colspan=2)
+                img(src=victim.image, alt=__('user.image:Benutzerbild')).img__medium
+        tr
+            td= __('user.email:E-Mail')
             td=victim.email
         tr
-            td= __('global.username:Benutzername')
+            td= __('user.username:Benutzername')
             td=victim.username
         tr
-            td= __('global.role:Rolle')
+            td= __('user.role:Rolle')
             td= __('roles.' + victim.role.name)
 
     if user.hasRight('user.edit.all')

@@ -10,59 +10,6 @@ var security = global.req('controllers/security');
 
 var User = global.req('models/user.js');
 
-/**
- * generate a code, and check if its used already
- *
- * @author Julian Kern <julian.kern@dmc.de>
- *
- * @param  {string} fieldname Field, where the code will be used
- *
- * @return {string}           Code which isn't in use yet
- */
-async function getCode(fieldname) {
-    var code;
-    var find = {};
-    
-    while(true) {
-        code = randomstring.generate({ length: 32, readable: true });
-        find[fieldname] = code;
-        if ((await User.find(find)).length === 0) {
-            break;
-        }
-    }
-    
-    return code;
-}
-
-/**
- * generate a filename, and check if its used already
- *
- * @author Julian Kern <julian.kern@dmc.de>
- *
- * @param  {string} folder Folder to check against
- *
- * @param  {string} ext    Extension to check
- *
- * @return {string}        Filename which isn't in use yet
- */
-function getFileName(folder, ext) {
-    var code;
-    var err;
-    var find = {};
-
-    while(true) {
-        code = randomstring.generate({ length: 48, readable: true });
-
-        try {
-            fs.accessSync(path.resolve(folder + code + '.' + ext));
-        } catch (e) {
-            break;
-        }
-    }
-
-    return code;
-}
-
 module.exports = {
     find,
     passwordRequest,
@@ -97,7 +44,7 @@ async function find(conditions) {
  * @return {Promise}       Promise returning the user
  */
 async function passwordRequest(victim) {
-    var passwordRequestCode = await getCode('passwordRequestCode');
+    var passwordRequestCode = await _getCode('passwordRequestCode');
     victim.passwordRequestCode = passwordRequestCode;
     
     return await victim.save((err) => {
@@ -185,16 +132,30 @@ async function validate(data, options) {
     return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
 }
 
+/**
+ * gets the uploaded image and sets it to the user
+ *
+ * @author Julian Kern <julian.kern@dmc.de>
+ *
+ * @param  {string} userId Id of the user
+ * @param  {object} image  Image to be uploaded/moved
+ *
+ * @return {Promise}       Promise returning if the update was successful
+ */
 async function image(userId, image) {
     return new Promise((resolve, reject) => {
         var ext = image.name.split('.').pop();
-        var file = getFileName(global.approot + config.app.uploads, ext);
-        var filepath = path.resolve(global.approot + config.app.uploads + file + '.' + ext);
-        global.log('saving image to:', filepath);
-        image.mv(filepath, (err) => {
+        var file = _getFileName(global.approot + config.app.uploads, ext) + '.' + ext;
+        var filepath = path.resolve(global.approot + config.app.uploads + file);
+
+        image.mv(filepath, async (err) => {
             if (err) return reject(err);
 
-            resolve(file + '.' + ext);
+            if((await update(userId, { imageFilename: file })).image) {
+                resolve(true);
+            } else {
+                reject();
+            }
         })
     });
 }
@@ -223,7 +184,7 @@ async function create(data) {
     }
 
     var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
-    var confirmationCode = await getCode('confirmationCode');
+    var confirmationCode = await _getCode('confirmationCode');
     
     var newUser = new User({
         email: data.email,
@@ -280,4 +241,57 @@ async function get(username) {
     } else {
         return await User.findOne({ username: username });
     }
+}
+
+/**
+ * PRIVATE - generate a code, and check if its used already
+ *
+ * @author Julian Kern <julian.kern@dmc.de>
+ *
+ * @param  {string} fieldname Field, where the code will be used
+ *
+ * @return {string}           Code which isn't in use yet
+ */
+async function _getCode(fieldname) {
+    var code;
+    var find = {};
+    
+    while(true) {
+        code = randomstring.generate({ length: 32, readable: true });
+        find[fieldname] = code;
+        if ((await User.find(find)).length === 0) {
+            break;
+        }
+    }
+    
+    return code;
+}
+
+/**
+ * PRIVATE - generate a filename, and check if its used already
+ *
+ * @author Julian Kern <julian.kern@dmc.de>
+ *
+ * @param  {string} folder Folder to check against
+ *
+ * @param  {string} ext    Extension to check
+ *
+ * @return {string}        Filename which isn't in use yet
+ */
+function _getFileName(folder, ext) {
+    var code;
+    var err;
+    var find = {};
+
+    while(true) {
+        code = randomstring.generate({ length: 48, readable: true });
+
+        try {
+            fs.accessSync(path.resolve(folder + code + '.' + ext));
+        } catch (e) {
+            break;
+        }
+    }
+
+    return code;
 }

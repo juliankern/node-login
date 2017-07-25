@@ -1,0 +1,15 @@
+.img {
+    max-width: 100%;
+
+    &__small {
+        @extend .img;
+
+        width: 50px;
+    }
+
+    &__medium {
+        @extend .img;
+
+        width: 150px; 
+    }
+}

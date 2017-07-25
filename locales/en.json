@@ -65,8 +65,8 @@
 			"user": {
 				"headline": "Settings for %s"
 			},
-			"success": "Daten erfolgreich gespeichert!",
-			"imageerror": "Fehler beim Bildupload!"
+			"success": "Data saved successfully!",
+			"imageerror": "Error while uploading image!"
 		},
 		"admin": {
 			"headline": "Administration"
@@ -77,26 +77,12 @@
 	},
 	"global": {
 		"notloggedin": "Not logged in",
-		"email": "E-Mail",
-		"pass": "Password",
 		"hellouser": "Hello %s!",
-		"username": "Username",
-		"joined": "joined",
-		"profile": "Profile",
 		"edit": "Edit",
-		"role": "Role",
-		"pass2": "Passwort repeat",
-		"save": "Save!",
 		"error": "Error",
-		"success": "Erfolg",
-		"confirmed": "Bestätigt",
-		"notconfirmed": "Unbestätigt",
-		"active": "Aktiv",
-		"inactive": "Inaktiv",
-		"firstName": "Vorname",
-		"lastName": "Nachname",
-		"userimage": "Bild",
-		"image": "Bild"
+		"success": "Success",
+		"change": "Change",
+		"save": "Save!"
 	},
 	"view": {
 		"login": {
@@ -127,7 +113,7 @@
 			"loggedin": "You need to be logged in first [Code: 1]",
 			"username": "Wrong username.",
 			"password": "Wrong password.",
-			"right": "Du darfst diese Seite nicht besuchen. [Code: 3]"
+			"right": "You're not allowed to visit this page! [Code: 3]"
 		}
 	},
 	"locales": {
@@ -141,17 +127,31 @@
 	"user": {
 		"validate": {
 			"username": {
-				"length": "Der Benutzername muss mindestens fünf Zeichen haben",
-				"empty": "Bitte geben Sie einen Benutzernamen an"
+				"length": "The username needs to have at least five characters!",
+				"empty": "Please enter a user name"
 			},
 			"email": {
-				"valid": "Bitte geben Sie eine valide E-Mail Adresse an!",
-				"empty": "Bitte geben Sie einen E-Mail Adresse an"
+				"valid": "Please enter a valid e-mail address",
+				"empty": "Please enter an e-mail address"
 			},
 			"password": {
-				"length": "Das Passwort muss mindestens sechs Zeichen haben",
-				"valid": "Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!"
+				"length": "Your password needs to have at least six characters",
+				"valid": "Your password needs to have at least six characters, one letter and one number"
 			}
-		}
+		},
+		"email": "E-Mail",
+		"firstName": "First name",
+		"lastName": "Last name",
+		"username": "Username",
+		"image": "User image",
+		"pass": "Password",
+		"pass2": "Password repetition",
+		"role": "Role",
+		"confirmed": "Confirmed",
+		"notconfirmed": "Not confirmed",
+		"active": "Active",
+		"inactive": "Inactive",
+		"joined": "Joined",
+		"profile": "Profile"
 	}
 }

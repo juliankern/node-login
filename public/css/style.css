@@ -293,7 +293,8 @@ main {
   float: left; }
 
 .form--field {
-  padding: .5rem 0; }
+  padding: .5rem 0;
+  width: 250px; }
   .form--field label {
     display: block; }
     .form--field label::after {
@@ -324,6 +325,9 @@ main {
     display: inline-block; }
     .form--field input + label::after {
       content: none; }
+
+.form--image {
+  max-width: 100%; }
 
 .btn, .btn__primary {
   padding: .5rem 1rem;
@@ -381,6 +385,13 @@ nav {
     .nav--item:first-child {
       border: 0;
       padding-left: 0; }
+
+.img, .img__small, .img__medium {
+  max-width: 100%; }
+  .img__small {
+    width: 50px; }
+  .img__medium {
+    width: 150px; }
 
 .test {
   color: red; }

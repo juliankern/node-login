@@ -52,6 +52,7 @@ app.set('views', './views');
 
 app.use(require('cookie-parser')());
 app.use(express.static('public'));
+app.use('/uploads', express.static('uploads'));
 app.use(require('body-parser').urlencoded({ extended: false }));
 app.use(require('express-fileupload')());
 
@@ -136,6 +137,6 @@ app.use((req, res, next) => {
 req('views')(router);
 app.use(router);
 
-app.listen(3000, () => {
-    success('App listening on port 3000');
+var server = app.listen(process.env.PORT || 3000, () => {
+    global.success('App listening on port ' + server.address().port);
 });

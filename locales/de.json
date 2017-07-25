@@ -77,26 +77,12 @@
 	},
 	"global": {
 		"notloggedin": "Nicht eingeloggt",
-		"email": "E-Mail",
-		"pass": "Passwort",
 		"hellouser": "Hallo %s!",
-		"username": "Benutzername",
-		"joined": "Beigetreten",
-		"profile": "Profil",
 		"edit": "Bearbeiten",
-		"role": "Rolle",
-		"pass2": "Passwort Wiederholung",
 		"save": "Speichern!",
 		"error": "Error",
 		"success": "Erfolg",
-		"confirmed": "Bestätigt",
-		"notconfirmed": "Unbestätigt",
-		"active": "Aktiv",
-		"inactive": "Inaktiv",
-		"firstName": "Vorname",
-		"lastName": "Nachname",
-		"userimage": "Bild",
-		"image": "Bild"
+		"change": "Ändern"
 	},
 	"view": {
 		"login": {
@@ -152,6 +138,20 @@
 				"length": "Das Passwort muss mindestens sechs Zeichen haben",
 				"valid": "Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!"
 			}
-		}
+		},
+		"email": "E-Mail",
+		"firstName": "Vorname",
+		"lastName": "Nachname",
+		"username": "Benutzername",
+		"image": "Benutzerbild",
+		"pass": "Passwort",
+		"pass2": "Passwort Wiederholung",
+		"role": "Rolle",
+		"confirmed": "Bestätigt",
+		"notconfirmed": "Unbestätigt",
+		"active": "Aktiv",
+		"inactive": "Inaktiv",
+		"joined": "Beigetreten",
+		"profile": "Profil"
 	}
 }

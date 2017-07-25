@@ -16,8 +16,6 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin, 
             security.hasRight('user.edit.own'), 
         async (req, res) => {
-            global.log('req.files', req.files);
-
             req.body = removeUnchangedParams(req.body, req.user, req.user);
 
             var updatedUser = await user.update(req.user.id, req.body);
