@@ -1,0 +1,4 @@
+{
+    "ignore": ["locales/*"],
+    "ext": "*js *json"
+}

@@ -1,74 +1,76 @@
 extends ../../templates/layout
 
 block content
-    form(method="post", encType="multipart/form-data").form.grid__2
-        input(value=victim.id, type="hidden", name="userId")
-        
-        .form--field
-            label(for="email")= __('user.email:E-Mail')
-            input(value=victim.email, type="email", id="email", name="email", placeholder=__('user.email:E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '')
-
-        .form--field
-            label(for="firstName")= __('user.firstName:Vorname')
-            input(value=victim.firstName, type="text", id="firstName", name="firstName", placeholder=__('user.firstName:Vorname'), class=hasErrors && fields.includes('firstName') ? 'input-invalid' : '')
-
-        .form--field
-            label(for="username")= __('user.username:Benutzername')
-            input(value=victim.username, type="text", id="username", name="username", placeholder=__('user.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '')
-
-        .form--field
-            label(for="lastName")= __('user.lastName:Nachname')
-            input(value=victim.lastName, type="text", id="lastName", name="lastName", placeholder=__('user.lastName:Nachname'), class=hasErrors && fields.includes('lastName') ? 'input-invalid' : '')
-
-        .form--field
-            label(for="image")= __('user.image:Benutzerbild')
-            img(src=victim.image, alt=__('user.image:Benutzerbild')).img__medium
-            if victim.image.includes('gravatar')
-                | (Gravatar)
-
-        if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
+    form(method="post", encType="multipart/form-data").form
+        .grid__2
+            input(value=victim.id, type="hidden", name="userId")
+            
             .form--field
-                label(for="email")= newUser ? __('user.pass:Passwort') : __('view.settings.password.change:Passwort (nur eingeben wenn Änderung gewünscht)')
-                input(type="password", id="pass", name="pass", placeholder=__('user.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '')
+                label(for="email")= __('user.email:E-Mail')
+                input(value=victim.email, type="email", id="email", name="email", placeholder=__('user.email:E-Mail'), class=hasErrors && fields.includes('email') ? 'input-invalid' : '').form--element
 
-        if (user.isEqual(victim) && user.hasRight('user.edit.own.image')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.image'))
             .form--field
-                label(for="image")= __('global.edit:Bearbeiten')
-                input(type="file", id="image", name="image", placeholder=__('user.image:Benutzerbild'), class=hasErrors && fields.includes('image') ? 'input-invalid' : '')
+                label(for="firstName")= __('user.firstName:Vorname')
+                input(value=victim.firstName, type="text", id="firstName", name="firstName", placeholder=__('user.firstName:Vorname'), class=hasErrors && fields.includes('firstName') ? 'input-invalid' : '').form--element
 
-        if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
             .form--field
-                label(for="pass2")= __('user.pass2:Passwort Wiederholung')
-                input(type="password", id="pass2", name="pass2", placeholder=__('user.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '')
+                label(for="username")= __('user.username:Benutzername')
+                input(value=victim.username, type="text", id="username", name="username", placeholder=__('user.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '').form--element
 
-        if (user.isEqual(victim) && user.hasRight('user.edit.own.confirmed')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.confirmed'))
             .form--field
-                .btn--group
-                    input(type="radio", name="confirmed", id="confirmed", value="true", checked=!!victim.confirmed)
-                    label(for="confirmed").btn= __('user.confirmed:Bestätigt')
-                    input(type="radio", name="confirmed", id="unconfirmed", value="false", checked=!victim.confirmed)
-                    label(for="unconfirmed").btn= __('user.notconfirmed:Unbestätigt')
-        
-        if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.role')) || newUser && user.hasRight('user.create.role')
-            .form--field
-                label(for="role")= __('user.role:Rolle')
-                select(id="role", name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '')
-                    each r, id in roles 
-                        if !r.secret || (r.secret && user._roleId === +id)
-                            option(value=id, selected=(victim._roleId === +id))= __('roles.' + r.name + ':' + r.name)
+                label(for="lastName")= __('user.lastName:Nachname')
+                input(value=victim.lastName, type="text", id="lastName", name="lastName", placeholder=__('user.lastName:Nachname'), class=hasErrors && fields.includes('lastName') ? 'input-invalid' : '').form--element
 
-        if (user.isEqual(victim) && user.hasRight('user.edit.own.active')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.active'))
-            .form--field
-                .btn--group
-                    input(type="radio", name="active", id="active", value="true", checked=!!victim.active)
-                    label(for="active").btn= __('user.active:Aktiv')
-                    input(type="radio", name="active", id="inactive", value="false", checked=!victim.active)
-                    label(for="inactive").btn= __('user.inactive:Inaktiv')
+            if victim.image
+                .form--field
+                    label(for="image")= __('user.image:Benutzerbild')
+                    img(src=victim.image, alt=__('user.image:Benutzerbild')).img__medium
+                    if victim.image.includes('gravatar')
+                        | (Gravatar)
 
-        if newUser
-            .form--field
-                input(type="checkbox", name="sendmail", id="sendmail")
-                label(for="sendmail")= __('view.settings.sendmail:Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken')
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
+                .form--field
+                    label(for="email")= newUser ? __('user.pass:Passwort') : __('view.settings.password.change:Passwort (nur eingeben wenn Änderung gewünscht)')
+                    input(type="password", id="pass", name="pass", placeholder=__('user.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '').form--element
+
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.image')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.image'))
+                .form--field
+                    label(for="image")= __('global.edit:Bearbeiten')
+                    input(type="file", id="image", name="image", placeholder=__('user.image:Benutzerbild'), class=hasErrors && fields.includes('image') ? 'input-invalid' : '').form--element
+
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.password')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.password')) || newUser
+                .form--field
+                    label(for="pass2")= __('user.pass2:Passwort Wiederholung')
+                    input(type="password", id="pass2", name="pass2", placeholder=__('user.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '').form--element
+
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.confirmed')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.confirmed'))
+                .form--field
+                    .btn--group__block
+                        input(type="radio", name="confirmed", id="confirmed", value="true", checked=!!victim.confirmed)
+                        label(for="confirmed").btn= __('user.confirmed:Bestätigt')
+                        input(type="radio", name="confirmed", id="unconfirmed", value="false", checked=!victim.confirmed)
+                        label(for="unconfirmed").btn= __('user.notconfirmed:Unbestätigt')
+            
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.role')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.role')) || newUser && user.hasRight('user.create.role')
+                .form--field
+                    label(for="role")= __('user.role:Rolle')
+                    select(id="role", name="role", class=hasErrors && fields.includes('role') ? 'input-invalid' : '').form--element
+                        each r, id in roles 
+                            if !r.secret || (r.secret && user._roleId === +id)
+                                option(value=id, selected=(victim._roleId === +id))= __('roles.' + r.name + ':' + r.name)
+
+            if (user.isEqual(victim) && user.hasRight('user.edit.own.active')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.active'))
+                .form--field
+                    .btn--group__block
+                        input(type="radio", name="active", id="active", value="true", checked=!!victim.active)
+                        label(for="active").btn= __('user.active:Aktiv')
+                        input(type="radio", name="active", id="inactive", value="false", checked=!victim.active)
+                        label(for="inactive").btn= __('user.inactive:Inaktiv')
+
+            if newUser
+                .form--field
+                    input(type="checkbox", name="sendmail", id="sendmail")
+                    label(for="sendmail")= __('view.settings.sendmail:Dem Nutzer eine Mail zur Bestätigung seiner E-Mail Adresse schicken')
             
         .grid--full
-            button(type="submit").btn__primary= __('global.save:Speichern!')
+            button(type="submit").btn__primary.btn__block= __('global.save:Speichern!')

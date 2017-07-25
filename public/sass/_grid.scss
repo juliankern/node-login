@@ -52,4 +52,9 @@
     &--full {
         grid-column-start: 1;
     }
+    
+    &__column {
+        grid-auto-flow: column;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+    }
 }

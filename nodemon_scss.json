@@ -1,0 +1,9 @@
+{
+    "watch": [
+        "public/sass/*",
+        "views/**/*"
+    ],
+    "ignore": ["public/sass/views.scss"],
+    "ext": "*scss",
+    "exec": "node bin/concatScss.js && npm run build-sass"
+}

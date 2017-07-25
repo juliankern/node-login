@@ -319,36 +319,16 @@ main {
       grid-column-end: 6; }
   .grid--full {
     grid-column-start: 1; }
+  .grid__column {
+    grid-auto-flow: column;
+    grid-template-rows: 1fr 1fr 1fr 1fr; }
 
 .form--field {
-  padding: .5rem 0;
-  width: 250px; }
+  padding: .5rem 0; }
   .form--field label {
     display: block; }
     .form--field label::after {
       content: ":"; }
-  .form--field input[type="text"],
-  .form--field input[type="password"],
-  .form--field input[type="email"],
-  .form--field input[type="search"],
-  .form--field input[type="date"],
-  .form--field input[type="number"],
-  .form--field select {
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    padding: 5px;
-    width: 250px;
-    transition: box-shadow .5s;
-    box-shadow: 0 0 0 transparent; }
-    .form--field input[type="text"]:focus,
-    .form--field input[type="password"]:focus,
-    .form--field input[type="email"]:focus,
-    .form--field input[type="search"]:focus,
-    .form--field input[type="date"]:focus,
-    .form--field input[type="number"]:focus,
-    .form--field select:focus {
-      outline: 0;
-      box-shadow: 0 0 5px #3060ff; }
   .form--field input + label {
     display: inline-block; }
     .form--field input + label::after {
@@ -357,47 +337,75 @@ main {
 .form--image {
   max-width: 100%; }
 
-.btn, .btn__primary {
-  padding: .5rem 1rem;
+.form--element {
+  width: 100%;
+  transition: box-shadow .5s;
+  box-shadow: 0 0 0 transparent; }
+  .form--element:focus {
+    outline: 0;
+    box-shadow: 0 0 5px #3060ff; }
+
+input[type="text"].form--element,
+input[type="password"].form--element,
+input[type="email"].form--element,
+input[type="search"].form--element,
+input[type="date"].form--element,
+input[type="number"].form--element,
+select.form--element {
   border: 1px solid #ccc;
   border-radius: 2px;
-  background: #e6e6e6;
+  padding: 5px; }
+
+.btn, .btn__block, .btn__primary {
+  padding: .5rem 1rem;
+  border: 1px solid #bbbbbb;
+  border-radius: 2px;
+  background: #eee;
   cursor: pointer;
+  text-align: center;
   color: #000; }
-  .btn:focus, .btn__primary:focus {
+  .btn:focus, .btn__block:focus, .btn__primary:focus {
     transition: box-shadow .5s;
     box-shadow: 0 0 0 transparent; }
-    .btn:focus:focus, .btn__primary:focus:focus {
+    .btn:focus:focus, .btn__block:focus:focus, .btn__primary:focus:focus {
       outline: 0;
       box-shadow: 0 0 5px #3060ff; }
-  .btn:active, .btn__primary:active, .btn--group input[type="checkbox"]:checked + label.btn, .btn--group input[type="checkbox"]:checked + label.btn__primary,
-  .btn--group input[type="radio"]:checked + label.btn,
-  .btn--group input[type="radio"]:checked + label.btn__primary {
-    border-color: #bfbfbf;
-    background: #d9d9d9;
+  .btn__block {
+    display: block;
+    width: 100%; }
+  .btn:active, .btn__block:active, .btn__primary:active, .btn--group input[type="checkbox"]:checked + label.btn, .btn--group__block input[type="checkbox"]:checked + label.btn, .btn--group input[type="checkbox"]:checked + label.btn__block, .btn--group__block input[type="checkbox"]:checked + label.btn__block, .btn--group input[type="checkbox"]:checked + label.btn__primary, .btn--group__block input[type="checkbox"]:checked + label.btn__primary,
+  .btn--group input[type="radio"]:checked + label.btn, .btn--group__block input[type="radio"]:checked + label.btn,
+  .btn--group input[type="radio"]:checked + label.btn__block, .btn--group__block input[type="radio"]:checked + label.btn__block,
+  .btn--group input[type="radio"]:checked + label.btn__primary, .btn--group__block input[type="radio"]:checked + label.btn__primary {
+    border-color: #959595;
+    background: #c8c8c8;
     color: #000; }
-  .btn--group .btn, .btn--group .btn__primary {
+  .btn--group .btn, .btn--group__block .btn, .btn--group .btn__block, .btn--group__block .btn__block, .btn--group .btn__primary, .btn--group__block .btn__primary {
     border-radius: 0;
     border-right-width: 0; }
-    .btn--group .btn:nth-of-type(1), .btn--group .btn__primary:nth-of-type(1) {
+    .btn--group .btn:nth-of-type(1), .btn--group__block .btn:nth-of-type(1), .btn--group .btn__block:nth-of-type(1), .btn--group__block .btn__block:nth-of-type(1), .btn--group .btn__primary:nth-of-type(1), .btn--group__block .btn__primary:nth-of-type(1) {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px; }
-    .btn--group .btn:nth-last-of-type(1), .btn--group .btn__primary:nth-last-of-type(1) {
+    .btn--group .btn:nth-last-of-type(1), .btn--group__block .btn:nth-last-of-type(1), .btn--group .btn__block:nth-last-of-type(1), .btn--group__block .btn__block:nth-last-of-type(1), .btn--group .btn__primary:nth-last-of-type(1), .btn--group__block .btn__primary:nth-last-of-type(1) {
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
       border-right-width: 1px; }
   .btn__primary {
-    border-color: #3060ff;
-    background: #6387ff;
+    border-color: #002fc9;
+    background: #3060ff;
     color: #fff; }
     .btn__primary:active {
-      border-color: #174cff;
-      background: #4a74ff;
+      border-color: #0029b0;
+      background: #174cff;
       color: #fff; }
-  .btn--group input[type="checkbox"],
-  .btn--group input[type="radio"] {
+  .btn--group input[type="checkbox"], .btn--group__block input[type="checkbox"],
+  .btn--group input[type="radio"], .btn--group__block input[type="radio"] {
     visibility: hidden;
     position: absolute; }
+  .btn--group__block {
+    display: flex; }
+    .btn--group__block label {
+      flex: 1 1 auto; }
 
 nav {
   overflow: hidden; }

@@ -1,7 +1,6 @@
 .form {
     &--field {
         padding: .5rem 0;
-        width: 250px;
 
         label {
             display: block;
@@ -9,21 +8,6 @@
             &::after {
                 content: ":";
             }
-        }
-
-        input[type="text"],
-        input[type="password"],
-        input[type="email"],
-        input[type="search"],
-        input[type="date"], 
-        input[type="number"],
-        select {
-            border: 1px solid #ccc;
-            border-radius: 2px;
-            padding: 5px;
-            width: 250px;
-
-            @include global-focus;
         }
 
         input + label {
@@ -37,5 +21,25 @@
 
     &--image {
         max-width: 100%;
+    }
+    
+    &--element {
+        width: 100%;
+        
+        @include global-focus;
+    }
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+input[type="date"], 
+input[type="number"],
+select {
+    &.form--element {
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        padding: 5px;
     }
 }
