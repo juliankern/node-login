@@ -128,11 +128,13 @@
 		"validate": {
 			"username": {
 				"length": "Der Benutzername muss mindestens fünf Zeichen haben",
-				"empty": "Bitte geben Sie einen Benutzernamen an"
+				"empty": "Bitte geben Sie einen Benutzernamen an",
+				"used": "Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen"
 			},
 			"email": {
 				"valid": "Bitte geben Sie eine valide E-Mail Adresse an!",
-				"empty": "Bitte geben Sie einen E-Mail Adresse an"
+				"empty": "Bitte geben Sie einen E-Mail Adresse an",
+				"used": "Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein"
 			},
 			"password": {
 				"length": "Das Passwort muss mindestens sechs Zeichen haben",

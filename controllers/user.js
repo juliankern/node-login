@@ -18,7 +18,8 @@ module.exports = {
     new: create,
     update,
     get,
-    image
+    image,
+    changeSettings
 };
 
 /**
@@ -32,6 +33,65 @@ module.exports = {
  */
 async function find(conditions) {
     return await User.findOne().or(conditions);
+}
+
+async function changeSettings(user, req) {
+    var victim = await find([{ _id: user }, { username: user }]);
+
+    if (req.body.removeimage) {
+        if (!(await user.update(victim.id, { imageFilename: undefined, imageExt: undefined }, req.user))) {
+            global.error('Image could not be removed');
+            req.flash('error', { messageTranslate: 'route.settings.imageerror:Fehler beim Bildupload!' });
+        }
+
+        return true;
+    }
+
+    if (req.body.pass === '') {
+        delete req.body.pass;
+        delete req.body.pass2;
+    }
+
+    if (req.body.confirmed === '') {
+        delete req.body.confirmed;
+    }
+
+    if (victim.email === req.body.email) {
+        delete req.body.email;
+    }
+
+    if (victim.username === req.body.username) {
+        delete req.body.username;
+    }
+
+    if (victim._roleId !== +req.body.role && (
+            (req.user.isEqual(victim) && req.user.hasRight('user.edit.own.role')) || 
+            (!req.user.isEqual(victim) && req.user.hasRight('user.edit.all.role'))
+        )
+    ) {
+        req.body._roleId = req.body.role;
+    }
+    delete req.body.role;
+
+    var updatedUser = await update(victim.id, req.body, req.user);
+    
+    if(updatedUser.errors && updatedUser.errors.length > 0) {
+        req.arrayFlash(updatedUser.errors, 'error');
+    } else {
+        var upload;
+
+        if (req.files && Object.keys(req.files).length > 0) {
+            upload = await image(victim.id, req.files.image);
+        } 
+            
+        if ((req.files && Object.keys(req.files).length > 0 && upload) || Object.keys(req.files).length === 0) {
+            req.flash('success', { messageTranslate: 'route.settings.success:Daten erfolgreich gespeichert!' });
+        } else {
+            req.flash('error', { messageTranslate: 'route.settings.imageerror:Fehler beim Bildupload!' });
+        }
+    }
+
+    return updatedUser;
 }
 
 /**
@@ -155,7 +215,7 @@ async function get(username) {
         return await User.find(); // show all for debug
         // return await User.where('_roleId').ne(9); // skip root user
     } else {
-        return await User.findOne({ username: username });
+        return await find({ username: username });
     }
 }
 
