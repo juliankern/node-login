@@ -69,7 +69,17 @@ module.exports = ['/:username', (base, username) => {
             if(updatedUser.errors && updatedUser.errors.length > 0) {
                 req.arrayFlash(updatedUser.errors, 'error');
             } else {
-                req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
+                var upload;
+
+                if (req.files) {
+                    upload = await user.image(victim.id, req.files.image);
+                } 
+                    
+                if ((req.files && upload) || !req.files) {
+                    req.flash('success', { message: res.__('route.settings.success:Daten erfolgreich gespeichert!') });
+                } else {
+                    req.flash('error', { message: res.__('route.settings.imageerror:Fehler beim Bildupload!') });
+                }
             }
 
             res.redirect('/' + res.__('path.settings.base:settings') + '/' + updatedUser.username);

@@ -10,6 +10,12 @@
     &__medium {
         @extend .img;
 
-        width: 150px; 
+        width: 200px; 
+    }
+
+    &__large {
+        @extend .img;
+
+        width: 400px; 
     }
 }

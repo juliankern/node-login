@@ -1,60 +1,38 @@
+@mixin gridColumns($num) {
+    &__#{$num} {
+        grid-template-columns: repeat(#{$num}, 1fr);
+    }
+}
+
+@mixin gridFlowColumns($num) {
+    &__flowcolumn-#{$num} {
+        @extend .grid__flowcolumn;
+        grid-template-rows: repeat($num, 1fr);
+    }
+}
+
 .grid {
     display: grid;
-    grid-column-gap: 1rem;
+    grid-gap: 1rem;
+    padding: 1rem 0;
     justify-items: stretch;
     width: 100%;
 
-    &__2 {
-        @extend .grid;
-        grid-template-columns: 1fr 1fr;
+    @for $n from 1 through 12 {
+        @include gridColumns($n);
+        @include gridFlowColumns($n);
 
-        .grid--full {
-            grid-column-end: 2;
+        &--rowspan__#{$n} {
+            grid-row-end: span #{$n};
         }
     }
 
-    &__3 {
-        @extend .grid;
-        grid-template-columns: 1fr 1fr 1fr;
-
-        .grid--full {
-            grid-column-end: 3;
-        }
+    &__flowcolumn {
+        grid-auto-flow: column; 
     }
 
-    &__4 {
-        @extend .grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-
-        .grid--full {
-            grid-column-end: 4;
-        }
-    }
-
-    &__5 {
-        @extend .grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-
-        .grid--full {
-            grid-column-end: 5;
-        }
-    }
-
-    &__6 {
-        @extend .grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-
-        .grid--full {
-            grid-column-end: 6;
-        }
-    }
-
-    &--full {
+    &--full,
+    &--half {
         grid-column-start: 1;
-    }
-    
-    &__column {
-        grid-auto-flow: column;
-        grid-template-rows: 1fr 1fr 1fr 1fr;
     }
 }

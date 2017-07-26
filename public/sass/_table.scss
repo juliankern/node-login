@@ -1,0 +1,30 @@
+.table {
+    td,
+    th {
+        padding: 10px;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    &__striped {
+        @extend .table;
+
+        tr {
+            border-bottom: 1px solid color(default);
+
+            &:last-child {
+                border: 0;
+            }
+        }
+
+        thead {
+            border-bottom: 1px solid darken(color(default), 10%);
+        }
+    }
+}

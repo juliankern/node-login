@@ -1,0 +1,27 @@
+.flex {
+    display: flex;
+
+    &--item {
+        flex: 1 1 auto;
+    }
+
+    &-grid {
+        @extend .flex;
+
+        margin: 0 -.5rem;
+
+        .flex--item {
+            padding: .5rem;
+        }
+
+        @for $n from 1 through 12 {
+            &__#{$n} {
+                @extend .flex-grid;
+
+                .flex--item {
+                    flex-basis: #{100% / $n};
+                }
+            }
+        }
+    }
+}

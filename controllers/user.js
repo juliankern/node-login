@@ -1,5 +1,6 @@
 const config = global.req('config.json');
 
+const jimp = require('jimp');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
@@ -144,19 +145,33 @@ async function validate(data, options) {
  */
 async function image(userId, image) {
     return new Promise((resolve, reject) => {
+        global.log('image data', image);
+
+
         var ext = image.name.split('.').pop();
-        var file = _getFileName(global.approot + config.app.uploads, ext) + '.' + ext;
+        var file = _getFileName(global.approot + config.app.uploads, ext);
         var filepath = path.resolve(global.approot + config.app.uploads + file);
 
-        image.mv(filepath, async (err) => {
+        image.mv(filepath + '.' + ext, async (err) => {
             if (err) return reject(err);
+            
+            (await jimp.read(image.data))
+                .cover(100, 100)
+                .quality(60)
+                .write(filepath + '_thumb.' + ext);
 
-            if((await update(userId, { imageFilename: file })).image) {
+            if((await update(userId, { imageFilename: file, imageExt: ext })).image) {
                 resolve(true);
             } else {
+                // TODO delete images here again!
+                (await update(userId, { imageFilename: undefined, imageExt: undefined }));
+                fs.unlinkSync(filepath + '.' + ext);
+                fs.unlinkSync(filepath + '_thumb.' + ext);
                 reject();
             }
         })
+    }).catch((err) => {
+        global.error('Image save failed!', err);
     });
 }
 

@@ -30,15 +30,10 @@ var schema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    confirmationCode: {
-        type: String  
-    },
-    imageFilename: {
-        type: String  
-    },
-    passwordRequestCode: {
-        type: String  
-    },
+    confirmationCode: { type: String },
+    imageFilename: { type: String },
+    imageExt: { type: String },
+    passwordRequestCode: { type: String },
     _roleId: { 
         type: Number,
         default: 1
@@ -53,13 +48,13 @@ schema.virtual('fullName').get(function () {
     return this.firstName + ' ' + this.lastName;
 });
 
-schema.virtual('image')
-    .get(function() {
-        return (this.imageFilename && this.imageFilename !== '') ? '/uploads/' + this.imageFilename : gravatar.url(this.email, { d: 'mm', s: 400 });
-    })
-    .set(function(v) {
-        this.imageFilename = v;
-    });
+schema.virtual('image').get(function() {
+    return (this.imageFilename && this.imageFilename !== '') ? '/uploads/' + this.imageFilename + '.' + this.imageExt : gravatar.url(this.email, { d: 'mm', s: 400 });
+});
+
+schema.virtual('thumbnail').get(function() {
+    return (this.imageFilename && this.imageFilename !== '') ? '/uploads/' + this.imageFilename + '_thumb.' + this.imageExt : gravatar.url(this.email, { d: 'mm', s: 100 });
+});
 
 schema.methods.hasRight = function (right) {
     return this.role.rights.includes(right);
