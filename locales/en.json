@@ -46,7 +46,8 @@
 			"headline": "Login"
 		},
 		"register": {
-			"headline": "Registration"
+			"headline": "Registration",
+			"success": "Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!"
 		},
 		"user": {
 			"headline": "User",
@@ -138,7 +139,8 @@
 			},
 			"password": {
 				"length": "Your password needs to have at least six characters",
-				"valid": "Your password needs to have at least six characters, one letter and one number"
+				"valid": "Your password needs to have at least six characters, one letter and one number",
+				"repeat": "Das Passwort stimmt nicht mit der Wiederholung überein"
 			},
 			"role": "Sie können Ihre Rolle nicht ändern!"
 		},

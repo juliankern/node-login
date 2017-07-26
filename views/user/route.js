@@ -22,6 +22,26 @@ module.exports = ['/new', '/:username', (base, newUser, username) => {
                 victim: {},
                 newUser: true
             });
+        })
+        .post(
+            security.isLoggedin, 
+            security.hasRight('user.create'),
+        async (req, res) => {  
+            var newUser = await user.create(req.body);
+            
+            if(newUser.errors && newUser.errors.length > 0) {
+                req.arrayFlash(newUser.errors, 'error');
+                
+                res.redirect('/' + res.__('path.user.new:user/new')); 
+            } else {
+                if (!req.body.sendmail) {
+                    req.flash('success', { message: res.__('route.user.success:Der neue Benutzer wurde erfolgreich angelegt') });
+                } else if ((await mail.newUser(res, newUser))) {
+                    req.flash('success', { message: res.__('route.user.successmail:Der neue Benutzer wurde erfolgreich angelegt, und ihm wurde eine Mail geschickt.') });
+                }
+                
+                res.redirect('/' + res.__('path.user.base:user') + '/' + newUser.username);
+            }
         });
 
     username

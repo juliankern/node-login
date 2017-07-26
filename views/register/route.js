@@ -7,7 +7,7 @@ module.exports = (route) => {
             res.render('register/template', { headline: res.__('route.register.headline:Registrierung') });
         })
         .post(async (req, res) => {
-            var newUser = await user.new(req.body, { new: true });
+            var newUser = await user.create(req.body, { new: true });
             
             if(newUser.errors && newUser.errors.length > 0) {
                 req.arrayFlash(newUser.errors, 'error');

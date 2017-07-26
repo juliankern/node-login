@@ -15,7 +15,7 @@ module.exports = {
     find,
     passwordRequest,
     confirm,
-    new: create,
+    create,
     update,
     get,
     image,
@@ -146,6 +146,7 @@ async function confirm(code) {
  * @return {Promise}     Promise returning the created user
  */
 async function create(data, options) {
+    options = options || { new: false };
     // definitely check all fields, as they need to be filled
     var userdata = await _validate(data, {
         check: [
