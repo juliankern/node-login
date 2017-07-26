@@ -145,9 +145,6 @@ async function validate(data, options) {
  */
 async function image(userId, image) {
     return new Promise((resolve, reject) => {
-        global.log('image data', image);
-
-
         var ext = image.name.split('.').pop();
         var file = _getFileName(global.approot + config.app.uploads, ext);
         var filepath = path.resolve(global.approot + config.app.uploads + file);
@@ -163,7 +160,7 @@ async function image(userId, image) {
             if((await update(userId, { imageFilename: file, imageExt: ext })).image) {
                 resolve(true);
             } else {
-                // TODO delete images here again!
+                // delete images here if update failed
                 (await update(userId, { imageFilename: undefined, imageExt: undefined }));
                 fs.unlinkSync(filepath + '.' + ext);
                 fs.unlinkSync(filepath + '_thumb.' + ext);
