@@ -137,7 +137,8 @@
 			"password": {
 				"length": "Your password needs to have at least six characters",
 				"valid": "Your password needs to have at least six characters, one letter and one number"
-			}
+			},
+			"role": "Sie können Ihre Rolle nicht ändern!"
 		},
 		"email": "E-Mail",
 		"firstName": "First name",
@@ -152,6 +153,7 @@
 		"active": "Active",
 		"inactive": "Inactive",
 		"joined": "Joined",
-		"profile": "Profile"
+		"profile": "Profile",
+		"removeimage": "Bild entfernen"
 	}
 }

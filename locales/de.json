@@ -137,7 +137,8 @@
 			"password": {
 				"length": "Das Passwort muss mindestens sechs Zeichen haben",
 				"valid": "Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!"
-			}
+			},
+			"role": "Sie können Ihre Rolle nicht ändern!"
 		},
 		"email": "E-Mail",
 		"firstName": "Vorname",
@@ -152,6 +153,7 @@
 		"active": "Aktiv",
 		"inactive": "Inaktiv",
 		"joined": "Beigetreten",
-		"profile": "Profil"
+		"profile": "Profil",
+		"removeimage": "Bild entfernen"
 	}
 }

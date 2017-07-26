@@ -16,9 +16,17 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin, 
             security.hasRight('user.edit.own'), 
         async (req, res) => {
+            if (req.body.removeimage) {
+                if (!(await user.update(req.user.id, { imageFilename: undefined, imageExt: undefined }, req.user))) {
+                    global.error('Image could not be removed');
+                }
+
+                return res.redirect('/' + res.__('path.settings.base:settings'));
+            }
+
             req.body = removeUnchangedParams(req.body, req.user, req.user);
 
-            var updatedUser = await user.update(req.user.id, req.body);
+            var updatedUser = await user.update(req.user.id, req.body, req.user);
             
             if(updatedUser.errors && updatedUser.errors.length > 0) {
                 req.arrayFlash(updatedUser.errors, 'error');
@@ -61,10 +69,17 @@ module.exports = ['/:username', (base, username) => {
         async (req, res) => {
             var victim = await user.get(req.params.username);
 
-            req.body = removeUnchangedParams(req.body, req.user, victim);
-            console.log('req.params', req.body);
+            if (req.body.removeimage) {
+                if (!(await user.update(victim.id, { imageFilename: undefined, imageExt: undefined }, req.user))) {
+                    global.error('Image could not be removed');
+                }
 
-            var updatedUser = await user.update(victim.id, req.body);
+                return res.redirect('/' + res.__('path.settings.base:settings') + '/' + victim.username);
+            }
+
+            req.body = removeUnchangedParams(req.body, req.user, victim);
+
+            var updatedUser = await user.update(victim.id, req.body, req.user);
             
             if(updatedUser.errors && updatedUser.errors.length > 0) {
                 req.arrayFlash(updatedUser.errors, 'error');

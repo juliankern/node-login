@@ -15,7 +15,6 @@ module.exports = {
     find,
     passwordRequest,
     confirm,
-    validate,
     new: create,
     update,
     get,
@@ -78,59 +77,86 @@ async function confirm(code) {
 }
 
 /**
- * Validate userdata
+ * Creates new user
  *
  * @author Julian Kern <julian.kern@dmc.de>
  *
- * @param  {object} data    Form data
- * @param  {object} options Options for the check. Currently possible:
- *                          - check: {Array}    containing the field names which should definitely be checked, even if not set
+ * @param  {object} data Userdata for the new user
  *
- * @return {object}         Object containung the original data and errors if occured
+ * @return {Promise}     Promise returning the created user
  */
-async function validate(data, options) {
-    var errors = [];
-    options = options || { check: '' };
+async function create(data, options) {
+    // definitely check all fields, as they need to be filled
+    var userdata = await _validate(data, {
+        check: [
+            'username',
+            'email',
+            'pass'
+        ],
+        new: options.new
+    });
+
+    if(userdata.errors) {
+        return userdata;
+    }
+
+    var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
+    var confirmationCode = await _getCode('confirmationCode');
     
-    if ((data.username || options.check.includes('username')) && data.username == '') {
-        errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.empty:Bitte geben Sie einen Benutzernamen an' });
-    }
-    
-    if ((data.username || options.check.includes('username')) && data.username.length < 5) {
-        errors.push({ fields: ['pass'], messageTranslate: 'user.validate.username.length:Der Benutzername muss mindestens fünf Zeichen haben' });
+    var newUser = new User({
+        email: data.email,
+        username: data.username,
+        pass: passHash,
+        confirmationCode
+    });
+      
+    return await newUser.save((err) => {
+        if (err) global.error('New user save error:', err);
+    });
+}
+
+/**
+ * Update specific user with data
+ *
+ * @author Julian Kern <julian.kern@dmc.de>
+ *
+ * @param  {string} userId User ID of the to-be-updated user
+ * @param  {object} data   Userdata to be updated
+ *
+ * @return {Promise}       Promise returning the updated user
+ */
+async function update(userId, data, user) {
+    var userdata = await _validate(Object.assign({}, data, { id: userId }), null, user);
+
+    if(userdata.errors) {
+        return userdata;
     }
 
-    if ((data.username || options.check.includes('username')) && (await User.find({ username: data.username })).length > 0) {
-        errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.used:Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen' }); 
+    if (data.pass) {
+        data.pass = await bcrypt.hash(data.pass, config.security.saltRounds);
     }
 
-    if ((data.email || options.check.includes('email')) && data.email == '') {
-        errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.empty:Bitte geben Sie einen E-Mail Adresse an' });
-    }
+    return await User.findByIdAndUpdate(userId, data, { new: true }).exec((err, data) => {
+        if (err) global.error('User update error:', err);
+    });
+}
 
-    if ((data.email || options.check.includes('email')) && !validator.email(data.email)) {
-        errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.valid:Bitte geben Sie eine valide E-Mail Adresse an!' });
+/**
+ * Get a specific user or a userlist
+ *
+ * @author Julian Kern <julian.kern@dmc.de>
+ *
+ * @param  {string} username Optional. ID of the user to be returned
+ *
+ * @return {Promise}         Promise returning the user or an array of users
+ */
+async function get(username) {
+    if (!username) {
+        return await User.find(); // show all for debug
+        // return await User.where('_roleId').ne(9); // skip root user
+    } else {
+        return await User.findOne({ username: username });
     }
-
-    if ((data.email || options.check.includes('email')) && (await User.find({ email: data.email })).length > 0) {
-        errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.used:Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein' }); 
-    }
-    
-    if ((data.pass || options.check.includes('pass')) && data.pass !== data.pass2) {
-        errors.push({ fields: ['pass', 'pass2'], messageTranslate: 'user.validate.password.repeat:Das Passwort stimmt nicht mit der Wiederholung überein' });
-    }
-    
-    if ((data.pass || options.check.includes('pass')) && data.pass.length < 6) {
-        errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.length:Das Passwort muss mindestens sechs Zeichen haben' });
-    }
-
-    if ((data.pass || options.check.includes('pass')) && !validator.password(data.pass)) {
-        errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.valid:Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!' });
-    }
-
-    // TODO check for rights here, and prevnt change of role
-
-    return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
 }
 
 /**
@@ -173,86 +199,69 @@ async function image(userId, image) {
 }
 
 /**
- * Creates new user
+ * PRIVATE - Validate userdata
  *
  * @author Julian Kern <julian.kern@dmc.de>
  *
- * @param  {object} data Userdata for the new user
+ * @param  {object} data    Form data
+ * @param  {object} options Options for the check. Currently possible:
+ *                          - check: {Array}    containing the field names which should definitely be checked, even if not set
+ * @param  {object} user    Current active user
  *
- * @return {Promise}     Promise returning the created user
+ * @return {object}         Object containung the original data and errors if occured
  */
-async function create(data) {
-    // definitely check all fields, as they need to be filled
-    var userdata = await validate(data, {
-        check: [
-            'username',
-            'email',
-            'pass'
-        ]
-    });
-
-    if(userdata.errors) {
-        return userdata;
-    }
-
-    var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
-    var confirmationCode = await _getCode('confirmationCode');
+async function _validate(data, options, user) {
+    var errors = [];
+    options = options || { check: '' };
     
-    var newUser = new User({
-        email: data.email,
-        username: data.username,
-        pass: passHash,
-        confirmationCode
-    });
-      
-    return await newUser.save((err) => {
-        if (err) global.error('New user save error:', err);
-    });
-}
-
-/**
- * Update specific user with data
- *
- * @author Julian Kern <julian.kern@dmc.de>
- *
- * @param  {string} userId User ID of the to-be-updated user
- * @param  {object} data   Userdata to be updated
- *
- * @return {Promise}       Promise returning the updated user
- */
-async function update(userId, data) {
-    // definitely check all fields, as they need to be filled
-    var userdata = await validate(data);
-
-    if(userdata.errors) {
-        return userdata;
+    if ((data.username || options.check.includes('username')) && data.username == '') {
+        errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.empty:Bitte geben Sie einen Benutzernamen an' });
+    }
+    
+    if ((data.username || options.check.includes('username')) && data.username.length < 5) {
+        errors.push({ fields: ['pass'], messageTranslate: 'user.validate.username.length:Der Benutzername muss mindestens fünf Zeichen haben' });
     }
 
-    if (data.pass) {
-        data.pass = await bcrypt.hash(data.pass, config.security.saltRounds);
+    if ((data.username || options.check.includes('username')) && (await User.find({ username: data.username })).length > 0) {
+        errors.push({ fields: ['username'], messageTranslate: 'user.validate.username.used:Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen' }); 
     }
 
-    return await User.findByIdAndUpdate(userId, data, { new: true }).exec((err, data) => {
-        if (err) global.error('User update error:', err);
-    });
-}
-
-/**
- * Get a specific user or a userlist
- *
- * @author Julian Kern <julian.kern@dmc.de>
- *
- * @param  {string} username Optional. ID of the user to be returned
- *
- * @return {Promise}         Promise returning the user or an array of users
- */
-async function get(username) {
-    if (!username) {
-        return await User.find(); // show all for debug
-        // return await User.where('_roleId').ne(9); // skip root user
-    } else {
-        return await User.findOne({ username: username });
+    if ((data.email || options.check.includes('email')) && data.email == '') {
+        errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.empty:Bitte geben Sie einen E-Mail Adresse an' });
     }
+
+    if ((data.email || options.check.includes('email')) && !validator.email(data.email)) {
+        errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.valid:Bitte geben Sie eine valide E-Mail Adresse an!' });
+    }
+
+    if ((data.email || options.check.includes('email')) && (await User.find({ email: data.email })).length > 0) {
+        errors.push({ fields: ['email'], messageTranslate: 'user.validate.email.used:Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein' }); 
+    }
+    
+    if ((data.pass || options.check.includes('pass')) && data.pass !== data.pass2) {
+        errors.push({ fields: ['pass', 'pass2'], messageTranslate: 'user.validate.password.repeat:Das Passwort stimmt nicht mit der Wiederholung überein' });
+    }
+    
+    if ((data.pass || options.check.includes('pass')) && data.pass.length < 6) {
+        errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.length:Das Passwort muss mindestens sechs Zeichen haben' });
+    }
+
+    if ((data.pass || options.check.includes('pass')) && !validator.password(data.pass)) {
+        errors.push({ fields: ['pass'], messageTranslate: 'user.validate.password.valid:Ihr Password muss mindestens sechs Zeichen haben, und sowohl Buchstaben als auch Zahlen beinhalten!' });
+    }
+
+    if ((data._roleId || data.role) && (
+        options.new || (
+            user && (
+                (user.isEqual(data) && !user.hasRight('user.edit.own.role')) ||
+                (!user.isEqual(data) && !user.hasRight('user.edit.all.role'))
+            )
+        )
+    )) {
+        errors.push({ fields: ['role'], messageTranslate: 'user.validate.role:Sie können Ihre Rolle nicht ändern!' });
+    }
+
+    return await Object.assign({}, data, { errors: errors.length > 0 ? errors : null });
 }
 
 /**

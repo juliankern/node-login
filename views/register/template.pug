@@ -9,10 +9,10 @@ block content
             label(for="username")= __('user.username:Benutzername')
             input(value=formdata ? formdata.username : false, type="text", id="username", name="username", placeholder=__('user.username:Benutzername'), class=hasErrors && fields.includes('username') ? 'input-invalid' : '').form--element
         .form--field
-            label(for="email")= __('user.pass:Passwort')
+            label(for="pass")= __('user.pass:Passwort')
             input(type="password", id="pass", name="pass", placeholder=__('user.pass:Passwort'), class=hasErrors && fields.includes('pass') ? 'input-invalid' : '').form--element
         .form--field
-            label(for="email")= __('user.pass2:Passwort Wiederholung')
+            label(for="pass2")= __('user.pass2:Passwort Wiederholung')
             input(type="password", id="pass2", name="pass2", placeholder=__('user.pass2:Passwort Wiederholung'), class=hasErrors && fields.includes('pass2') ? 'input-invalid' : '').form--element
         
         button(type="submit").btn__primary= __('view.register.submit:Registrieren!')

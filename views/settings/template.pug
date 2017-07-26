@@ -21,6 +21,8 @@ block content
                             img(src=victim.image, alt=__('user.image:Benutzerbild')).img
                             if victim.image.includes('gravatar')
                                 | (Gravatar)
+                            else
+                                button(type="submit", name="removeimage", value="removeimage").btn= __('user.removeimage:Bild entfernen')
 
                     if (user.isEqual(victim) && user.hasRight('user.edit.own.image')) || (!user.isEqual(victim) && user.hasRight('user.edit.all.image'))
                         .form--field
