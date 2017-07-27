@@ -27,21 +27,36 @@ Object.assign(global, {
         // custom info logger with color
         console.log(chalk.bold.cyan(arg1), ...args);
     },
+    warn: (arg1, ...args) => {
+        // custom info logger with color
+        console.log(chalk.bold.yellowBright('!! ' + arg1), ...args);
+    },
     error: (arg1, ...args) => {
         // custom error logger with red color
-        console.log(chalk.bold.red('>> ' + arg1), ...args);
+        console.log(chalk.bold.redBright('>> ' + arg1), ...args);
     }
 });
 
-log('');
-log('');
-log('Application starting...');
+global.log('');
+global.log('');
+
+if (process.title === 'npm' && require('os').type().includes('Windows')) {
+    global.warn('You need to run "npm run watch-scss" as well, to compile CSS!');
+    global.log('');
+}
+
+if (+process.version.replace('v', '').split('.')[0] < 8) {
+    global.error('You need to upgrade to NodeJS 8 to run this application!');
+    process.exit(1);
+}
+
+global.log('Application starting...');
 
 require('dotenv').load();
 
 mongoose.connect(process.env.MONGODB || 'mongodb://localhost/login-frame', { useMongoClient: true }).then(
-    () => { success('Connection to DB successful'); },
-    (err) => { error('Connection to DB failed!', err); process.exit(0); }
+    () => { global.success('Connection to DB successful'); },
+    (err) => { global.error('Connection to DB failed!', err); process.exit(0); }
 );
 
 if (app.get('env') === 'production') {
@@ -58,7 +73,7 @@ app.use(require('body-parser').urlencoded({ extended: false }));
 app.use(require('express-fileupload')());
 
 // init security features here
-req('controllers/security').init(app);
+global.req('controllers/security').init(app);
 
 app.use(require('connect-flash')());
 
@@ -135,7 +150,7 @@ app.use((req, res, next) => {
 });
 
 // load all routes here
-req('views')(router);
+global.req('views')(router);
 app.use(router);
 
 const server = app.listen(process.env.PORT || 3000, () => {

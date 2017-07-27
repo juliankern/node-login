@@ -4,10 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const randomstring = require('randomstring');
 
-var validator = global.req('utils/validation');
-var security = global.req('controllers/security');
+const validator = global.req('utils/validation');
+const security = global.req('controllers/security');
 
-var User = global.req('models/user.js');
+const User = global.req('models/user.js');
 
 module.exports = {
     find,
@@ -34,7 +34,7 @@ async function find(conditions) {
 }
 
 async function changeSettings(user, req) {
-    var victim = await find([{ _id: user }, { username: user }]);
+    let victim = await find([{ _id: user }, { username: user }]);
 
     if (req.body.removeimage) {
         if (!(await update(victim.id, { imageFilename: undefined, imageExt: undefined }, req.user))) {
@@ -71,12 +71,12 @@ async function changeSettings(user, req) {
     }
     delete req.body.role;
 
-    var updatedUser = await update(victim.id, req.body, req.user);
+    let updatedUser = await update(victim.id, req.body, req.user);
     
     if(updatedUser.errors && updatedUser.errors.length > 0) {
         req.arrayFlash(updatedUser.errors, 'error');
     } else {
-        var upload;
+        let upload;
 
         if (req.files && Object.keys(req.files).length > 0) {
             upload = await image(victim.id, req.files.image);
@@ -102,7 +102,7 @@ async function changeSettings(user, req) {
  * @return {Promise}       Promise returning the user
  */
 async function passwordRequest(victim) {
-    var passwordRequestCode = await _getCode('passwordRequestCode');
+    let passwordRequestCode = await _getCode('passwordRequestCode');
     victim.passwordRequestCode = passwordRequestCode;
     
     return await victim.save((err) => {
@@ -120,7 +120,7 @@ async function passwordRequest(victim) {
  * @return {Promise}     Promise returning the just confirmed user
  */
 async function confirm(code) {
-    var user = await User.findOne({ confirmationCode: code, confirmed: false });
+    let user = await User.findOne({ confirmationCode: code, confirmed: false });
     
     if (!user) {
         return false;
@@ -146,7 +146,7 @@ async function confirm(code) {
 async function create(data, options) {
     options = options || { new: false };
     // definitely check all fields, as they need to be filled
-    var userdata = await _validate(data, {
+    let userdata = await _validate(data, {
         check: [
             'username',
             'email',
@@ -159,10 +159,10 @@ async function create(data, options) {
         return userdata;
     }
 
-    var passHash = await bcrypt.hash(data.pass, global.config.security.saltRounds);
-    var confirmationCode = await _getCode('confirmationCode');
+    let passHash = await bcrypt.hash(data.pass, global.config.security.saltRounds);
+    let confirmationCode = await _getCode('confirmationCode');
     
-    var newUser = new User({
+    let newUser = new User({
         email: data.email,
         username: data.username,
         pass: passHash,
@@ -185,7 +185,7 @@ async function create(data, options) {
  * @return {Promise}       Promise returning the updated user
  */
 async function update(userId, data, user) {
-    var userdata = await _validate(Object.assign({}, data, { id: userId }), null, user);
+    let userdata = await _validate(Object.assign({}, data, { id: userId }), null, user);
 
     if(userdata.errors) {
         return userdata;
@@ -230,9 +230,9 @@ async function get(username) {
  */
 async function image(userId, image) {
     return new Promise((resolve, reject) => {
-        var ext = image.name.split('.').pop();
-        var file = _getFileName(global.approot + global.config.app.uploads, ext);
-        var filepath = path.resolve(global.approot + global.config.app.uploads + file);
+        let ext = image.name.split('.').pop();
+        let file = _getFileName(global.approot + global.config.app.uploads, ext);
+        let filepath = path.resolve(global.approot + global.config.app.uploads + file);
 
         image.mv(filepath + '.' + ext, async (err) => {
             if (err) return reject(err);
@@ -270,7 +270,7 @@ async function image(userId, image) {
  * @return {object}         Object containung the original data and errors if occured
  */
 async function _validate(data, options, user) {
-    var errors = [];
+    let errors = [];
     options = options || { check: '' };
     
     if ((data.username || options.check.includes('username')) && data.username == '') {
@@ -333,8 +333,8 @@ async function _validate(data, options, user) {
  * @return {string}           Code which isn't in use yet
  */
 async function _getCode(fieldname) {
-    var code;
-    var find = {};
+    let code;
+    let find = {};
     
     while(true) {
         code = randomstring.generate({ length: 32, readable: true });
@@ -359,9 +359,9 @@ async function _getCode(fieldname) {
  * @return {string}        Filename which isn't in use yet
  */
 function _getFileName(folder, ext) {
-    var code;
-    var err;
-    var find = {};
+    let code;
+    let err;
+    let find = {};
 
     while(true) {
         code = randomstring.generate({ length: 48, readable: true });
