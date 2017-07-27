@@ -1,5 +1,3 @@
-const config = global.req('config.json');
-
 const jimp = require('jimp');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
@@ -39,7 +37,7 @@ async function changeSettings(user, req) {
     var victim = await find([{ _id: user }, { username: user }]);
 
     if (req.body.removeimage) {
-        if (!(await user.update(victim.id, { imageFilename: undefined, imageExt: undefined }, req.user))) {
+        if (!(await update(victim.id, { imageFilename: undefined, imageExt: undefined }, req.user))) {
             global.error('Image could not be removed');
             req.flash('error', { messageTranslate: 'route.settings.imageerror:Fehler beim Bildupload!' });
         }
@@ -161,7 +159,7 @@ async function create(data, options) {
         return userdata;
     }
 
-    var passHash = await bcrypt.hash(data.pass, config.security.saltRounds);
+    var passHash = await bcrypt.hash(data.pass, global.config.security.saltRounds);
     var confirmationCode = await _getCode('confirmationCode');
     
     var newUser = new User({
@@ -194,7 +192,7 @@ async function update(userId, data, user) {
     }
 
     if (data.pass) {
-        data.pass = await bcrypt.hash(data.pass, config.security.saltRounds);
+        data.pass = await bcrypt.hash(data.pass, global.config.security.saltRounds);
     }
 
     return await User.findByIdAndUpdate(userId, data, { new: true }).exec((err, data) => {
@@ -233,8 +231,8 @@ async function get(username) {
 async function image(userId, image) {
     return new Promise((resolve, reject) => {
         var ext = image.name.split('.').pop();
-        var file = _getFileName(global.approot + config.app.uploads, ext);
-        var filepath = path.resolve(global.approot + config.app.uploads + file);
+        var file = _getFileName(global.approot + global.config.app.uploads, ext);
+        var filepath = path.resolve(global.approot + global.config.app.uploads + file);
 
         image.mv(filepath + '.' + ext, async (err) => {
             if (err) return reject(err);

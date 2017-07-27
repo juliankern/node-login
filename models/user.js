@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var gravatar = require('gravatar');
 
 var validator = global.req('utils/validation');
-var config = global.req('config.json');
 
 var schema = new mongoose.Schema({ 
     username: {
@@ -38,10 +37,10 @@ var schema = new mongoose.Schema({
         type: Number,
         default: 1
     }
-}, config.schema);
+}, global.config.schema);
 
 schema.virtual('role').get(function () {
-    return config.roles[this._roleId];
+    return global.config.roles[this._roleId];
 });
 
 schema.virtual('fullName').get(function () {

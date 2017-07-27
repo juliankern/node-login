@@ -1,12 +1,10 @@
-var passport = require('passport');
-var bcrypt = require('bcrypt');
-var i18n = require('i18n');
+const passport = require('passport');
+const bcrypt = require('bcrypt');
+const i18n = require('i18n');
 
-var config = global.req('config.json');
-var LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
-var User = global.req('models/user.js');
-
+const User = global.req('models/user.js');
   
 module.exports = {
     init: (app) => {

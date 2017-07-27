@@ -1,14 +1,15 @@
-var config = require('../config.json');
-var chalk = require('chalk');
+const config = global.config = require('../config.json');
+const chalk = require('chalk');
 
-var path = require('path');
-var express = require('express');
-var app = express();
-var router = express.Router();
+const moment = require('moment');
+const i18n = require('i18n');
+const mongoose = require('mongoose');
+const path = require('path');
+const express = require('express');
 
-var moment = require('moment');
-var i18n = require('i18n');
-var mongoose = require('mongoose');
+const app = express();
+const router = express.Router();
+
 mongoose.Promise = global.Promise;
 
 // add global functions
@@ -137,6 +138,6 @@ app.use((req, res, next) => {
 req('views')(router);
 app.use(router);
 
-var server = app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
     global.success('App listening on port ' + server.address().port);
 });

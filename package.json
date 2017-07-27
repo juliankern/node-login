@@ -7,7 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build-sass": "node-sass public/sass/style.scss public/css/style.css",
         "watch-scss": "nodemon --config nodemon_scss.json",
-        "watch": "nodemon --config nodemon_app.json bin/server.js & npm run watch-scss",
+        "watch": "nodemon --config nodemon_app.json bin/server.js -- --use_strict & npm run watch-scss",
         "start": "npm run watch"
     },
     "repository": {
