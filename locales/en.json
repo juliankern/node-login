@@ -47,7 +47,7 @@
 		},
 		"register": {
 			"headline": "Registration",
-			"success": "Du wurdest erfolgreich registriert. Bitte bestätige deine E-Mail Adresse um dich einloggen zu können!"
+			"success": "You were registered successfully. Please verify your e-mail adress to login."
 		},
 		"user": {
 			"headline": "User",
@@ -130,19 +130,19 @@
 			"username": {
 				"length": "The username needs to have at least five characters!",
 				"empty": "Please enter a user name",
-				"used": "Dieser Benutzername ist schon vergeben, bitte wählen Sie einen anderen"
+				"used": "This username is already taken. Please choose a different one."
 			},
 			"email": {
 				"valid": "Please enter a valid e-mail address",
 				"empty": "Please enter an e-mail address",
-				"used": "Diese E-Mail Adresse ist schon in Benutzung, bitte loggen Sie sich ein"
+				"used": "This e-mail adress is already in use. Please log in."
 			},
 			"password": {
 				"length": "Your password needs to have at least six characters",
 				"valid": "Your password needs to have at least six characters, one letter and one number",
-				"repeat": "Das Passwort stimmt nicht mit der Wiederholung überein"
+				"repeat": "The passwort doesn't match its repetition."
 			},
-			"role": "Sie können Ihre Rolle nicht ändern!"
+			"role": "You cannot change your role!"
 		},
 		"email": "E-Mail",
 		"firstName": "First name",
@@ -158,6 +158,6 @@
 		"inactive": "Inactive",
 		"joined": "Joined",
 		"profile": "Profile",
-		"removeimage": "Bild entfernen"
+		"removeimage": "Remove image"
 	}
 }
