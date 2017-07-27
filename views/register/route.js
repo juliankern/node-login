@@ -1,5 +1,5 @@
-var user = global.req('controllers/user.js');
-var mail = global.req('controllers/mail.js');
+const user = global.req('controllers/user');
+const mail = global.req('controllers/mail');
 
 module.exports = (route) => {
     route
@@ -7,7 +7,7 @@ module.exports = (route) => {
             res.render('register/template', { headline: res.__('route.register.headline:Registrierung') });
         })
         .post(async (req, res) => {
-            var newUser = await user.create(req.body, { new: true });
+            let newUser = await user.create(req.body, { new: true });
             
             if(newUser.errors && newUser.errors.length > 0) {
                 req.arrayFlash(newUser.errors, 'error');

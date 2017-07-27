@@ -1,5 +1,5 @@
-var user = global.req('controllers/user');
-var security = global.req('controllers/security');
+const user = global.req('controllers/user');
+const security = global.req('controllers/security');
 
 module.exports = ['/:username', (base, username) => {
     base
@@ -26,7 +26,7 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin,
             security.hasRight('user.edit.all'), 
         async (req, res) => {
-            var victim = await user.get(req.params.username);
+            let victim = await user.get(req.params.username);
 
             if (await req.user.isEqual(victim)) {
                 return res.redirect('/' + res.__('path.settings.base:settings'));
@@ -41,7 +41,7 @@ module.exports = ['/:username', (base, username) => {
             security.isLoggedin,
             security.hasRight('user.edit.all'), 
         async (req, res) => {
-            var updated = await user.changeSettings(req.params.username, req);
+            let updated = await user.changeSettings(req.params.username, req);
 
             if (updated) {
                 return res.redirect('/' + res.__('path.settings.base:settings') + '/' + updated.username);

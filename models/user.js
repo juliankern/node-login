@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
-var gravatar = require('gravatar');
+const mongoose = require('mongoose');
+const gravatar = require('gravatar');
 
-var validator = global.req('utils/validation');
+const validator = global.req('utils/validation');
 
-var schema = new mongoose.Schema({ 
+let schema = new mongoose.Schema({ 
     username: {
         type: String,
         required: true,

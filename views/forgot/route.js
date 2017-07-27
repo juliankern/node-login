@@ -1,6 +1,6 @@
-var user = global.req('controllers/user');
-var mail = global.req('controllers/mail');
-var security = global.req('controllers/security');
+const user = global.req('controllers/user');
+const mail = global.req('controllers/mail');
+const security = global.req('controllers/security');
 
 module.exports = ['/:code', (base, code) => {
     base
@@ -15,7 +15,7 @@ module.exports = ['/:code', (base, code) => {
                 return res.redirect('/' + res.__('path.forgot.base:forgot'));
             }
             
-            var victim = await user.find([{ username: req.body.userdata }, { email: req.body.userdata }]);
+            let victim = await user.find([{ username: req.body.userdata }, { email: req.body.userdata }]);
             
             if (!victim) {
                 req.flash('error', { message: res.__('route.forgot.error.notfound:Es konnte kein Benutzer mit diesen Daten gefunden werden.') + ' ' + res.__('global.check.input:Bitte überprüfe deine Eingaben.') });
@@ -41,7 +41,7 @@ module.exports = ['/:code', (base, code) => {
         })
         .post(async (req, res) => {
             // definitely check pass here, as it needs to be filled
-            var userdata = await user.validate(req.body, {
+            let userdata = await user.validate(req.body, {
                 check: 'pass'
             });
             
@@ -50,7 +50,7 @@ module.exports = ['/:code', (base, code) => {
                 
                 return res.redirect('/' + res.__('path.forgot.base:forgot') + '/' + req.params.code);
             } else {
-                var victim = await user.find({ passwordRequestCode: req.params.code });
+                let victim = await user.find({ passwordRequestCode: req.params.code });
                 userdata.passwordRequestCode = undefined;
                 
                 if ((await user.update(victim.id, userdata))) {

@@ -1,10 +1,10 @@
 const i18n = require('i18n');
-var routes = [];
-var routeName;
+let routes = [];
+let routeName;
 
 module.exports = (router) => {
     // loads all subroutes in this directory
-    require('../utils/loader.js').load(__dirname, (options, module, filename) => {
+    global.req('utils/loader.js').load(__dirname, (options, module, filename) => {
         routes = [];
         // get the actual route name from directory
         routeName = filename.split('/').splice(-2, 1); 

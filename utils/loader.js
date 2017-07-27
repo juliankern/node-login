@@ -1,6 +1,6 @@
-var glob = require('glob')
-var path = require('path');
-var module, moduleFunc;
+const glob = require('glob')
+const path = require('path');
+let module, moduleFunc;
 
 module.exports = {
     /**

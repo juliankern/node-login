@@ -1,5 +1,5 @@
-var user = global.req('controllers/user');
-var security = global.req('controllers/security');
+const user = global.req('controllers/user');
+const security = global.req('controllers/security');
 
 module.exports = ['/new', '/:username', (base, newUser, username) => {
     base
@@ -27,7 +27,7 @@ module.exports = ['/new', '/:username', (base, newUser, username) => {
             security.isLoggedin, 
             security.hasRight('user.create'),
         async (req, res) => {  
-            var newUser = await user.create(req.body);
+            let newUser = await user.create(req.body);
             
             if(newUser.errors && newUser.errors.length > 0) {
                 req.arrayFlash(newUser.errors, 'error');
@@ -48,7 +48,7 @@ module.exports = ['/new', '/:username', (base, newUser, username) => {
         .get(
             security.isLoggedin, 
         async (req, res) => {
-            var victim = await user.get(req.params.username);
+            let victim = await user.get(req.params.username);
 
             res.render('profile/template', { 
                 headline: res.__('route.user.profile.headline:Profil von %s', victim.username),
