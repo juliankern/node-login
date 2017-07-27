@@ -1,3 +1,5 @@
 node_modules/
 .env
 uploads/
+public/css/
+public/sass/views.scss
