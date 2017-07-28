@@ -36,6 +36,11 @@
 			"base": "index",
 			"new": "index/new",
 			"username": "index/:username"
+		},
+		"groups": {
+			"base": "groups",
+			"new": "groups/new",
+			"name": "groups/:name"
 		}
 	},
 	"route": {
@@ -74,6 +79,16 @@
 		},
 		"logout": {
 			"headline": "Logout"
+		},
+		"groups": {
+			"headline": "Gruppen",
+			"new": {
+				"headline": "Neue Gruppe anlegen"
+			},
+			"success": {
+				"change": "Die Gruppe wurde erfolgreich geändert",
+				"create": "Die Gruppe wurde erfolgreich angelegt"
+			}
 		}
 	},
 	"global": {
@@ -83,7 +98,8 @@
 		"error": "Error",
 		"success": "Success",
 		"change": "Change",
-		"save": "Save!"
+		"save": "Save!",
+		"overview": "Übersicht"
 	},
 	"view": {
 		"login": {
@@ -102,6 +118,11 @@
 		},
 		"register": {
 			"submit": "Register!"
+		},
+		"groups": {
+			"create": "Neue Gruppe anlegen",
+			"nogroups": "Keine Gruppen gefunden.",
+			"created": "Von %s, %s"
 		}
 	},
 	"roles": {
@@ -159,5 +180,13 @@
 		"joined": "Joined",
 		"profile": "Profile",
 		"removeimage": "Remove image"
+	},
+	"group": {
+		"name": "Name"
+	},
+	"groups": {
+		"name": "Name",
+		"creator": "Ersteller",
+		"created": "Erstellt"
 	}
 }

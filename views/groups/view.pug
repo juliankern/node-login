@@ -1,0 +1,14 @@
+extends ../../templates/layout
+
+block content
+    .v-groups
+        form(method="post").v-groups--form.form
+            .flex-grid__2
+                .flex--item
+                    input(value=group.id, type="hidden", name="id")
+
+                    .form--field
+                        label(for="name")= __('group.name:Name')
+                        input(value=group.name, type="text", id="name", name="name", placeholder=__('group.name:Name'), class=hasErrors && fields.includes('name') ? 'input-invalid' : '').form--element
+                
+            button(type="submit").btn__primary= __('global.save:Speichern!')

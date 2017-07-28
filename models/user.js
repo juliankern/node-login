@@ -29,6 +29,12 @@ let schema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    groups: [
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Group' 
+        }
+    ],
     confirmationCode: { type: String },
     imageFilename: { type: String },
     imageExt: { type: String },

@@ -6,7 +6,7 @@ module.exports = ['/new', '/:username', (base, newUser, username) => {
         .get(
             security.isLoggedin, 
         async (req, res) => {
-            res.render('userlist/template', { 
+            res.render('user/list', { 
                 headline: res.__('route.user.list.headline:Benutzer'),
                 users: await user.get() 
             });
@@ -50,7 +50,7 @@ module.exports = ['/new', '/:username', (base, newUser, username) => {
         async (req, res) => {
             let victim = await user.get(req.params.username);
 
-            res.render('profile/template', { 
+            res.render('user/profile', { 
                 headline: res.__('route.user.profile.headline:Profil von %s', victim.username),
                 victim 
             });

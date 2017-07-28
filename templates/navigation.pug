@@ -14,6 +14,10 @@ nav
             li.nav--item
                 a(href='/' + __('path.settings.base:settings'))= __('route.settings.headline:Einstellungen')
             
+            if user.hasRight('group')
+                li.nav--item
+                    a(href='/' + __('path.groups.base:groups'))= __('route.groups.headline:Gruppen')
+
             if user.hasRight('admin.panel')
                 li.nav--item
                     a(href='/' + __('path.admin.base:admin'))= __('route.admin.headline:Administration')

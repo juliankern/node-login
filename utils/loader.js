@@ -1,6 +1,5 @@
 const glob = require('glob')
 const path = require('path');
-let module, moduleFunc;
 
 module.exports = {
     /**
@@ -12,6 +11,7 @@ module.exports = {
      * @param  {object} args Arguments to be send to the module
      */
     load: (dir, args) => {
+        let module, moduleFunc;
         glob.sync(dir + '/**/*.js').forEach((file) => {
             if(!file.includes('/index.js')) {
                 // require every found file first

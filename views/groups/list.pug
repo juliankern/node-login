@@ -1,0 +1,25 @@
+extends ../../templates/layout
+
+block content
+    .v-group-list
+        if user.hasRight('group.create')
+            a(href="/" + __('path.groups.new:groups/new'))= __('view.groups.create:Neue Gruppe anlegen')
+
+        if groups.length > 0
+            table.table__striped
+                thead
+                    tr
+                        th= __('groups.name:Name')
+                        th= __('groups.created:Erstellt')
+                        th &nbsp;
+                tbody
+                    each g in groups
+                        tr 
+                            td= g.name
+                            td= __('view.groups.created:Von %s, %s', g.createdBy.username, date.fromNow(g.createdAt))
+                            td
+                                ul
+                                    li
+                                        a(href="/" + __('path.groups.base:groups') + '/' + g.name)= __('global.overview:Übersicht')
+        else
+            p= __('view.groups.nogroups:Keine Gruppen gefunden.')

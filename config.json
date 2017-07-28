@@ -40,6 +40,9 @@
                 "user.edit.own.image",
                 "user.edit.own.active",
                 "user.edit.own.confirmed",
+                "group",
+                "group.create",
+                "group.change",
                 "admin.panel"
             ]
         }

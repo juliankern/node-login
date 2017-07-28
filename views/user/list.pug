@@ -1,0 +1,33 @@
+extends ../../templates/layout
+
+block content
+    .v-userlist
+        if user.hasRight('user.create')
+            a(href="/" + __('path.user.new:user/new'))= __('view.userlist.create:Neuen Benutzer anlegen')
+        
+        if users.length > 0
+            table.table__striped
+                thead
+                    tr
+                        th= __('user.image:Benutzerfild')
+                        th= __('user.username:Benutzername')
+                        th= __('user.email:E-Mail')
+                        th= __('user.joined:Beigetreten')
+                        th &nbsp;
+                tbody
+                    each u in users
+                        tr 
+                            td
+                                img(src=u.thumbnail, alt=__('user.image:Benutzerbild')).img__medium
+                            td= u.username
+                            td= u.email
+                            td= date.fromNow(u.createdAt, true)
+                            td
+                                ul
+                                    li
+                                        a(href="/" + __('path.user.base') + '/' + u.username)= __('user.profile:Profil')
+                                    if user.hasRight('user.edit.all')
+                                        li
+                                            a(href="/" + __('path.settings.base') + '/' + u.username)= __('global.edit:Bearbeiten')
+        else
+            p= __('view.userlist.nousers:Keine Benutzer gefunden.')

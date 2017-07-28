@@ -92,6 +92,7 @@ i18n.configure({
 app.use((req, res, next) => {
     // handle some app specific data
 
+
     // add error/siccess/info messages to templates 
     Object.assign(res.locals, {
         messages: {
@@ -132,11 +133,16 @@ app.use((req, res, next) => {
     // add locale list to templates
     res.locals.locales = config.locale.list;
 
+    // set the active language to momentjs as well
+    moment.locale(req.cookies[config.locale.cookiename]);
+
     // write locale to cookie if changed by user
     if (req.query.lang) {
         res.cookie(config.locale.cookiename, req.query.lang);
         i18n.setLocale(req.query.lang);
+        moment.locale(req.query.lang);
     }
+
 
     // add error fields to templates
     if (res.locals.messages.error && res.locals.messages.error.length > 0) {
