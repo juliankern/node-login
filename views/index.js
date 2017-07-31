@@ -24,6 +24,6 @@ module.exports = (router) => {
 
     // basic index route
     router.get('/', (req, res) => {
-        res.render('index/template', { headline: res.__('route.index.headline:Hauptseite') });
+        res.render('index', { headline: res.__('route.index.headline:Hauptseite') });
     });
 }
